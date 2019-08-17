@@ -1,12 +1,21 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import morgan from 'morgan';
 
-dotenv.config()
+import gamegenRouter from './gamegen';
+import storylineRouter from './storyline'
+
+dotenv.config();
+morgan('tiny')
+
 const app = express();
-// get all todos
 app.get('/test', (req, res) => {
     res.json({result: 'Hello, World!'})
 });
+
+app.use('/game-generate', gamegenRouter);
+app.use('/storyline', storylineRouter);
+
 const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
