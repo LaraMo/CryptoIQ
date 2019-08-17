@@ -4,7 +4,9 @@
   "description": "Backend for Cryptiq project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "babel src/index.js -d dist",
+    "dev": "npm run build && nodemon dist/index.js",
+    "start": "node dist/index.js"
   },
   "keywords": [
     "NodeJS",
@@ -12,10 +14,38 @@
   ],
   "author": "Anh Quan Nguyen, Nicholas Apanian, Lara Mo",
   "license": "ISC",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.jsx?": [
+      "./node_modules/.bin/eslint —fix",
+      "./node_modules/prettier --write",
+      "git add"
+    ]
+  },
   "dependencies": {
+    "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "morgan": "^1.9.1",
-    "nodemon": "^1.19.1",
     "pdf-lib": "^1.0.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "babel-loader": "^8.0.6",
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "husky": "^3.0.3",
+    "lint-staged": "^9.2.1",
+    "nodemon": "*",
+    "prettier": "1.18.2",
+    "webpack": "^4.39.2",
+    "webpack-cli": "^3.3.6"
   }
 }
