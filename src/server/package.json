@@ -1,0 +1,21 @@
+{
+  "name": "cryptiq-server",
+  "version": "1.0.0",
+  "description": "Backend for Cryptiq project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "NodeJS",
+    "Express"
+  ],
+  "author": "Anh Quan Nguyen, Nicholas Apanian, Lara Mo",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.19.1",
+    "pdf-lib": "^1.0.1"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "name": "crytiq-client",
+  "version": "1.0.0",
+  "description": "Client page for CryptIQ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "dev": "webpack-dev-server --open"
+  },
+  "keywords": [
+    "Escape",
+    "Room",
+    "React"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js, jsx}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "author": "Anh Quan Nguyen, Nicholas Apanian, Lara Mizeraovsky",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.15",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.2.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "html-webpack-plugin": "^3.2.0",
+    "husky": "^3.0.3",
+    "prettier": "1.18.2",
+    "react-hot-loader": "^4.12.11",
+    "style-loader": "^1.0.0",
+    "webpack": "^4.39.2",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.8.0"
+  }
+}
