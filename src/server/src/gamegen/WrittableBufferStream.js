@@ -11,7 +11,7 @@ class WritableBufferStream extends stream.Writable {
         this._chunks = [];
     }
 
-    _write (chunk, enc, callback) {
+    _write (chunk, callback) {
         this._chunks.push(chunk);
         return callback(null);
     }
