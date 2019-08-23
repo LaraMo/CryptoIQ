@@ -1,3 +1,5 @@
+import PdfObjectType from '../../lib/enums/PdfObjectType';
+
 class CipherWheel {
     alphabet = []
     startCode = [];
@@ -60,6 +62,26 @@ class CipherWheel {
             }
         })
         return result;
+    }
+
+    toPdf() {
+        return [
+            {
+                type: PdfObjectType.TEXT,
+                content: this.encodedMessage,
+                x: 50,
+                y: 50
+            },
+            {
+                type: PdfObjectType.BR,
+            },
+            {
+                type: PdfObjectType.IMAGE,
+                path: "",
+                x: 150,
+                y: 150,
+            },
+        ];
     }
 
     toString() {

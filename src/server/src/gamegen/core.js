@@ -1,5 +1,5 @@
 export function gameGenerate(res) {
-    return true
+    return true;
 }
 
 export function sendPdf(res, buffer) {
