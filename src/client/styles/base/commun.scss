@@ -1,0 +1,35 @@
+/**
+In this file, are all the commun rules for the app
+(Including normalize.scss)
+**/
+
+
+//font
+* {
+    box-sizing: border-box;
+    font-family: 'Lexend Deca', sans-serif !important;
+  }
+  
+//commun - error
+  .errorMessage {
+    background: lightpink;
+    border:  red;
+    color: red;
+    font-weight: bold;
+    padding: 20px;
+  }
+  
+  //commun - input
+  input {
+    background: none;
+    border: none;
+    border-bottom:1px solid black;
+    padding-bottom: 15px;
+  }
+  
+  //commun - input and button defaults
+  input, button {
+    &:focus {
+      outline:none;
+    }
+  }
