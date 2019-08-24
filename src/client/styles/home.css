@@ -1,0 +1,200 @@
+/**
+In this file, are all the commun rules for the app
+(Including normalize.scss)
+**/
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: 'Lexend Deca', sans-serif !important;
+}
+
+.errorMessage {
+  background: lightpink;
+  border: red;
+  color: red;
+  font-weight: bold;
+  padding: 20px;
+}
+
+input {
+  background: none;
+  border: none;
+  border-bottom: 1px solid black;
+  padding-bottom: 15px;
+}
+
+input:focus, button:focus {
+  outline: none;
+}
+
+/**
+This file contains animations 
+**/
+@-webkit-keyframes slide {
+  100% {
+    margin: 0;
+  }
+}
+
+@keyframes slide {
+  100% {
+    margin: 0;
+  }
+}
+
+@-webkit-keyframes wave {
+  50% {
+    -webkit-transform: scale(1.5);
+            transform: scale(1.5);
+  }
+}
+
+@keyframes wave {
+  50% {
+    -webkit-transform: scale(1.5);
+            transform: scale(1.5);
+  }
+}
+
+/**
+In this file, all the colors used in the app are defined
+**/
+.home {
+  padding-top: 40px;
+  width: 100%;
+}
+
+.homeContainer {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.home-title {
+  width: 600px;
+}
+
+.home-title > h1 {
+  background: -webkit-gradient(linear, left top, left bottom, from(#22c1c3), to(#1c92d2));
+  font-size: 48px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.home-title > h2 {
+  letter-spacing: 2px;
+}
+
+.home-title > h2 > span {
+  background: -webkit-gradient(linear, left top, left bottom, from(#22c1c3), to(#1c92d2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.home-form {
+  background: #f4f7f8;
+  -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+  margin: 5px 0 20px 0;
+  padding: 20px;
+  width: 600px;
+}
+
+.home-form-vocContainer {
+  margin-top: 25px;
+}
+
+.home-form-field {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 5px;
+}
+
+.home-form-field > * {
+  padding: 0 5px;
+}
+
+.home-form-field-word, .home-form-field-definition {
+  margin-bottom: 25px;
+}
+
+.home-form-field-word > p, .home-form-field-definition > p {
+  margin: 0;
+}
+
+.home-form-inputText {
+  width: 153px;
+}
+
+.home-form-selectMenu {
+  background: none;
+  -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
+          box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
+}
+
+.home-form-checkbox {
+  height: 30px;
+}
+
+.home-form-checkbox:checked {
+  -webkit-animation: wave .4s ease;
+          animation: wave .4s ease;
+}
+
+.home-form-title > span {
+  background: -webkit-gradient(linear, left top, left bottom, from(#22c1c3), to(#1c92d2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.home-form > button {
+  background: -webkit-gradient(linear, left top, left bottom, from(#22c1c3), to(#1c92d2));
+  border: none;
+  border-radius: 25px;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  margin: 5px;
+  padding: 5px 1px;
+  width: 100px;
+}
+
+.home-form > button:hover {
+  background: -webkit-gradient(linear, left top, left bottom, from(#1c92d2), to(#1c92d2));
+  cursor: pointer;
+}
+
+#slide1 {
+  margin-left: -2500px;
+  -webkit-animation: slide 2s forwards;
+}
+
+#slide2 {
+  margin-right: -2500px;
+  -webkit-animation: slide 2s forwards;
+}
+
+#defintion {
+  width: 400px;
+}
+
+#numberOfStudents {
+  width: 153px;
+}
+/*# sourceMappingURL=home.css.map */

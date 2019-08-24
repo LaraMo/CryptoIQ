@@ -1,0 +1,29 @@
+/**
+This file contains animations 
+**/
+@-webkit-keyframes slide {
+  100% {
+    margin: 0;
+  }
+}
+
+@keyframes slide {
+  100% {
+    margin: 0;
+  }
+}
+
+@-webkit-keyframes wave {
+  50% {
+    -webkit-transform: scale(1.5);
+            transform: scale(1.5);
+  }
+}
+
+@keyframes wave {
+  50% {
+    -webkit-transform: scale(1.5);
+            transform: scale(1.5);
+  }
+}
+/*# sourceMappingURL=animation.css.map */

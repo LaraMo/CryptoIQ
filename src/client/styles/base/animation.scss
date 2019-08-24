@@ -1,6 +1,9 @@
 /**
 This file contains animations 
 **/
+
+
+//body container
 @-webkit-keyframes slide {
     100% { margin: 0; }
   }
@@ -8,3 +11,12 @@ This file contains animations
   @keyframes slide {
     100% { margin: 0; }
   }
+
+
+  //checkbox
+  @keyframes wave
+  {
+    50%
+    {transform: scale(1.5)}
+  }
+ 
