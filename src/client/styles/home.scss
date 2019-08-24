@@ -54,13 +54,20 @@
       display: flex;
       margin-top: 5px;
       >*{
-        padding: 0 5px;
+        padding: 5px;
       }
       &-word, &-definition {
         margin-bottom: 25px;
         > p {
           margin: 0;
         }
+      }
+      &-error {
+        background: $error_primary_background;
+        border:  1px solid $error_primary_border;
+        color: $error_primary_fontColor;
+        font-weight: bold;
+        padding: 20px;
       }
     }
       //Form 1 -- General
@@ -127,4 +134,7 @@
     width: 153px;
   }
   
+  .hideError {
+    display: none;
+  }
   

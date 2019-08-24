@@ -10,15 +10,7 @@ In this file, are all the commun rules for the app
     font-family: 'Lexend Deca', sans-serif !important;
   }
   
-//Commun -- Error
-  .errorMessage {
-    background: $error_primary_background;
-    border:  $error_primary_border;
-    color: $error_primary_fontColor;
-    font-weight: bold;
-    padding: 20px;
-  }
-  
+
   //Commun -- Input
   input {
     background: none;

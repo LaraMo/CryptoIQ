@@ -1,39 +1,40 @@
 import React, { PureComponent } from "react";
 import "../client/styles/home.scss";
 import PageProgress from "react-page-progress";
+import Test from './Test';
 
 //global consts in this file
 const word = "Word";
 const defintion = "Defintion";
 const maxVocabularyAmountError =
-  "You have reached the limit of vocabulary words to input";
+"You have reached the limit of vocabulary words to input";
 const fieldCantBeEmptyError = "This field is requiered";
 
 export default class HomePage extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      //*** FROM 1 ***/
-      //input
-      numberOfStudents: "",
-      avarageAge: "",
-      duration: 15,
-      difficultyLevel: "easy"
-
-      //checkbox
-
-      //*** FROM 2 ***/
-      //array of input fields
+      general: {
+        numberOfStudents: "",
+        duration: 15,
+        difficultyLevel: "easy",
+        locks: false,
+        textbook: false
+      }
     };
 
     this.handleAddButtonClick = this.handleAddButtonClick.bind(this);
+    this.validateTheForm = this.validateTheForm.bind(this);
+    
     this.vocabularyContainer = React.createRef();
+    this.numberOfStudentsFieldError = React.createRef();
   }
 
   /**
    * Adds up to 15 input fields to enter words and defintions for the game
    */
   handleAddButtonClick() {
+    console.log(this.state)
     const maxVoc = 3; //NOTE: change to 3 when testing
     //find the form
     const form = this.vocabularyContainer.current;
@@ -69,11 +70,36 @@ export default class HomePage extends PureComponent {
     } else if (form.children.length == maxVoc) {
       //generate an error message
       const errorMessage = document.createElement("p");
-      errorMessage.classList.add("errorMessage");
+      errorMessage.classList.add("home-form-field-error");
       errorMessage.innerHTML = maxVocabularyAmountError;
       form.appendChild(errorMessage);
     }
   }
+
+  /**
+   * Validation method for the form
+   */
+  validateTheForm() {
+    //validate number of students input field
+    const numberOfStudentsFieldError = this.numberOfStudentsFieldError.current;
+    const numericPattern = /^[1-9][0-9]?$|^100$/;
+    const emptyPattern = new RegExp("")
+
+
+    this.validateHelper(this.state.numberOfStudents,numericPattern);
+
+  }
+
+  /**
+   * Validates if input field has a number
+   */
+  validateHelper(value, numericPattern) {
+    console.log(value.match(numericPattern));
+  }
+
+   /**
+    * Validates if input field in not empty
+    */
 
   render() {
     //Main Title and Description Section
@@ -89,7 +115,7 @@ export default class HomePage extends PureComponent {
     //Headers
     const generalInfo = "General Info";
     const vocabularyWords = "Vocabulary Words";
-    const storyline = "Storyline"
+    const storyline = "Storyline";
     //Form
     const numberOfStudents = "Number of students:";
     const numbersOnlyPlaceholder = "Numbers only";
@@ -109,6 +135,7 @@ export default class HomePage extends PureComponent {
     const eventsAndDates = "events and dates";
     const add = "Add";
     const next = "Next";
+    const {general} = this.state
     return (
       <div className="home">
         <PageProgress color={"skyblue"} height={8} />
@@ -129,28 +156,32 @@ export default class HomePage extends PureComponent {
           </div>
           {/* Form Part1 - Basic Info */}
           <form id="slide2" className="home-formContainer">
-          <h3>{generalInfo}</h3>
+            <h3>{generalInfo}</h3>
             <div className="home-form">
               <div className="home-form-field">
                 <p>{numberOfStudents}</p>
                 <input
                   className="home-form-inputText"
-                  type="number"
                   name="numberOfStudents"
                   value={this.state.numberOfStudents}
                   min="1"
                   max="100"
                   placeholder={numbersOnlyPlaceholder}
+                  ref={this.numberOfStudentsField}
                   onChange={e =>
-                    this.setState({ numberOfStudents: e.target.value })
+                    this.setState({general: {...general, numberOfStudents: e.target.value}})
                   }
                 />
+              </div>
+              <div className="home-form-field-error hideError"  ref={this.numberOfStudentsFieldError}
+>
+                <p></p>
               </div>
               <div className="home-form-field">
                 <p>{duration}</p>
                 <select
                   className="home-form-selectMenu"
-                  onChange={e => this.setState({ duration: e.target.value })}
+                  onChange={e => this.setState({general: {...general, duration: e.target.value}})}
                 >
                   <option value="15" label={durationOption1} />
                   <option value="20" label={durationOption2} />
@@ -162,7 +193,7 @@ export default class HomePage extends PureComponent {
                 <p>{difficultyLevel}</p>
                 <select
                   className="home-form-selectMenu"
-                  onChange={e => this.setState({ duration: e.target.value })}
+                  onChange={e => this.setState({general: {...general, difficultyLevel: e.target.value}})}
                 >
                   <option value="easy" label={difficultyLevelOption1} />
                   <option value="medium" label={difficultyLevelOption2} />
@@ -171,20 +202,32 @@ export default class HomePage extends PureComponent {
               </div>
               <div className="home-form-field">
                 <p>{locks}</p>
-                <input className="home-form-checkbox" type="checkbox" value="" />
+                <input
+                  className="home-form-checkbox"
+                  type="checkbox"
+                  onChange={e => this.setState({general: {...general, locks: e.target.checked}})}
+
+                />
 
                 <p>{textbook}</p>
-                <input  className="home-form-checkbox" type="checkbox" value="" />
+                <input
+                  className="home-form-checkbox"
+                  type="checkbox"
+                  onChange={e => this.setState({general: {...general, textbook: e.target.checked}})}
+                />
               </div>
             </div>
             {/* Form Part2 - Vocabulary */}
             <h3>{vocabularyWords} </h3>
             <div className="home-form">
-            <p className="home-form-title">
-                  {enterData} <span>{vocabulary}</span> {andOr}
-                  <span>{eventsAndDates}</span>
-                </p>
-              <div className="home-form-vocContainer" ref={this.vocabularyContainer}>
+              <p className="home-form-title">
+                {enterData} <span>{vocabulary}</span> {andOr}
+                <span>{eventsAndDates}</span>
+              </p>
+              <div
+                className="home-form-vocContainer"
+                ref={this.vocabularyContainer}
+              >
                 <div className="home-form-field">
                   <div className="home-form-field-word">
                     <p>{word}</p>
@@ -203,27 +246,24 @@ export default class HomePage extends PureComponent {
                 id="addMore"
               >
                 {add}
-                </button>
+              </button>
             </div>
 
-             {/* Form Part3 - StoryLine */}
-             <h3>{storyline}</h3>
-             <div className="home-form">
-            <p className="home-form-title">
-                  {enterData} <span>{vocabulary}</span> {andOr}
-                  <span>{eventsAndDates}</span>
-                </p>
+            {/* Form Part3 - StoryLine */}
+            <h3>{storyline}</h3>
+            <div className="home-form">
+              <p className="home-form-title">
+                {enterData} <span>{vocabulary}</span> {andOr}
+                <span>{eventsAndDates}</span>
+              </p>
 
-              <button
-                type="button"
-                onClick={this.handleAddButtonClick}
-                id="addMore"
-              >
+              <button type="button" onClick={this.validateTheForm} id="addMore">
                 {next}
               </button>
             </div>
           </form>
         </div>
+        <Test/>
       </div>
     );
   }
