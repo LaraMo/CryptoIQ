@@ -76,7 +76,7 @@ export default class HomePage extends PureComponent {
   }
 
   render() {
-    //Title and description section
+    //Main Title and Description Section
     const projectTitle = "CryptIQ 🧩";
     const descriptionPart1 = "Simple ";
     const descriptionPart2 = "and ";
@@ -86,7 +86,11 @@ export default class HomePage extends PureComponent {
     const getStartedPart1 = "Get started ";
     const getStartedPart2 = "now";
 
-    //form variables
+    //Headers
+    const generalInfo = "General Info";
+    const vocabularyWords = "Vocabulary Words";
+    const storyline = "Storyline"
+    //Form
     const numberOfStudents = "Number of students:";
     const numbersOnlyPlaceholder = "Numbers only";
     const duration = " Duration of activity:";
@@ -123,8 +127,9 @@ export default class HomePage extends PureComponent {
               <span>{getStartedPart2}</span>!
             </h2>
           </div>
-          {/* Form 1 - Basic Info */}
+          {/* Form Part1 - Basic Info */}
           <form id="slide2" className="home-formContainer">
+          <h3>{generalInfo}</h3>
             <div className="home-form">
               <div className="home-form-field">
                 <p>{numberOfStudents}</p>
@@ -172,7 +177,8 @@ export default class HomePage extends PureComponent {
                 <input  className="home-form-checkbox" type="checkbox" value="" />
               </div>
             </div>
-            {/* Form 2 - Vocabulary */}
+            {/* Form Part2 - Vocabulary */}
+            <h3>{vocabularyWords} </h3>
             <div className="home-form">
             <p className="home-form-title">
                   {enterData} <span>{vocabulary}</span> {andOr}
@@ -197,7 +203,17 @@ export default class HomePage extends PureComponent {
                 id="addMore"
               >
                 {add}
-              </button>
+                </button>
+            </div>
+
+             {/* Form Part3 - StoryLine */}
+             <h3>{storyline}</h3>
+             <div className="home-form">
+            <p className="home-form-title">
+                  {enterData} <span>{vocabulary}</span> {andOr}
+                  <span>{eventsAndDates}</span>
+                </p>
+
               <button
                 type="button"
                 onClick={this.handleAddButtonClick}

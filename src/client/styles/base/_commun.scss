@@ -4,30 +4,30 @@ In this file, are all the commun rules for the app
 **/
 
 
-//font
+
 * {
     box-sizing: border-box;
     font-family: 'Lexend Deca', sans-serif !important;
   }
   
-//commun - error
+//Commun -- Error
   .errorMessage {
-    background: lightpink;
-    border:  red;
-    color: red;
+    background: $error_primary_background;
+    border:  $error_primary_border;
+    color: $error_primary_fontColor;
     font-weight: bold;
     padding: 20px;
   }
   
-  //commun - input
+  //Commun -- Input
   input {
     background: none;
     border: none;
-    border-bottom:1px solid black;
+    border-bottom:1px solid $home_form_primary_border;
     padding-bottom: 15px;
   }
   
-  //commun - input and button defaults
+  //Commun -- Input and button defaults
   input, button {
     &:focus {
       outline:none;
