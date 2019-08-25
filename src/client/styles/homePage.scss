@@ -1,0 +1,158 @@
+@import './base/variables.scss';
+@import './base/commun.scss';
+@import './base/animation.scss';
+  .home {
+  padding-top: 40px;
+  width: 100%;
+   &Container{
+     align-items: center;
+     display: flex;
+     justify-content: center;
+     flex-direction: column;
+   }
+   //Page title
+     &-title {
+      width: 600px;
+      >h1 {
+        background: -webkit-gradient(linear,left top,left bottom,from($home_primary_background),to($home_secondary_background));
+        font-size: 48px;
+        font-weight: 400;
+        letter-spacing: 1px;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent; 
+       }
+      > h2 {
+        letter-spacing: 2px;
+        > span {
+          background: -webkit-gradient(linear,left top,left bottom,from($home_primary_background),to($home_secondary_background));
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;  
+        }
+      }
+   }
+   //Form general
+   &-form {
+    background:$home_form_primary_background;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.8);
+    margin: 5px 0 30px 0;
+    padding: 20px;
+    width: 600px;
+    &Container{
+      > h3 {
+        display: flex;
+        justify-content: center;
+        padding: 0;
+      }
+    }
+    //Vocabulary Container
+    &-vocContainer{
+      margin-top: 25px;
+    }
+    &-maxVoc{
+      display: flex;
+      align-items: center;
+      > * {
+        margin: 10px 2px;
+      }
+    }
+    &-field {
+      align-items: center;
+      display: flex;
+      margin-top: 5px;
+      >*{
+        padding: 5px;
+      }
+      &-word, &-definition {
+        margin-bottom: 25px;
+        > p {
+          margin: 0;
+        }
+      }
+      &-error {
+        background: $error_primary_background;
+        border:  1px solid $error_primary_border;
+        color: $error_primary_fontColor;
+        font-weight: bold;
+        padding: 20px;
+      }
+      &-storyline {
+        display: flex;
+        flex-direction: column;
+        >div {
+          >textarea {
+            background: none;
+            border: 1px solid $home_form_primary_border;
+          }
+        }
+      }
+    }
+      //Form 1 -- General
+      &-inputText {
+        width: 153px;
+      }
+      &-selectMenu{
+        background: none;
+        box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
+        padding: 2px;
+      }
+      &-checkbox{
+        height: 30px;
+        &:checked{
+          animation: wave .4s ease;
+        }
+      }
+
+      //Form 2 -- Add vocabulary
+      &-title{
+        >span {
+          background: -webkit-gradient(linear,left top,left bottom,from($home_primary_background),to($home_secondary_background));
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;  
+        }
+      }
+    > button {
+      background: -webkit-gradient(linear,left top,left bottom,from($home_primary_background),to($home_secondary_background));
+      border: none;
+      border-radius: 25px;
+      color: $home_form_button_primary_fontColor;
+      font-size: 16px;
+      font-weight: 700;
+      margin: 5px;
+      padding: 5px 1px;
+      width: 100px;
+      &:hover {
+        background: -webkit-gradient(linear,left top,left bottom,from($home_secondary_background),to($home_secondary_background));
+        cursor: pointer;
+  
+      }
+    }
+   }
+  }
+  
+  /////Animations
+  //Slides first
+  #slide1 {
+    margin-left: -2500px;
+    -webkit-animation: slide 2s forwards;
+  }
+  //Slides second
+  #slide2 {
+    margin-right: -2500px;
+    -webkit-animation: slide 2s forwards;
+  }
+  
+
+  ///General
+  #defintion {
+    width: 400px;
+  }
+
+  #numberOfStudents {
+    width: 153px;
+  }
+  
+  .hideError {
+    display: none;
+  }
+  

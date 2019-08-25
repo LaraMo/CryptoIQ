@@ -1,105 +1,106 @@
 import React, { PureComponent } from "react";
-import "../client/styles/home.scss";
 import PageProgress from "react-page-progress";
-import Test from './Test';
-
-//global consts in this file
-const word = "Word";
-const defintion = "Defintion";
-const maxVocabularyAmountError =
-"You have reached the limit of vocabulary words to input";
-const fieldCantBeEmptyError = "This field is requiered";
+import _ from "lodash";
+import "../client/styles/homePage.scss";
 
 export default class HomePage extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
+      numberOfWords: 1,
       general: {
         numberOfStudents: "",
         duration: 15,
-        difficultyLevel: "easy",
+        difficultyLevel: 2,
         locks: false,
         textbook: false
+      },
+      //vocabulary
+      wordsEntered: {},
+      defintionsEntered: {},
+      //stroyline
+      storyline: {
+        title: "",
+        p1: "",
+        p2: "",
+        p3: "",
+        p4: ""
       }
     };
 
-    this.handleAddButtonClick = this.handleAddButtonClick.bind(this);
-    this.validateTheForm = this.validateTheForm.bind(this);
-    
+    this.generateInputVocFields = this.generateInputVocFields.bind(this);
+    this.generateStoryline = this.generateStoryline.bind(this);
+    this.submitFrom = this.submitFrom.bind(this);
     this.vocabularyContainer = React.createRef();
-    this.numberOfStudentsFieldError = React.createRef();
   }
 
   /**
-   * Adds up to 15 input fields to enter words and defintions for the game
+   * Generate a storyline depending on the difficulty
    */
-  handleAddButtonClick() {
+  generateStoryline() {
+    const { storyline } = this.state;
+    const action = "Enter action:";
+    const actionPlaceholder = "The prince has to...";
+    return (
+      <div className="home-form-field-storyline">
+      <p>{action}</p>
+      <textarea
+      textarea rows="4" cols="60"
+       value={storyline.numberOfStudents}
+       placeholder={actionPlaceholder}
+       onChange={e =>
+         this.setState({
+          storyline: { ...storyline, numberOfStudents: e.target.value }
+         })
+       }
+     />
+     </div>
+    );
+  }
+
+  /**
+   * Generate 15 possible vocabulary words
+   */
+  generateInputVocFields() {
+    const { wordsEntered, defintionsEntered } = this.state;
+    const word = "Word";
+    const defintion = "Defintion";    
+    return (
+      <div className="home-form-field">
+        <div className="home-form-field-word">
+          <p>{word}</p>
+          <input
+            value={wordsEntered}
+            onChange={e =>
+              this.setState({
+                wordsEntered: { wordsEntered : e.target.value }
+              })
+            }
+          />
+        </div>
+
+        <div className="home-form-field-definition">
+          <p>{defintion}</p>
+          <input
+            id="defintion"
+            value={defintionsEntered}
+            onChange={e =>
+              this.setState({
+                defintionsEntered: { defintionsEntered: e.target.value }
+              })
+            }
+          ></input>
+        </div>
+      </div>
+    );
+  }
+
+  /**
+   * Performes validation on the input fields
+   */
+  submitFrom(e){
     console.log(this.state)
-    const maxVoc = 3; //NOTE: change to 3 when testing
-    //find the form
-    const form = this.vocabularyContainer.current;
-    //allow to add only if length is less than 15
-    if (form.children.length < maxVoc) {
-      //create elements to append to the form
-      const field = document.createElement("div");
-      field.classList.add("home-form-field");
-      //word
-      const wordContainer = document.createElement("div");
-      wordContainer.classList.add("home-form-field-word");
-      const wordText = document.createElement("p");
-      wordText.innerHTML = word;
-
-      const wordInput = document.createElement("input");
-
-      wordContainer.appendChild(wordText);
-      wordContainer.appendChild(wordInput);
-      field.appendChild(wordContainer);
-      //defintion
-      const defintionContainer = document.createElement("div");
-      defintionContainer.classList.add("home-form-field-definition");
-      const defintionText = document.createElement("p");
-      defintionText.innerHTML = defintion;
-
-      const defintionInput = document.createElement("input");
-      defintionInput.id = "defintion";
-      defintionContainer.appendChild(defintionText);
-      defintionContainer.appendChild(defintionInput);
-      field.appendChild(defintionContainer);
-
-      form.appendChild(field);
-    } else if (form.children.length == maxVoc) {
-      //generate an error message
-      const errorMessage = document.createElement("p");
-      errorMessage.classList.add("home-form-field-error");
-      errorMessage.innerHTML = maxVocabularyAmountError;
-      form.appendChild(errorMessage);
-    }
   }
-
-  /**
-   * Validation method for the form
-   */
-  validateTheForm() {
-    //validate number of students input field
-    const numberOfStudentsFieldError = this.numberOfStudentsFieldError.current;
-    const numericPattern = /^[1-9][0-9]?$|^100$/;
-    const emptyPattern = new RegExp("")
-
-
-    this.validateHelper(this.state.numberOfStudents,numericPattern);
-
-  }
-
-  /**
-   * Validates if input field has a number
-   */
-  validateHelper(value, numericPattern) {
-    console.log(value.match(numericPattern));
-  }
-
-   /**
-    * Validates if input field in not empty
-    */
 
   render() {
     //Main Title and Description Section
@@ -116,6 +117,7 @@ export default class HomePage extends PureComponent {
     const generalInfo = "General Info";
     const vocabularyWords = "Vocabulary Words";
     const storyline = "Storyline";
+
     //Form
     const numberOfStudents = "Number of students:";
     const numbersOnlyPlaceholder = "Numbers only";
@@ -131,11 +133,36 @@ export default class HomePage extends PureComponent {
     const textbook = "Allow use of textbook:";
     const enterData = "Enter any";
     const andOr = "and/or ";
-    const vocabulary = "vocabulary and defintions";
+    const vocabularyAndDefintions = "vocabulary and defintions";
     const eventsAndDates = "events and dates";
-    const add = "Add";
     const next = "Next";
-    const {general} = this.state
+    const maxNumberOfWords = "How many words would you like to add?"
+    const maxNumberOfWordsArray = [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13", 
+      "14",
+      "15"
+    ];
+    const titleOfStory = "Enter title:";
+    const titleOfStoryPlaceholder = "The kings ring";
+    const opening = "Enter opening:";
+    const openingPlaceholder = "Once upon a time...";
+    const quest = "Enter the main characthers quest:";
+    const questPlaceholder = "The left for the dangerous adventure in order to...";
+    const ending = "Enter ending:";
+    const endingPlaceholder = "...and they lived happily ever after, the end!";
+    const { general} = this.state;
     return (
       <div className="home">
         <PageProgress color={"skyblue"} height={8} />
@@ -157,31 +184,32 @@ export default class HomePage extends PureComponent {
           {/* Form Part1 - Basic Info */}
           <form id="slide2" className="home-formContainer">
             <h3>{generalInfo}</h3>
+
             <div className="home-form">
               <div className="home-form-field">
                 <p>{numberOfStudents}</p>
                 <input
                   className="home-form-inputText"
                   name="numberOfStudents"
-                  value={this.state.numberOfStudents}
-                  min="1"
-                  max="100"
+                  value={general.numberOfStudents}
                   placeholder={numbersOnlyPlaceholder}
-                  ref={this.numberOfStudentsField}
                   onChange={e =>
-                    this.setState({general: {...general, numberOfStudents: e.target.value}})
+                    this.setState({
+                      general: { ...general, numberOfStudents: e.target.value }
+                    })
                   }
                 />
               </div>
-              <div className="home-form-field-error hideError"  ref={this.numberOfStudentsFieldError}
->
-                <p></p>
-              </div>
+
               <div className="home-form-field">
                 <p>{duration}</p>
                 <select
                   className="home-form-selectMenu"
-                  onChange={e => this.setState({general: {...general, duration: e.target.value}})}
+                  onChange={e =>
+                    this.setState({
+                      general: { ...general, duration: e.target.value }
+                    })
+                  }
                 >
                   <option value="15" label={durationOption1} />
                   <option value="20" label={durationOption2} />
@@ -193,77 +221,135 @@ export default class HomePage extends PureComponent {
                 <p>{difficultyLevel}</p>
                 <select
                   className="home-form-selectMenu"
-                  onChange={e => this.setState({general: {...general, difficultyLevel: e.target.value}})}
+                  onChange={e =>
+                    this.setState({
+                      general: { ...general, difficultyLevel: e.target.value }
+                    })
+                  }
                 >
-                  <option value="easy" label={difficultyLevelOption1} />
-                  <option value="medium" label={difficultyLevelOption2} />
-                  <option value="hard" label={difficultyLevelOption3} />
+                  <option value="2" label={difficultyLevelOption1} />
+                  <option value="3" label={difficultyLevelOption2} />
+                  <option value="4" label={difficultyLevelOption3} />
                 </select>
               </div>
+
               <div className="home-form-field">
                 <p>{locks}</p>
                 <input
                   className="home-form-checkbox"
                   type="checkbox"
-                  onChange={e => this.setState({general: {...general, locks: e.target.checked}})}
-
+                  onChange={e =>
+                    this.setState({
+                      general: { ...general, locks: e.target.checked }
+                    })
+                  }
                 />
 
                 <p>{textbook}</p>
                 <input
                   className="home-form-checkbox"
                   type="checkbox"
-                  onChange={e => this.setState({general: {...general, textbook: e.target.checked}})}
+                  onChange={e =>
+                    this.setState({
+                      general: { ...general, textbook: e.target.checked }
+                    })
+                  }
                 />
               </div>
             </div>
+
             {/* Form Part2 - Vocabulary */}
             <h3>{vocabularyWords} </h3>
             <div className="home-form">
               <p className="home-form-title">
-                {enterData} <span>{vocabulary}</span> {andOr}
+                {enterData} <span>{vocabularyAndDefintions}</span> {andOr}
                 <span>{eventsAndDates}</span>
               </p>
+              <div className="home-form-maxVoc">
+                <p>{maxNumberOfWords}</p>
+                <select
+                  className="home-form-selectMenu"
+                  onChange={e =>
+                    this.setState({ numberOfWords: e.target.value })
+                  }
+                >
+                  {_.map(maxNumberOfWordsArray, item => {
+                    return <option value={item} label={item} />;
+                  })}
+                </select>
+                </div>
               <div
                 className="home-form-vocContainer"
                 ref={this.vocabularyContainer}
               >
-                <div className="home-form-field">
-                  <div className="home-form-field-word">
-                    <p>{word}</p>
-                    <input value="" />
-                  </div>
+                {_.times(this.state.numberOfWords, this.generateInputVocFields)}
+              </div>
+            </div>
 
-                  <div className="home-form-field-definition">
-                    <p>{defintion}</p>
-                    <input id="defintion" value="" />
-                  </div>
+
+          
+            {/* Form Part3 - Storyline */}
+            <h3>{storyline} </h3>
+            <div className="home-form">
+            <div className="home-form-field-storyline">
+                <div>
+                <p>{titleOfStory}</p>
+                <input
+                  className="home-form-inputText"
+                  name="numberOfStudents"
+                  value={general.numberOfStudents}
+                  placeholder={titleOfStoryPlaceholder}
+                  onChange={e =>
+                    this.setState({
+                      general: { ...general, numberOfStudents: e.target.value }
+                    })
+                  }
+                />
+                </div>
+                <div>
+                <p>{opening}</p>
+                <textarea
+                 textarea rows="4" cols="60"
+                  value={general.numberOfStudents}
+                  placeholder={openingPlaceholder}
+                  onChange={e =>
+                    this.setState({
+                      general: { ...general, numberOfStudents: e.target.value }
+                    })
+                  }
+                />
+                </div>
+                <div>
+                <p>{quest}</p>
+                <textarea
+                 textarea rows="4" cols="60"
+                  value={general.numberOfStudents}
+                  placeholder={questPlaceholder}
+                  onChange={e =>
+                    this.setState({
+                      general: { ...general, numberOfStudents: e.target.value }
+                    })
+                  }
+                />
+                </div> 
+                {_.times(this.state.general.difficultyLevel, this.generateStoryline)}
+                <div>
+                <p>{ending}</p>
+                <textarea
+                 textarea rows="4" cols="60"
+                  value={general.numberOfStudents}
+                  placeholder={endingPlaceholder}
+                  onChange={e =>
+                    this.setState({
+                      general: { ...general, numberOfStudents: e.target.value }
+                    })
+                  }
+                />
                 </div>
               </div>
-              <button
-                type="button"
-                onClick={this.handleAddButtonClick}
-                id="addMore"
-              >
-                {add}
-              </button>
-            </div>
-
-            {/* Form Part3 - StoryLine */}
-            <h3>{storyline}</h3>
-            <div className="home-form">
-              <p className="home-form-title">
-                {enterData} <span>{vocabulary}</span> {andOr}
-                <span>{eventsAndDates}</span>
-              </p>
-
-              <button type="button" onClick={this.validateTheForm} id="addMore">
-                {next}
-              </button>
-            </div>
+              </div>
           </form>
         </div>
-        <Test/>
       </div>
     );
   }
