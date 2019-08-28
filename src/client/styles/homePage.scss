@@ -79,11 +79,15 @@
       &-storyline {
         display: flex;
         flex-direction: column;
-        >div {
+        > div {
+          align-items: center;
+          display: flex;
+        }
           >textarea {
             background: none;
             border: 1px solid $home_form_primary_border;
-          }
+            box-shadow: 0 1px 1px rgba(0,0,0,0.8);
+            padding: 5px;
         }
       }
     }
@@ -105,7 +109,7 @@
 
       //Form 2 -- Add vocabulary
       &-title{
-        >span {
+        >span,a {
           background: -webkit-gradient(linear,left top,left bottom,from($home_primary_background),to($home_secondary_background));
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;  
@@ -141,7 +145,6 @@
     margin-right: -2500px;
     -webkit-animation: slide 2s forwards;
   }
-  
 
   ///General
   #defintion {

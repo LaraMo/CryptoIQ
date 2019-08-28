@@ -1,0 +1,393 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0423)https://www1.royalbank.com/wps/myportal/OLB/!ut/p/a1/pZHNboMwEISfpQeu7BI7CHpziAT0z6qiqMSXyESE0AJGxi3i7eui3tq6lTq3HX2z0uyCgAJEL9-aWppG9bL9mEV4JGiVUMzSB1whi-_X4WOwWyVILXCwAM9vwzy2AA_oFvM4iwlfc5Ii-VceN-Hf8viDGP6WfwLhQqKMuoE0wk_AdQMXsJRcAEeL3VkfEwY3IOpWlctjDqwvSVSD0NW50pX2X7W1L8YM47WHHk7TFPhazbItZf_in1RnvWH0sJsHpY1sPeR3m-8WXdRooPiah6Hb7wts8mcqynliV-_6RF4t/dl5/d5/L2dJQSEvUUt3QS80SmlFL1o2XzMwMDAwQzQwSEdOMDIwQTlNNTZRMVMyS1Yw/# -->
+<html lang="" class="gr__www1_royalbank_com"><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+	
+	
+	
+
+
+<script type="text/javascript" src="./laracheck_files/dtagent_ICA23STVbjqr_7000100161008.js.download" data-dtconfig="agentUri=https://www1.royalbank.com/uos/common/javascript/dtagent_ICA23STVbjqr_7000100161008.js|rid=RID_2055919204|rpid=-1314640978|domain=royalbank.com|rt=10000|ade=onsubmit|bandwidth=600|domain=royalbank.com|lastModification=1561033393687|lab=1|tp=500,50,0,1|reportUrl=https://www1.royalbank.com/uos/common/javascript/dynaTraceMonitor|app=3M00 Online Banking"></script><link href="./laracheck_files/main01.css" type="text/css" rel="stylesheet">
+<link href="./laracheck_files/main02.css" type="text/css" rel="stylesheet">
+<link href="./laracheck_files/common.css" type="text/css" rel="stylesheet">
+<link href="./laracheck_files/rbc_nav_styles.css" type="text/css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="./laracheck_files/print.css" media="print">
+
+	
+
+
+
+
+
+
+<script type="text/javascript" src="./laracheck_files/browser.js.download"></script>
+<script type="text/javascript" src="./laracheck_files/event.js.download"></script><script language="JavaScript1.2" src="./laracheck_files/event.js(1).download" type="text/javascript"></script>
+<script type="text/javascript" src="./laracheck_files/kiosk.js.download"></script>
+<script type="text/javascript" src="./laracheck_files/buttons.js.download"></script>
+<script type="text/javascript" src="./laracheck_files/cookie.js.download"></script>
+<script type="text/javascript" src="./laracheck_files/dates.js.download"></script>
+
+	
+
+
+ 
+
+
+
+
+
+
+
+
+        
+<script language="JavaScript" type="text/javascript">
+function shellExpired() {
+	var pDelta = rbcGetCookie( "3mDELTA", null );
+	var pSessn = rbcGetCookie( "3mG5c2XQDIYUxjXRAEAACEIgAADOGMAA", null );
+
+	if ( pDelta != null )
+	{
+		var loc   = pDelta.indexOf( '/', 0 );
+		var delta = 0;
+		var dtype = '0';
+
+		if ( loc != -1 ) {
+			delta = new Number( pDelta.substring( 0, loc ) );
+			dtype = pDelta.substring( loc + 1, pDelta.length );
+		}
+		else {
+			delta = new Number( pDelta );
+		}
+
+		switch (dtype) {
+			case '0':
+			{
+				var cdate = new Date();
+				var sdate = new Date( cdate.valueOf() + 1800 );
+				cdate = new Date( cdate.valueOf() + 604800000 );
+
+				if ( pSessn == null ) {
+					rbcSetCookie( "3mDELTA", delta + 43200 + "/1", cdate.toGMTString(), "/" );
+					rbcSetCookie( "3mG5c2XQDIYUxjXRAEAACEIgAADOGMAA", "1", sdate.toGMTString(), "/" );
+				}
+				else if ( pSessn != '1' ) {
+					rbcSetCookie( "3mDELTA", delta + "/2", cdate.toGMTString(), "/" );
+				}
+				break;
+			}
+			case '1':
+			{
+				if ( pSessn == null ) {
+					rbcDeleteCookie( "3mDELTA", "/" );
+				}
+				else if ( pSessn != '1' ) {
+					var cdate = new Date();
+					cdate = new Date( cdate.valueOf() + 604800000 );
+					rbcSetCookie( "3mDELTA", delta + "/2", cdate.toGMTString(), "/" );
+				}
+				break;
+			}
+			default :
+			{
+				if ( pSessn == null ) {
+					// Clear and show expired
+/* 					document.close();
+					document.open();
+					document.write("<br />"); */
+					document.location.replace( "null?F8=1&F22=IB&REQUEST=SIGNOUT&LANGUAGE=ENGLISH" );
+				}
+			}
+		}
+	}
+}
+event_addOnLoad(new Array(shellExpired));
+event_addOnFocusForm(new Array(shellExpired));
+setTimeout( shellExpired ,1801000);
+</script>
+
+
+<script language="javascript" type="text/javascript">	   
+
+function checkOnFocusForm() {
+	
+		
+			   
+			if ( rbcGetCookie ("3MTK","NOTTHERE") != "NOTTHERE" ) {
+				rbcDeleteCookie("3MTK","/");
+			}
+		
+		   
+}	   
+checkOnFocusForm();	   
+event_addOnFocusForm(new Array(checkOnFocusForm));
+
+</script>	 
+	
+	
+<style>
+	a:focus,
+	a:hover,
+	a:active
+	{
+	   background-color:#E5EBF2;
+	}
+</style>
+	
+	
+	
+	
+	<script async="" src="./laracheck_files/adblocker-chromeglobalinjectjs.js.download"></script></head><body leftmargin="0" topmargin="0" onfocus="event_onFocusForm();" onblur="event_onBlurForm();" onload="event_onLoad();" onunload="event_onUnload();" data-gr-c-s-loaded="true"><div class="clear globalheader-basic" id="globalheader">
+		
+     <div id="globalheader-logo">
+     <img alt="RBC Banque Royale" src="./laracheck_files/rbc_BLK.gif"></div>
+		<p id="globalheader-links">
+		<a class="linkedtextandicon" title="Imprimer" onclick="window.print()" href="https://www1.royalbank.com/wps/myportal/OLB/!ut/p/a1/pZHNboMwEISfpQeu7BI7CHpziAT0z6qiqMSXyESE0AJGxi3i7eui3tq6lTq3HX2z0uyCgAJEL9-aWppG9bL9mEV4JGiVUMzSB1whi-_X4WOwWyVILXCwAM9vwzy2AA_oFvM4iwlfc5Ii-VceN-Hf8viDGP6WfwLhQqKMuoE0wk_AdQMXsJRcAEeL3VkfEwY3IOpWlctjDqwvSVSD0NW50pX2X7W1L8YM47WHHk7TFPhazbItZf_in1RnvWH0sJsHpY1sPeR3m-8WXdRooPiah6Hb7wts8mcqynliV-_6RF4t/dl5/d5/L2dJQSEvUUt3QS80SmlFL1o2XzMwMDAwQzQwSEdOMDIwQTlNNTZRMVMyS1Yw/#">
+		<span style="font-size: 0.845em;">Imprimer</span> <img title="Imprimer" class="icon" alt="Imprimer" src="./laracheck_files/print.gif" border="0"></a> | 
+		<a class="linkedtextandicon" href="javascript: self.close()" title="Fermer"><span style="font-size: 0.845em;"><strong>Fermer</strong></span> 
+		<img class="icon" alt="Fermer" src="./laracheck_files/close.gif" border="0"></a></p>
+	</div>
+	
+
+ 
+
+	
+	
+		
+		
+
+
+
+
+
+
+<table class="layoutRow" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+	<tbody><tr>
+
+        
+            
+
+		<td valign="top" width="570px">
+            
+
+
+
+
+
+
+<table class="layoutColumn" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+	
+	<tbody><tr>
+		<td style="width:100%;" valign="top">
+			<div class="component-control id-Z7_30000C40HGN020A9M56Q1S2KV5"><span id="Z7_30000C40HGN020A9M56Q1S2KV5"></span><section class="ibmPortalControl wpthemeNoSkin a11yRegionTarget" role="region">
+    <!-- Hide the text of the title, but still provide the lm-dynamic-title container for accessing the dynamic title -->
+    <!-- <span class="wpthemeAccess">
+ 		<span class="lm-dynamic-title asa.portlet.title a11yRegionLabel"><a rel="dynamic-content" href="lm:title"></a></span>
+	</span> -->
+    <!--<div class="wpthemeOverflowAuto"> Not using OverflowAuto  lm:control dynamic spot injects markup of layout control -->
+    <div class="wpthemeOverflow"> <!-- lm:control dynamic spot injects markup of layout control -->    
+        
+
+
+
+
+
+
+
+
+
+
+<portal-logic:if portletstate="Maximized">
+	
+</portal-logic:if>
+
+
+<div style="overflow:visible;clear:both;">
+
+	<div>
+		
+
+
+ 
+ 
+
+
+
+
+
+
+
+    
+<style type="text/css">
+<!--
+
+#cheque-footer {
+	
+font-family: 'lucida console';
+font-size: 12px;
+	}
+#message-heading{
+	position: relative; 
+	left: 10px; 
+	top: 5px; 
+	font-size: 12px; 
+	font-family: arial;font-size: 12px;
+	line-height: 95%;
+}		 
+#concern{
+	position: relative; 
+	left: 5px; 
+	top: 5px; 
+	font-size: 13px; 
+	font-family: arial;
+	line-height: 90%;
+}	
+#client-name {
+	position: relative; 
+	left: 10px; 
+	top: 5px; 
+	font-size: 12px; 
+	font-family: arial;
+	line-height: 90%;
+}
+#branch {
+	position: relative; 
+	left: 5px; 
+	top: 5px; 
+	font-size: 15px; 
+	font-family: arial;
+	line-height: 90%;
+}
+
+#cheque-bottomtable
+{
+border-collapse:collapse;
+border:2px solid black;
+font-family: 'lucida console';
+font-size: 12px;
+
+}
+
+
+	-->
+</style>
+<p>
+</p><div name="branch" id="branch" align="right">
+<table><tbody><tr><td><strong>RBC Banque Royale</strong></td></tr></tbody></table>
+</div>
+<p></p>
+<p>
+</p><div>
+<table><tbody><tr><td name="concern" id="concern">
+26 août 2019</td></tr></tbody></table>
+</div>
+<p></p>
+<p>
+</p><div name="concern" id="concern">
+Destinataire : à qui de droit 
+</div>
+<p></p>
+<p>
+</p><div name="concern" id="concern">
+Objet : Chèque annulé <br>
+</div>
+<p></p>
+<p>
+</p><div name="concern" id="concern">
+Veuillez considérer cette copie de chèque annulé comme la confirmation des coordonnées du compte bancaire de&nbsp;LIORA MEZIROVSKY&nbsp;pour les besoins de débit ou de crédit préautorisé.
+</div>
+<p></p>
+<table width="721" height="299" padding="0" space="0" id="cheque-bottomtable" name="cheque-bottomtable">
+<tbody><tr>
+<td height="35" align="left" valign="bottom">
+	<div id="client-name" name="client-name">
+	<p>LIORA MEZIROVSKY<br>
+	 171 RUE MOLIERE<br>
+	CHATEAUGUAY QC J6J3B7 CAN
+	</p>
+	</div>
+</td>
+<td align="right"><span style="padding-right:35px">2019</span><span style="padding-right:32px">08</span><span style="padding-right:15px">26</span>
+<br><img src="./laracheck_files/yyyy.jpg">
+</td>
+
+</tr>
+
+<tr><td colspan="2"><img alt="Image de chèque annulé" src="./laracheck_files/void_cheque.jpg"></td></tr>
+
+<tr>
+<td colspan="2" align="center" height="14"><table width="398" id="cheque-footer" name="cheque-footer">
+  <tbody><tr>
+    <td width="145px" align="right" valign="top">02071<br>Unité</td>
+    <td width="55px" align="center">- 003 -</td>
+    <td width="145px" align="left" valign="top">5077235<br>Numéro de compte</td>
+  </tr>
+</tbody></table></td>
+</tr>
+</tbody></table>
+<p>
+</p><div name="concern" id="concern">
+Imprimé dans Banque en direct de RBC Banque Royale.
+</div>
+<br>
+<p></p>
+
+	</div>
+</div></div>
+</section> </div>
+		</td>
+	</tr>
+	 
+</tbody></table>
+		</td>
+
+        
+            
+
+		<td valign="top" width="12px">
+            
+
+
+
+
+
+
+<table class="layoutColumn" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+	 
+</table>
+		</td>
+
+        
+            
+
+		<td valign="top" width="216px">
+            
+
+
+
+
+
+
+<table class="layoutColumn" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+	 
+</table>
+		</td>
+
+        
+        
+	</tr>
+</tbody></table>
+	
+	
+    
+
+	 
+<div id="globalfooter" class="clear">
+		<div id="globalfooter-main">
+		<p>
+			
+			<span style="font-size:0.845em;">Site Web de la Banque Royale du Canada, © 1995-2019</span>
+		</p>
+		</div>
+
+</div>
+
+</body></html>
