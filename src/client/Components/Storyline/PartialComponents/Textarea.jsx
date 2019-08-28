@@ -20,23 +20,13 @@ export default class Storyline extends PureComponent {
   render() {
 
     //Headers
-    const storyline = "Storyline";
-    const chooseLevelOfDifficulty = "Choose the level of difficulty:";
-    const difficultyLevelOption1 = "Easy (2 games)";
-    const difficultyLevelOption2 = "Medium (3 games)";
-    const difficultyLevelOption3 = "Advanced (4 games)";
-    const enterStorylinePart1 = "Enter a storyline in the following";
-    const enterStorylinePart2 = "format";
-    const quest = "Enter the main characthers quest:";
-    const questPlaceholder = "The left for the dangerous adventure in order to...";
-    const ending = "Enter ending:";
-    const endingPlaceholder = "...and they lived happily ever after, the end!";
+    const action = "Enter action #";
+    const actionPlaceholder = "Then he...";
 
     return (
-          <div className="home-form-field">
-            <textarea rows="4" cols="50">
-At w3schools.com you will learn how to make a website. We offer free tutorials in all web development technologies. 
-</textarea>
+          <div className="home-form-field-storyline">
+            <p>{action}{this.props.index + 1}:</p>
+            <textarea rows="5" cols="50" placeholder={actionPlaceholder}/>
           </div>
     );
   }

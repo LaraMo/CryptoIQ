@@ -1,5 +1,6 @@
+
 import React, { PureComponent } from "react";
-import Textarea from './PartialComponents/Textarea';
+import Textarea from "./PartialComponents/Textarea";
 
 export default class Storyline extends PureComponent {
   constructor(props) {
@@ -13,13 +14,11 @@ export default class Storyline extends PureComponent {
       action2: "",
       action3: "",
       action4: "",
-      ending: "",
+      ending: ""
     };
-
   }
 
   render() {
-
     //Headers
     const storyline = "Storyline";
     const chooseLevelOfDifficulty = "Choose the level of difficulty:";
@@ -33,20 +32,24 @@ export default class Storyline extends PureComponent {
     const opening = "Enter opening:";
     const openingPlaceholder = "Enter opening:";
     const quest = "Enter the main characthers quest:";
-    const questPlaceholder = "The left for the dangerous adventure in order to...";
+    const questPlaceholder =
+      "The left for the dangerous adventure in order to...";
     const ending = "Enter ending:";
     const endingPlaceholder = "...and they lived happily ever after, the end!";
 
-    const generateTextarea= [];
-    for(let i = 0; i < this.state.difficultyLevel; i++) {
-      generateTextarea.push(<Textarea index={i} key={i}/>)
+    const generateTextarea = [];
+    for (let i = 0; i < this.state.difficultyLevel; i++) {
+      generateTextarea.push(<Textarea index={i} key={i} />);
     }
     return (
-
       <div id="slide2" className="home-formContainer">
-      <h3>{storyline} </h3>
-      <div className="home-form">
-          <div className="home-form-field">
+        <h3>{storyline} </h3>
+        <div className="home-form">
+          <p className="home-form-title">
+            {enterStorylinePart1} <a href="j">{enterStorylinePart2}</a>
+          </p>
+        
+        <div className="home-form-field">
           <p>{chooseLevelOfDifficulty}</p>
             <select
               className="home-form-selectMenu"
@@ -60,26 +63,37 @@ export default class Storyline extends PureComponent {
             </select>
           </div>
 
-          <div className="home-form-field-storyline">
-          <p>{enterStorylinePart1} <a href="j">{enterStorylinePart2}</a></p>
-          
           <div className="home-form-field">
             <p>{title}</p>
             <input
-            placeholder ={openingPlaceholder}
-              onChange={e =>
-                this.setState({opening : e.target.checked })}
+              placeholder={openingPlaceholder}
+              onChange={e => this.setState({ opening: e.target.checked })}
             />
+          </div>
+          <div className="home-form-field-storyline">
+              <p>{opening}</p>
+              <textarea rows="4" cols="50" placeholder={openingPlaceholder} />
           </div>
 
           <div className="home-form-field-storyline">
-            <p>{quest}</p>
-            <textarea rows="4" cols="50" placeholder={questPlaceholder}/>
+              <p>{quest}</p>
+              <textarea rows="4" cols="50" placeholder={questPlaceholder} />
           </div>
-            {generateTextarea}
+
+          <div className="home-form-field-storyline">
+              <p>{quest}</p>
+              <textarea rows="4" cols="50" placeholder={questPlaceholder} />
           </div>
-        </div>
-    </div>
+
+          {generateTextarea}
+
+          <div className="home-form-field-storyline">
+              <p>{ending}</p>
+              <textarea rows="4" cols="50" placeholder={endingPlaceholder} />
+          </div>
+          
+          </div>
+      </div>
     );
   }
 }
