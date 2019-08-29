@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react";
 import _ from "lodash";
-import VocabularyWord from './PartialComponents/VocabularyWord';
+import VocabularyWord from "./PartialComponents/VocabularyWord";
+
 export default class VocabularyWordsContainer extends PureComponent {
   constructor(props) {
     super(props);
@@ -18,9 +19,9 @@ export default class VocabularyWordsContainer extends PureComponent {
     const instructionsPart3 = "vocabulary and defintions";
     const instructionsPart4 = "events and dates";
     const maxNumberOfWords = "How many words would you like to add?";
-    const generateInput= [];
-    for(let i = 0; i < this.state.maxNumberOfWords; i++) {
-      generateInput.push(<VocabularyWord index={i} key={i}/>)
+    const generateInput = [];
+    for (let i = 0; i < this.state.maxNumberOfWords; i++) {
+      generateInput.push(<VocabularyWord index={i} key={i} />);
     }
     return (
       <div id="slide2" className="home-formContainer">
@@ -39,14 +40,12 @@ export default class VocabularyWordsContainer extends PureComponent {
               name="numberOfStudents"
               value={this.state.maxNumberOfWords}
               onChange={e =>
-                this.setState({maxNumberOfWords: e.target.value})
+                this.setState({ maxNumberOfWords: e.target.value })
               }
             />
           </div>
-        <div className="home-form-vocContainer">
-            {generateInput}
-          </div>
-      </div>
+          <div className="home-form-vocContainer">{generateInput}</div>
+        </div>
       </div>
     );
   }

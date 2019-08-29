@@ -3,7 +3,7 @@ This file contains animations
 **/
 
 
-//Body Container
+//Body Container -- Called on page refresh
 @-webkit-keyframes slide {
     100% { margin: 0; }
   }
@@ -13,7 +13,7 @@ This file contains animations
   }
 
 
-  //Checkbox
+  //Checkbox -- Called when checked
   @keyframes wave
   {
     50%

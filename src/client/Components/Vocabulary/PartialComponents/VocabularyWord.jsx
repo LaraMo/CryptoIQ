@@ -1,5 +1,6 @@
 import React, { PureComponent } from "react";
 import _ from "lodash";
+
 export default class VocabularyWord extends PureComponent {
   constructor(props) {
     super(props);
@@ -16,7 +17,7 @@ export default class VocabularyWord extends PureComponent {
     const defintion = "Defintion";
     const { wordsEntered, defintionsEntered, index } = this.state;
     return (
-        <div className="home-form-field">
+      <div className="home-form-field">
         <div className="home-form-field-word">
           <p>{word}</p>
           <input

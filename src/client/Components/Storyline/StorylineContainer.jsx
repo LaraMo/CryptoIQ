@@ -1,4 +1,3 @@
-
 import React, { PureComponent } from "react";
 import Textarea from "./PartialComponents/Textarea";
 
@@ -30,13 +29,12 @@ export default class Storyline extends PureComponent {
     const title = "Enter title:";
     const titlePlaceholder = "The kings ring";
     const opening = "Enter opening:";
-    const openingPlaceholder = "Enter opening:";
+    const openingPlaceholder = "Once upon a time...";
     const quest = "Enter the main characthers quest:";
     const questPlaceholder =
       "The left for the dangerous adventure in order to...";
     const ending = "Enter ending:";
     const endingPlaceholder = "...and they lived happily ever after, the end!";
-
     const generateTextarea = [];
     for (let i = 0; i < this.state.difficultyLevel; i++) {
       generateTextarea.push(<Textarea index={i} key={i} />);
@@ -48,14 +46,11 @@ export default class Storyline extends PureComponent {
           <p className="home-form-title">
             {enterStorylinePart1} <a href="j">{enterStorylinePart2}</a>
           </p>
-        
-        <div className="home-form-field">
-          <p>{chooseLevelOfDifficulty}</p>
+          <div className="home-form-field">
+            <p>{chooseLevelOfDifficulty}</p>
             <select
               className="home-form-selectMenu"
-              onChange={e =>
-                this.setState({difficultyLevel: e.target.value })
-              }
+              onChange={e => this.setState({ difficultyLevel: e.target.value })}
             >
               <option value="2" label={difficultyLevelOption1} />
               <option value="3" label={difficultyLevelOption2} />
@@ -66,33 +61,26 @@ export default class Storyline extends PureComponent {
           <div className="home-form-field">
             <p>{title}</p>
             <input
-              placeholder={openingPlaceholder}
+              placeholder={titlePlaceholder}
               onChange={e => this.setState({ opening: e.target.checked })}
             />
           </div>
           <div className="home-form-field-storyline">
-              <p>{opening}</p>
-              <textarea rows="4" cols="50" placeholder={openingPlaceholder} />
+            <p>{opening}</p>
+            <textarea rows="4" cols="50" placeholder={openingPlaceholder} />
           </div>
 
           <div className="home-form-field-storyline">
-              <p>{quest}</p>
-              <textarea rows="4" cols="50" placeholder={questPlaceholder} />
+            <p>{quest}</p>
+            <textarea rows="4" cols="50" placeholder={questPlaceholder} />
           </div>
-
-          <div className="home-form-field-storyline">
-              <p>{quest}</p>
-              <textarea rows="4" cols="50" placeholder={questPlaceholder} />
-          </div>
-
           {generateTextarea}
 
           <div className="home-form-field-storyline">
-              <p>{ending}</p>
-              <textarea rows="4" cols="50" placeholder={endingPlaceholder} />
+            <p>{ending}</p>
+            <textarea rows="4" cols="50" placeholder={endingPlaceholder} />
           </div>
-          
-          </div>
+        </div>
       </div>
     );
   }

@@ -9,10 +9,32 @@ export default class GeneralInfo extends PureComponent {
         duration: 15,
         locks: false,
         textbook: false
-      }
+      },
+      error: ""
     };
+
+    this.validateInputField = this.validateInputField.bind(this);
+    this.nonNumericError = React.createRef();
   }
 
+  validateInputField(e) {
+    //check if empty --> ask?
+    const { general } = this.state;
+    //set to state only if valid
+    this.setState({
+      general: { ...general, numberOfStudents: e.target.value }
+     })
+     const errorContainer = this.nonNumericError.current;
+
+    if(e.target.value.match(/([1-9]|[1-4][0-9]|50)/)){
+       this.setState({error: ""})
+       errorContainer.classList.add("hideError");
+      }
+  else {
+    this.setState({error: "Please enter a number from 0-50"})
+    errorContainer.classList.remove("hideError");
+  }
+  }
   render() {
     //Headers
     const generalInfo = "General Info";
@@ -39,13 +61,10 @@ export default class GeneralInfo extends PureComponent {
               name="numberOfStudents"
               value={general.numberOfStudents}
               placeholder={numberOfStudentsPlaceholder}
-              onChange={e =>
-                this.setState({
-                  general: { ...general, numberOfStudents: e.target.value }
-                })
-              }
+              onChange={this.validateInputField}
             />
           </div>
+          <span className="home-form-field-error hideError" ref={this.nonNumericError}>{this.state.error}</span>
           <div className="home-form-field">
             <p>{duration}</p>
             <select
