@@ -6,8 +6,8 @@ import {
 import {
     createDoc,
     addText
-} from './pdfHelpers';
-import WritableBufferStream from './WrittableBufferStream';
+} from '../lib/pdf/pdfHelpers';
+import WritableBufferStream from '../lib/pdf/WrittableBufferStream';
 
 const router = express.Router();
 
@@ -28,8 +28,8 @@ function test(res) {
 router.post('/', (req, res, next) => {
     try {
         // validateRequest(req);
-        // gameGenerate();
-        test(res);
+        gameGenerate(res);
+        // test(res);
     } catch (e) {
         console.log(e)
         res.status(500).json({

@@ -5,18 +5,18 @@ import stream from 'stream';
  * @docs: https://nodejs.org/api/stream.html#stream_writable_streams
  */
 class WritableBufferStream extends stream.Writable {
-
+    counter = 0
     constructor(options) {
         super(options);
         this._chunks = [];
     }
 
-    _write (chunk, callback) {
+    _write (chunk, encoding, callback) {
         this._chunks.push(chunk);
         return callback(null);
     }
 
-    _destroy(err, callback) {
+    _destroy(err, encoding, callback) {
         this._chunks = null;
         return callback(null);
     }
