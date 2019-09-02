@@ -6,7 +6,7 @@ import gamegenRouter from './gamegen';
 import storylineRouter from './storyline'
 
 dotenv.config();
-morgan('tiny')
+morgan('tiny');
 
 const app = express();
 app.get('/test', (req, res) => {
