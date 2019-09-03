@@ -1,4 +1,6 @@
 import React, { PureComponent } from "react";
+import DropdownOption from "../../Public/DropdownOption";
+import { durationEnum } from "../Enums/duration";
 
 export default class GeneralInfo extends PureComponent {
   constructor(props) {
@@ -23,17 +25,16 @@ export default class GeneralInfo extends PureComponent {
     //set to state only if valid
     this.setState({
       general: { ...general, numberOfStudents: e.target.value }
-     })
-     const errorContainer = this.nonNumericError.current;
+    });
+    const errorContainer = this.nonNumericError.current;
 
-    if(e.target.value.match(/([1-9]|[1-4][0-9]|50)/)){
-       this.setState({error: ""})
-       errorContainer.classList.add("hideError");
-      }
-  else {
-    this.setState({error: "Please enter a number from 0-50"})
-    errorContainer.classList.remove("hideError");
-  }
+    if (e.target.value.match(/([1-9]|[1-4][0-9]|50)/)) {
+      this.setState({ error: "" });
+      errorContainer.classList.add("hideError");
+    } else {
+      this.setState({ error: "Please enter a number from 0-50" });
+      errorContainer.classList.remove("hideError");
+    }
   }
   render() {
     //Headers
@@ -42,9 +43,6 @@ export default class GeneralInfo extends PureComponent {
     const numberOfStudents = "Number of students:";
     const numberOfStudentsPlaceholder = "Numbers only";
     const duration = "Duration of activity:";
-    const durationOption1 = "15 mintues";
-    const durationOption2 = "20 mintues";
-    const durationOption3 = "30 mintues";
     const locks = "Include locks:";
     const textbook = "Allow use of textbook:";
     const { general } = this.state;
@@ -64,7 +62,12 @@ export default class GeneralInfo extends PureComponent {
               onChange={this.validateInputField}
             />
           </div>
-          <span className="home-form-field-error hideError" ref={this.nonNumericError}>{this.state.error}</span>
+          <span
+            className="home-form-field-error hideError"
+            ref={this.nonNumericError}
+          >
+            {this.state.error}
+          </span>
           <div className="home-form-field">
             <p>{duration}</p>
             <select
@@ -75,9 +78,13 @@ export default class GeneralInfo extends PureComponent {
                 })
               }
             >
-              <option value="15" label={durationOption1} />
-              <option value="20" label={durationOption2} />
-              <option value="30" label={durationOption3} />
+              {_.map(durationEnum, option => (
+                <DropdownOption
+                  key={option.VALUE}
+                  value={option.VALUE}
+                  label={option.LABEL}
+                />
+              ))}
             </select>
           </div>
 

@@ -1,33 +1,17 @@
-import React, { PureComponent } from "react";
+import React from "react";
 
-export default class Storyline extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      difficultyLevel: 2, // 2 games --> easy, 3 games --> medium, 4 games --> advanced
-      storyline: {
-        title: "",
-        p1: "",
-        p2: "",
-        p3: "",
-        p4: ""
-      }
-    };
-  }
+const action = "Enter action #";
+const actionPlaceholder = "Then he...";
+const TextArea = props => {
+  return (
+    <div className="home-form-field-storyline">
+      <p>
+        {action}
+        {props.index + 1}
+      </p>
+      <textarea rows="5" cols="50" placeholder={actionPlaceholder} />
+    </div>
+  );
+};
 
-  render() {
-    //Headers
-    const action = "Enter action #";
-    const actionPlaceholder = "Then he...";
-
-    return (
-      <div className="home-form-field-storyline">
-        <p>
-          {action}
-          {this.props.index + 1}:
-        </p>
-        <textarea rows="5" cols="50" placeholder={actionPlaceholder} />
-      </div>
-    );
-  }
-}
+export default TextArea;

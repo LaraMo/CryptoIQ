@@ -6,20 +6,20 @@ import GeneralInfoContainer from "./GeneralInfo/GeneralInfoContainer";
 import Title from "./PartialComponents/Title";
 import VocabularyWordsContainer from "./Vocabulary/VocabularyWordsContainer";
 import StorylineContainer from "./Storyline/StorylineContainer";
-export default class HomePage extends PureComponent {
-  render() {
-    return (
-      <div className="home">
-        <PageProgress color={"skyblue"} height={8} />
-        <div className="homeContainer">
-          <Title />
-          <form id="slide2" className="home-formContainer">
-            <GeneralInfoContainer />
-            <VocabularyWordsContainer />
-            <StorylineContainer />
-          </form>
-        </div>
+
+const HomePage = () => {
+  return (
+    <div className="home">
+      <PageProgress color={"skyblue"} height={8} />
+      <div className="homeContainer">
+        <Title />
+        <form id="slide2" className="home-formContainer">
+          <GeneralInfoContainer />
+          <VocabularyWordsContainer />
+          <StorylineContainer />
+        </form>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+export default HomePage;

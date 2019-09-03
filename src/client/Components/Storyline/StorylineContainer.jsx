@@ -1,11 +1,13 @@
 import React, { PureComponent } from "react";
 import Textarea from "./PartialComponents/Textarea";
+import { difficultyEnum } from "../Enums/difficulty";
+import DropdownOption from "../../Public/DropdownOption";
 
 export default class Storyline extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      difficultyLevel: 2, // 2 games --> easy, 3 games --> medium, 4 games --> advanced
+      difficultyLevel: difficultyEnum.EASY, // 2 games --> easy, 3 games --> medium, 4 games --> advanced
       title: "",
       opening: "",
       quest: "",
@@ -21,9 +23,6 @@ export default class Storyline extends PureComponent {
     //Headers
     const storyline = "Storyline";
     const chooseLevelOfDifficulty = "Choose the level of difficulty:";
-    const difficultyLevelOption1 = "Easy (2 games)";
-    const difficultyLevelOption2 = "Medium (3 games)";
-    const difficultyLevelOption3 = "Advanced (4 games)";
     const enterStorylinePart1 = "Enter a storyline in the following";
     const enterStorylinePart2 = "format";
     const title = "Enter title:";
@@ -44,7 +43,7 @@ export default class Storyline extends PureComponent {
         <h3>{storyline} </h3>
         <div className="home-form">
           <p className="home-form-title">
-            {enterStorylinePart1} <a href="j">{enterStorylinePart2}</a>
+            {enterStorylinePart1} <a href="todo">{enterStorylinePart2}</a>
           </p>
           <div className="home-form-field">
             <p>{chooseLevelOfDifficulty}</p>
@@ -52,9 +51,13 @@ export default class Storyline extends PureComponent {
               className="home-form-selectMenu"
               onChange={e => this.setState({ difficultyLevel: e.target.value })}
             >
-              <option value="2" label={difficultyLevelOption1} />
-              <option value="3" label={difficultyLevelOption2} />
-              <option value="4" label={difficultyLevelOption3} />
+              {_.map(difficultyEnum, option => (
+                <DropdownOption
+                  key={option.VALUE}
+                  value={option.VALUE}
+                  label={option.LABEL}
+                />
+              ))}
             </select>
           </div>
 
