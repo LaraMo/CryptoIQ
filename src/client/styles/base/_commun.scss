@@ -1,0 +1,34 @@
+/**
+In this file, are all the commun rules for the app
+(Including normalize.scss)
+**/
+
+
+
+* {
+    box-sizing: border-box;
+    font-family: 'Lexend Deca', sans-serif !important;
+  }
+  
+
+  //Commun -- Input
+  input {
+    background: none;
+    border: none;
+    border-bottom:1px solid $home_form_primary_border;
+    padding-bottom: 15px;
+  }
+  
+  //Commun -- Input and button defaults
+  input, button {
+    &:focus {
+      outline:none;
+    }
+  }
+
+  //Commun -- a 
+  a {
+    &:hover{
+      text-decoration: underline;
+    }
+  }
