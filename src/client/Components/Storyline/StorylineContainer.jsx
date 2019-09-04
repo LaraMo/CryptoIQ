@@ -7,7 +7,7 @@ export default class Storyline extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      difficultyLevel: difficultyEnum.EASY, // 2 games --> easy, 3 games --> medium, 4 games --> advanced
+      difficultyLevel: difficultyEnum.EASY.VALUE, // 2 games --> easy, 3 games --> medium, 4 games --> advanced
       title: "",
       opening: "",
       quest: "",

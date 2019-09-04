@@ -6,8 +6,26 @@ export default class VocabularyWordsContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      maxNumberOfWords: 1
+      maxNumberOfWords: 1,
+      error: ""
     };
+    this.validateInputField = this.validateInputField.bind(this);
+    this.nonNumericError = React.createRef();
+  }
+
+  validateInputField(e) {
+    //check if empty --> ask?
+    //set to state only if valid
+    this.setState({ maxNumberOfWords: e.target.value });
+    const errorVocabularyWords = this.nonNumericError.current;
+
+    if (e.target.value.match(/(^[1-9]$|^[1-4][0-9]$|^50$)/)) {
+      this.setState({ error: "" });
+      errorVocabularyWords.classList.add("hideError");
+    } else {
+      this.setState({ error: "Please enter a number from 1-50" });
+      errorVocabularyWords.classList.remove("hideError");
+    }
   }
 
   render() {
@@ -23,6 +41,7 @@ export default class VocabularyWordsContainer extends PureComponent {
     for (let i = 0; i < this.state.maxNumberOfWords; i++) {
       generateInput.push(<VocabularyWord index={i} key={i} />);
     }
+
     return (
       <div id="slide2" className="home-formContainer">
         <h3>{vocabularyWords} </h3>
@@ -39,11 +58,14 @@ export default class VocabularyWordsContainer extends PureComponent {
               className="home-form-inputText"
               name="numberOfStudents"
               value={this.state.maxNumberOfWords}
-              onChange={e =>
-                this.setState({ maxNumberOfWords: e.target.value })
-              }
+              onChange={this.validateInputField}
             />
-          </div>
+                      </div>
+
+            <span
+              className="home-form-field-error hideError"
+              ref={this.errorVocabularyWords}
+            ></span>
           <div className="home-form-vocContainer">{generateInput}</div>
         </div>
       </div>

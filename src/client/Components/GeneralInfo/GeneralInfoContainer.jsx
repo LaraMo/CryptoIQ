@@ -26,16 +26,17 @@ export default class GeneralInfo extends PureComponent {
     this.setState({
       general: { ...general, numberOfStudents: e.target.value }
     });
-    const errorContainer = this.nonNumericError.current;
+    const errorNumberOfStudents = this.nonNumericError.current;
 
-    if (e.target.value.match(/([1-9]|[1-4][0-9]|50)/)) {
+    if (e.target.value.match(/(^[1-9]$|^[1-4][0-9]$|^50$)/)) {
       this.setState({ error: "" });
-      errorContainer.classList.add("hideError");
+      errorNumberOfStudents.classList.add("hideError");
     } else {
-      this.setState({ error: "Please enter a number from 0-50" });
-      errorContainer.classList.remove("hideError");
+      this.setState({ error: "Please enter a number from 1-50" });
+      errorNumberOfStudents.classList.remove("hideError");
     }
   }
+
   render() {
     //Headers
     const generalInfo = "General Info";
@@ -64,7 +65,7 @@ export default class GeneralInfo extends PureComponent {
           </div>
           <span
             className="home-form-field-error hideError"
-            ref={this.nonNumericError}
+            ref={this.errorNumberOfStudents}
           >
             {this.state.error}
           </span>
