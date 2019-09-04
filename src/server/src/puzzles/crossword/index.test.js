@@ -1,90 +1,44 @@
 import Crossword from "./index";
 
-test("Testing finding words with similar first letters", () => {
-     const data = [
+test("Testing placing initial word", () => {
+    const data = [
         {
             answer: "answer",
             question: "how do you spell answer?"
-        },
-        {
-            answer: "axe",
-            question: "what do you use to cut wood?"
-        },
-        {
-            answer: "axium",
-            question: "what do you use to cut wood?"
-        },
-        {
-            answer: "belllooooo",
-            question: "what do you use to cut wood?"
         }
     ]
-
     const crossWord = new Crossword(data);
 
-    expect(crossWord.findWordsWithSimilarFirstLetters()).toStrictEqual([["answer","axe"],["answer", "axium"], ["axe", "axium"]]);
-});
-
-test("Testing Sorting the Answers by length, biggest to smallest", () => {
-    const data = [
-        {
-            answer: "a",
-        },
-        {
-            answer: "ab",
-        },
-        {
-            answer: "abc",
-        },
-        {
-            answer: "abcdef",
-        },
-        {
-            answer: "abcd",
-        },
-        {
-            answer: "abcdefg",
-        },
-        {
-            answer: "abcde",
-        },
-        {
-            answer: "aaa",
-        }
-    ]
-
-    const expected = [
-        {
-            answer: "abcdefg",
-        },
-        {
-            answer: "abcdef",
-        },
-        {
-            answer: "abcde",
-        },
-        {
-            answer: "abcd",
-        },
-        {
-            answer: "abc",
-        },
-        {
-            answer: "aaa",
-        },
-        {
-            answer: "ab",
-        },
-        {
-            answer: "a",
-        }
-    ]
-
+    let board = new Array(100);
+        
+    for(let i = 0; i < board.length; i ++) {
+        board[i] = new Array(100);
+    }
     
 
-    const crossWord = new Crossword(data);
+    board[49][49] = "a";
+    board[49][50] = "n";
+    board[49][51] = "s";
+    board[49][52] = "w";
+    board[49][53] = "e";
+    board[49][54] = "r";
 
-    crossWord.sortAnswersByLength();
+    
+    console.log(crossWord.clues.length);
 
-    expect(expected).toStrictEqual(crossWord.clues);
+
+    debugger
+
+    expect(crossWord.board.length).toBe(board.length);
+    
 });
+
+function initBoard() {
+    let board = new Array(100);
+        
+    for(let i = 0; i < 100; i ++) {
+        board[i] = new Array(100);
+    }
+    
+    return board;
+}

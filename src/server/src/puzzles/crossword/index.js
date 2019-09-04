@@ -1,12 +1,4 @@
 class Crossword {
-    //[y][x] | [row][col]
-    board = [];
-    clues = [];
-    wordsWithSimilarFirstLetters = [];
-    placedWordsOnTheBoard = [];
-    wordsWhichCantBePlaced = [];
-    GRID_ROWS = 100;
-    GRID_COLS = 100;
 
     constructor(clues) {
         //Crossword should at least contain 2 words
@@ -31,6 +23,12 @@ class Crossword {
      * Once the board is full, it will be optimized (shrinked) 
      */
     initBoard() {
+        this.wordsWithSimilarFirstLetters = [];
+        this.placedWordsOnTheBoard = [];
+        this.wordsWhichCantBePlaced = [];
+        this.GRID_ROWS = 100;
+        this.GRID_COLS = 100;
+
         this.board = new Array(this.GRID_ROWS);
         
         for(let i = 0; i < this.GRID_ROWS; i ++) {
@@ -46,9 +44,9 @@ class Crossword {
             if(index == 0) {
                 //place the first word in the middle of the board, and build the rest of the board around the first word
                 if(word.length % 2 == 0)
-                    this.placeHorizontal((this.GRID_COLS/2), (this.GRID_ROWS/2) - (this.clues[0].answer.length/2) , word);
+                    this.placeHorizontal(Math.floor(this.GRID_COLS/2), Math.floor(this.GRID_ROWS/2) - Math.floor(this.clues[0].answer.length/2) , word);
                 else
-                    this.placeVertical((this.GRID_ROWS/2), (this.GRID_COLS/2) - (this.clues[0].answer.length/2), word);
+                    this.placeVertical(Math.floor(this.GRID_ROWS/2), Math.floor(this.GRID_COLS/2) - Math.floor(this.clues[0].answer.length/2), word);
             }
             else {
                 //build the rest of the board
