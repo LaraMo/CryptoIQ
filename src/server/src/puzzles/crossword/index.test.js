@@ -13,6 +13,10 @@ test("Testing finding words with similar first letters", () => {
         {
             answer: "axium",
             question: "what do you use to cut wood?"
+        },
+        {
+            answer: "belllooooo",
+            question: "what do you use to cut wood?"
         }
     ]
 
@@ -82,5 +86,5 @@ test("Testing Sorting the Answers by length, biggest to smallest", () => {
 
     crossWord.sortAnswersByLength();
 
-    expect(crossWord.clues).toStrictEqual(expected);
+    expect(expected).toStrictEqual(crossWord.clues);
 });
