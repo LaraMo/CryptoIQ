@@ -1,21 +1,21 @@
 class Crossword {
-
+    
     constructor(clues) {
         //Crossword should at least contain 2 words
         if(clues && clues.length > 1) {
             //Sort the array from longest word to shortest word
-            this.clues = clues.sort((a, b) => b.answer.length - a.answer.length);
+            this._clues = clues.sort((a, b) => b.answer.length - a.answer.length);
             this.initBoard();   
             this.placeAnswersOnBoard();
         }
     }
     
     get clues() {
-        return this.clues;
+        return this._clues;
     }
     
     get board() {
-        return this.board;
+        return this._board;
     }
 
     /**
@@ -29,10 +29,10 @@ class Crossword {
         this.GRID_ROWS = 100;
         this.GRID_COLS = 100;
 
-        this.board = new Array(this.GRID_ROWS);
+        this._board = new Array(this.GRID_ROWS);
         
-        for(let i = 0; i < this.GRID_ROWS; i ++) {
-            this.board[i] = new Array(this.GRID_COLS);
+        for(let i = 0; i < this._board.length; i ++) {
+            this._board[i] = new Array(this.GRID_COLS);
         }
     }
 
@@ -40,26 +40,26 @@ class Crossword {
      * Places all the words on the board
      */
     placeAnswersOnBoard() {
-        this.clues.forEach((word, index) => {
+        this._clues.forEach((word, index) => {
             if(index == 0) {
                 //place the first word in the middle of the board, and build the rest of the board around the first word
-                if(word.length % 2 == 0)
-                    this.placeHorizontal(Math.floor(this.GRID_COLS/2), Math.floor(this.GRID_ROWS/2) - Math.floor(this.clues[0].answer.length/2) , word);
+                if(word.answer.length % 2 == 0)
+                    this.placeHorizontal(Math.floor(this.GRID_COLS/2) - 1, Math.floor(this.GRID_ROWS/2) - 1 - (word.answer.length/2) , word.answer);
                 else
-                    this.placeVertical(Math.floor(this.GRID_ROWS/2), Math.floor(this.GRID_COLS/2) - Math.floor(this.clues[0].answer.length/2), word);
+                    this.placeVertical(Math.floor(this.GRID_ROWS/2) -1 , Math.floor(this.GRID_COLS/2) - 1 - Math.floor(word.answer.length/2), word.answer);
             }
             else {
                 //build the rest of the board
-                let position = this.findPositionForWord(word);
+                let position = this.findPositionForWord(word.answer);
                 
                 if(position) {
                     if(position.direction == "h")
-                        this.placeHorizontal(position.staticPosition, position.startIndex, word)
+                        this.placeHorizontal(position.staticPosition, position.startIndex, word.answer);
                     else if(position.direction == "v")
-                        this.placeVertical(position.staticPosition, position.startIndex, word)
+                        this.placeVertical(position.staticPosition, position.startIndex, word.answer);
                 }
                 else {
-                    this.wordsWhichCantBePlaced.push(word)
+                    this.wordsWhichCantBePlaced.push(word.answer);
                 }
              }
         })
@@ -75,8 +75,8 @@ class Crossword {
     placeHorizontal(yPosition, xStartPosition, word) {
 
         Array.prototype.forEach.call(word, (letter, letterIndex) => {
-            this.board[yPosition][xStartPosition + letterIndex] = letter;
-        })
+            this._board[yPosition][xStartPosition + letterIndex] = letter;
+        });
 
         this.placedWordsOnTheBoard.push({
             word: word,
@@ -97,8 +97,8 @@ class Crossword {
     placeVertical(xPosition, yStartPosition, word) {
 
         Array.prototype.forEach.call(word, (letter, letterIndex) => {
-            this.board[yStartPosition + letterIndex][xPosition] = letter;
-        })
+            this._board[yStartPosition + letterIndex][xPosition] = letter;
+        });
 
         this.placedWordsOnTheBoard.push({
             word: word,
@@ -114,20 +114,23 @@ class Crossword {
      * @param {string} word the word to be placed on the board
      */
     findPositionForWord(word) {
-        let position = [];
         //loop over all the words already on the board
+        let position = false;
         this.placedWordsOnTheBoard.forEach(placedWord => {
             //loop over each letter in the word to be placed
-            Array.prototype.forEach.call(word, (letter, letterIndex) => {
-                //find points where the word to place intersects with the placedword
-                wordCollisionIndexes = this.getAllIndexes(word,letter);
-                if(wordCollisionIndexes.length > 0) {
-                    wordPosition = this.checkForConflictingWords(placedWord, wordCollisionIndexes, letterIndex, word, 1)
-                    if(!wordPosition)
-                        return false;
-                }
-            })
-        })
+            if(!position)
+                Array.prototype.forEach.call(word, letter => {
+                    //find points where the word to place intersects with the placedword
+                    if(!position) {
+                        let wordCollisionIndexes = this.getAllIndexes(word,letter);
+                        if(wordCollisionIndexes.length > 0) { 
+                            position = this.checkForConflictingWords(placedWord, wordCollisionIndexes, word);
+                        }
+                    }
+                });
+        });
+
+        return position;
     }
 
     /**
@@ -137,7 +140,7 @@ class Crossword {
      * @param {char} letter the char to search for in the word
      */
     getAllIndexes(word, letter) {
-        var indexes = [], i = -1;
+        let indexes = [], i = -1;
         while ((i = word.indexOf(letter, i+1)) != -1){
             indexes.push(i);
         }
@@ -148,121 +151,72 @@ class Crossword {
      * 
      * @param {string} placedWord the word placed on the board
      * @param {string} IntersectionIndex the index of the letter which intersects with tbe placedWord
-     * @param {string} wordToPlace the word that I'm checking
-     * @param {char} searchDirection if the word on the board in horizontal, then the search direction is vertical and vice versa 
+     * @param {string} wordToPlace the word that is being checked
      * @param {int} increaseDecrease -1 or 1, -1 to decrement the intersection index, and 1 to increment the intersection index
      */
-        checkForConflictingWords(placedWord, wordCollisionIndexes, letterIntersectionIndex, wordToPlace) {
-
-            let best = {};
-            let bestIntersections = 0;
+    checkForConflictingWords(placedWord, wordCollisionIndexes, wordToPlace) {
+        let best = {};
+        let bestIntersections = -1;
+        //startPosition is an x/col position
+        
+        for(let i = 0; i < wordCollisionIndexes.length; i++) {
+            const startPosition = placedWord.staticPosition - (wordToPlace.substring(0, wordCollisionIndexes[i]).length);
             const staticPosition = placedWord.startIndex + wordCollisionIndexes[i];
-            //startPosition is an x/col position
-            const startPosition = placedWord.staticPosition - (wordToPlace.substring(0, letterIntersectionIndex).length);
+            let currentPosition = startPosition;
+            let intersections = 0;
 
-            for(let i = 0; i < wordCollisionIndexes.length; i++) {
-                let currentPosition = startPosition;
-                let intersections = 0;
+            //checks that the current word does not overlap with another word that is already placed on the board
+            this.placedWordsOnTheBoard.forEach(word => {
+                if(word.direction != placedWord.direction)
+                    if(word.startIndex == startPosition && word.staticPosition == staticPosition)
+                        return false;
+            });
 
-                //checks that the current word does not overlap with another word that is already placed on the board
-                this.placedWordsOnTheBoard.forEach(word => {
-                    if(word.direction != placedWord.direction)
-                        if(word.startIndex == startPosition && word.staticPosition == staticPosition)
+            if(placedWord.direction == "h") {
+                //The word crosses the placed word vertically
+                for(let j = 0; j < wordToPlace.length; j++) {
+                    /*
+                        checks col to the right and to the left, if there is a word to the right or to the left make sure that the current 
+                        row/col holds the letter that we are trying to place which makes for a good intersection
+                    */
+                    if(this._board[currentPosition][staticPosition - 1] != null || this._board[currentPosition][staticPosition + 1] != null) {
+                        if(this._board[currentPosition][staticPosition] != wordToPlace[wordCollisionIndexes[i]])
                             return false;
-                })
-
-                if(placedWord.direction == "h") {
-                    //The word crosses the placed word vertically
-                    for(let j = 0; j < wordToPlace.length; j++) {
-                        /*
-                            checks col to the right and to the left, if there is a word to the right or to the left make sure that the current 
-                            row/col holds the letter that we are trying to place which makes for a good intersection
-                        */
-                        if(this.board[currentPosition][staticPosition - 1] != null || this.board[currentPosition][staticPosition + 1] != null) {
-                            if(this.board[currentPosition][staticPosition] != wordToPlace[letterIntersectionIndex])
-                                return false;
-                            else
-                                intersections++;
-                        }
+                        else
+                            intersections++;
                     }
-                }
-                else if(placedWord.direction == "v") {
-                    //The word crosses the placed word horizontally
-                    for(let j = 0; j < wordToPlace.length; j++) {
-                        //does the same as above, but checks above and below the row 
-                        if(this.board[staticPosition - 1][currentPosition] != null || this.board[staticPosition + 1][currentPosition] != null) {
-                            if(this.board[staticPosition][currentPosition] != wordToPlace[letterIntersectionIndex])
-                                return false;
-                            else
-                                intersections++;
-                        }
-                    }
-                }
-
-                //The more intersections better the placement position is
-                if(best && intersections > bestIntersections) {
-                    best = {
-                        startIndex: startPosition,
-                        staticPosition: staticPosition,
-                        word : wordToPlace,
-                        direction: placedWord.direction == "v" ? "h" : "v"
-                    }
-                    bestIntersections = intersections;
                 }
             }
-            
-            if(!best)
-                return false
-
-            return best
-    }
-
-    
-
-
-
-
-
-
-    /**
-     * finds words which start with the same first letter and adds them to an array
-     * from this array you can know which words can be used together (vertical + horizontal)
-     * because of their first letter match
-     */
-    findWordsWithSimilarFirstLetters() {
-        this.clues.forEach(clue => {
-            this.clues.forEach(cluematch => {
-                if(clue !== cluematch && !this.checkDuplicateArrayEntries(this.wordsWithSimilarFirstLetters, [clue.answer, cluematch.answer]) && clue.answer.charAt(0) == cluematch.answer.charAt(0)) {
-                    this.wordsWithSimilarFirstLetters.push([clue.answer, cluematch.answer]);
+            else if(placedWord.direction == "v") {
+                //The word crosses the placed word horizontally
+                for(let j = 0; j < wordToPlace.length; j++) {
+                    //does the same as above, but checks above and below the row 
+                    if(this._board[staticPosition - 1][currentPosition] != null || this._board[staticPosition + 1][currentPosition] != null) {
+                        if(this._board[staticPosition][currentPosition] != wordToPlace[wordCollisionIndexes[i]])
+                            return false;
+                        else
+                            intersections++;
+                    }
                 }
-            })
-        })
-        return this.wordsWithSimilarFirstLetters;
-    }
+            }
 
-
-    get Crossword() {
-        return board;
-    }
-
-    /**
-     * Checks to see if the 2 string array is already within the 
-     * original array
-     * 
-     * @param {2D string array} array 
-     * @param {array with 2 strings} item 
-     */
-    checkDuplicateArrayEntries(array, item) {
-        for (let i = 0; i < array.length; i++) {
-            if (array[i][0] == item[0] && array[i][1] == item[1] || 
-                array[i][0] == item[1] && array[i][1] == item[0] ) {
-                    return true; 
+            //The more intersections better the placement position is
+            if(intersections > bestIntersections) {
+                best = {
+                    startIndex: startPosition,
+                    staticPosition: staticPosition,
+                    word : wordToPlace,
+                    direction: placedWord.direction == "v" ? "h" : "v",
+                }
+                bestIntersections = intersections;
             }
         }
-        return false;
+        
+        if(!best)
+            return false;
+
+        return best;
     }
-
-
 }
 
 
