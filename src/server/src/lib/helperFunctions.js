@@ -1,3 +1,9 @@
+/**
+ * Fetch the keys of an object and return them by a predefined order
+ * 
+ * @param {*} obj Object with keys to be sorted
+ * @param {*} order Order of key to sort by
+ */
 export function sortObjectKeyByOrder(obj, order) {
     const result = [];
     order.forEach(key => {
@@ -5,6 +11,5 @@ export function sortObjectKeyByOrder(obj, order) {
             result.push(key)
         }
     })
-    console.log(result)
     return result;
 }

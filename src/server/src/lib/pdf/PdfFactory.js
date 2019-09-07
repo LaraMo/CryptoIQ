@@ -45,17 +45,8 @@ class PdfFactory {
 
     }
 
-    buildText(ins) {
+    build(ins) {
         // Text always has to be last
-        const keys = sortObjectKeyByOrder(ins, this.propsOrder);
-        keys.forEach(key => {
-            if (key in this.propsMap && this.propsMap[key] instanceof Function) {
-                this.propsMap[key](ins[key], ins.options)
-            }
-        })
-    }
-
-    buildImage(ins) {
         const keys = sortObjectKeyByOrder(ins, this.propsOrder);
         keys.forEach(key => {
             if (key in this.propsMap && this.propsMap[key] instanceof Function) {
@@ -68,15 +59,6 @@ class PdfFactory {
         this.doc.moveDown(ins.space || undefined);
     }
 
-    buildVector(ins) {
-        const keys = sortObjectKeyByOrder(ins, this.propsOrder);
-        keys.forEach(key => {
-            if (key in this.propsMap && this.propsMap[key] instanceof Function) {
-                this.propsMap[key](ins[key])
-            }
-        })
-    }
-
     parseStep(step) {
         switch (step.type) {
             case PdfObjectType.BR:
@@ -84,16 +66,10 @@ class PdfFactory {
                 this.buildLineBreak(step);
                 break;
             case PdfObjectType.IMAGE:
-                delete step['type'];
-                this.buildImage(step);
-                break;
             case PdfObjectType.TEXT:
-                delete step['type'];
-                this.buildText(step);
-                break;
             case PdfObjectType.VECTOR:
                 delete step['type'];
-                this.buildVector(step);
+                this.build(step);
                 break;
         }
     }

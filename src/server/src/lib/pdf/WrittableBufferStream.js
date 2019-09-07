@@ -5,7 +5,6 @@ import stream from 'stream';
  * @docs: https://nodejs.org/api/stream.html#stream_writable_streams
  */
 class WritableBufferStream extends stream.Writable {
-    counter = 0
     constructor(options) {
         super(options);
         this._chunks = [];
