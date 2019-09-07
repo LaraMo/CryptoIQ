@@ -1,5 +1,6 @@
 export default {
     "TEXT": "TEXT",
     "BR": "BR",
-    "IMAGE": "IMAGE"
+    "IMAGE": "IMAGE",
+    "VECTOR": "VECTOR"
 }
