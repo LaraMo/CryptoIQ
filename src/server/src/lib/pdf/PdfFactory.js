@@ -45,7 +45,7 @@ class PdfFactory {
 
     }
 
-    build(ins) {
+    buildStep(ins) {
         // Text always has to be last
         const keys = sortObjectKeyByOrder(ins, this.propsOrder);
         keys.forEach(key => {
@@ -69,7 +69,7 @@ class PdfFactory {
             case PdfObjectType.TEXT:
             case PdfObjectType.VECTOR:
                 delete step['type'];
-                this.build(step);
+                this.buildStep(step);
                 break;
         }
     }

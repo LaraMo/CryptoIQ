@@ -10,7 +10,7 @@ export default class GeneralInfo extends PureComponent {
         numberOfStudents: "",
         duration: 15,
         locks: false,
-        textbook: false
+        textbook: false 
       },
       error: ""
     };
@@ -19,20 +19,26 @@ export default class GeneralInfo extends PureComponent {
     this.nonNumericError = React.createRef();
   }
 
+  setStateExt(state) {
+    this.setState(state, () => {
+      this.props.updateForm(this.state.general);
+    });  
+  }
+
   validateInputField(e) {
     //check if empty --> ask?
     const { general } = this.state;
     //set to state only if valid
-    this.setState({
+    this.setStateExt({
       general: { ...general, numberOfStudents: e.target.value }
     });
     const errorContainer = this.nonNumericError.current;
 
     if (e.target.value.match(/([1-9]|[1-4][0-9]|50)/)) {
-      this.setState({ error: "" });
+      this.setStateExt({ error: "" });
       errorContainer.classList.add("hideError");
     } else {
-      this.setState({ error: "Please enter a number from 0-50" });
+      this.setStateExt({ error: "Please enter a number from 0-50" });
       errorContainer.classList.remove("hideError");
     }
   }
@@ -73,7 +79,7 @@ export default class GeneralInfo extends PureComponent {
             <select
               className="home-form-selectMenu"
               onChange={e =>
-                this.setState({
+                this.setStateExt({
                   general: { ...general, duration: e.target.value }
                 })
               }
@@ -94,7 +100,7 @@ export default class GeneralInfo extends PureComponent {
               className="home-form-checkbox"
               type="checkbox"
               onChange={e =>
-                this.setState({
+                this.setStateExt({
                   general: { ...general, locks: e.target.checked }
                 })
               }
@@ -105,7 +111,7 @@ export default class GeneralInfo extends PureComponent {
               className="home-form-checkbox"
               type="checkbox"
               onChange={e =>
-                this.setState({
+                this.setStateExt({
                   general: { ...general, textbook: e.target.checked }
                 })
               }

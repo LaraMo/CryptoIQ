@@ -42,6 +42,7 @@ const HomePage = () => {
       {vocalbulary: vocalbulary},
       {storyline: storyline},
     );
+    console.log(payload)
     submitGameGen(payload);
   }
 
