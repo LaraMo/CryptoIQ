@@ -51,7 +51,7 @@ class Crossword {
             else {
                 //build the rest of the board
                 let position = this.findPositionForWord(word.answer);
-                
+                console.log(position);
                 if(position) {
                     if(position.direction == "h")
                         this.placeHorizontal(position.staticPosition, position.startIndex, word.answer);
@@ -152,7 +152,6 @@ class Crossword {
      * @param {string} placedWord the word placed on the board
      * @param {string} IntersectionIndex the index of the letter which intersects with tbe placedWord
      * @param {string} wordToPlace the word that is being checked
-     * @param {int} increaseDecrease -1 or 1, -1 to decrement the intersection index, and 1 to increment the intersection index
      */
     checkForConflictingWords(placedWord, wordCollisionIndexes, wordToPlace) {
         let best = {};
@@ -166,11 +165,15 @@ class Crossword {
             let intersections = 0;
 
             //checks that the current word does not overlap with another word that is already placed on the board
-            this.placedWordsOnTheBoard.forEach(word => {
-                if(word.direction != placedWord.direction)
-                    if(word.startIndex == startPosition && word.staticPosition == staticPosition)
-                        return false;
+            let overlap = this.placedWordsOnTheBoard.some(word => {
+                if(!overlap && word.direction != placedWord.direction) 
+                    if(word.startIndex == startPosition && word.staticPosition == staticPosition) 
+                        return true;
             });
+
+            if(overlap) {
+                return true;
+            }
 
             if(placedWord.direction == "h") {
                 //The word crosses the placed word vertically
@@ -211,9 +214,6 @@ class Crossword {
                 bestIntersections = intersections;
             }
         }
-        
-        if(!best)
-            return false;
 
         return best;
     }

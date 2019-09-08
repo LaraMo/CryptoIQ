@@ -75,7 +75,7 @@ test("Testing placing initial word with odd number of letters", () => {
     
 });
 
-test("Testing-placing-multiple-words-longest-word-had-odd-number-of-letters", () => {
+test("Testing-placing-two-words-longest-word-has-odd-number-of-letters", () => {
     const data = [
         {
             answer: "answer",
@@ -110,7 +110,7 @@ test("Testing-placing-multiple-words-longest-word-had-odd-number-of-letters", ()
     
 });
 
-test("Testing-placing-multiple-words-longest-word-has-even-number-of-letters", () => {
+test("Testing-placing-two-words-longest-word-has-even-number-of-letters", () => {
     const data = [
         {
             answer: "answer",
@@ -119,6 +119,111 @@ test("Testing-placing-multiple-words-longest-word-has-even-number-of-letters", (
         {
             answer: "ans",
             question: "how do you spell ans?"
+        },
+    ]
+    const crossWord = new Crossword(data);
+
+    let board = initBoard();
+
+    board[49][46] = "a";
+    board[49][47] = "n";
+    board[49][48] = "s";
+    board[49][49] = "w";
+    board[49][50] = "e";
+    board[49][51] = "r";
+    
+
+    board[49][46] = "a";
+    board[50][46] = "n";
+    board[51][46] = "s";
+    
+    expect(crossWord.board).toStrictEqual(board);
+    
+});
+
+test("Testing-placing-words-which-will-not-fit-together", () => {
+    const data = [
+        {
+            answer: "answer",
+            question: "how do you spell answer?"
+        }, 
+        {
+            answer: "ans",
+            question: "how do you spell ans?"
+        },
+        {
+            answer: "nu",
+            question: "how do you spell ans?"
+        },
+    ]
+    const crossWord = new Crossword(data);
+
+    let board = initBoard();
+
+    board[49][46] = "a";
+    board[49][47] = "n";
+    board[49][48] = "s";
+    board[49][49] = "w";
+    board[49][50] = "e";
+    board[49][51] = "r";
+    
+
+    board[49][46] = "a";
+    board[50][46] = "n";
+    board[51][46] = "s";
+    
+    expect(crossWord.board).toStrictEqual(board);
+    
+});
+
+test("Testing-placing-multiple words-which-will-corss-at-multiple-points", () => {
+    const data = [
+        {
+            answer: "answer",
+            question: "how do you spell answer?"
+        }, 
+        {
+            answer: "ans",
+            question: "how do you spell ans?"
+        },
+        {
+            answer: "nu",
+            question: "how do you spell ans?"
+        },
+    ]
+    const crossWord = new Crossword(data);
+
+    let board = initBoard();
+
+    board[49][46] = "a";
+    board[49][47] = "n";
+    board[49][48] = "s";
+    board[49][49] = "w";
+    board[49][50] = "e";
+    board[49][51] = "r";
+    
+
+    board[49][46] = "a";
+    board[50][46] = "n";
+    board[51][46] = "s";
+    
+    expect(crossWord.board).toStrictEqual(board);
+    
+});
+
+test("Testing-placing-words-with-overlap", () => {
+    const data = [
+        {
+            answer: "answer",
+            question: "how do you spell answer?"
+        },
+        {
+            answer: "ans",
+            question: "how do you spell ans?"
+        },
+        {
+            answer: "az",
+            question: "how do you spell azzz?"
         },
     ]
     const crossWord = new Crossword(data);
