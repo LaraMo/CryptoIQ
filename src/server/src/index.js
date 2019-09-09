@@ -10,7 +10,7 @@ morgan('tiny');
 
 const app = express();
 app.get('/test', (req, res) => {
-    res.json({result: 'Hello, World!'})
+    res.json({ result: 'Hello, World!' })
 });
 
 app.use('/game-generate', gamegenRouter);
@@ -19,5 +19,5 @@ app.use('/storyline', storylineRouter);
 const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
-  console.log(`server running on port ${PORT}`)
+    console.log(`server running on port ${PORT}`)
 });

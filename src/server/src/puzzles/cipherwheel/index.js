@@ -65,8 +65,7 @@ class CipherWheel {
     }
 
     toPdf() {
-        return [
-            {
+        return [{
                 type: PdfObjectType.TEXT,
                 content: this.encodedMessage,
                 x: 50,
