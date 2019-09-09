@@ -19,7 +19,7 @@ router.post('/', (req, res, next) => {
     try {
         // validateRequest(req);
         console.log(req.body)
-        gameGenerate(res);
+        gameGenerate(res, req.body);
     } catch (e) {
         console.log(e)
         res.status(500).json({
