@@ -176,19 +176,19 @@ test("Testing-placing-words-which-will-not-fit-together", () => {
     
 });
 
-test("Testing-placing-multiple words-which-will-corss-at-multiple-points", () => {
+test("Testing-placing-multiple-words-which-will-cross-at-multiple-points", () => {
     const data = [
         {
             answer: "answer",
             question: "how do you spell answer?"
         }, 
         {
-            answer: "ans",
-            question: "how do you spell ans?"
+            answer: "ant",
+            question: "how do you spell ant?"
         },
         {
-            answer: "nu",
-            question: "how do you spell ans?"
+            answer: "sip",
+            question: "how do you spell sip?"
         },
     ]
     const crossWord = new Crossword(data);
@@ -201,11 +201,62 @@ test("Testing-placing-multiple words-which-will-corss-at-multiple-points", () =>
     board[49][49] = "w";
     board[49][50] = "e";
     board[49][51] = "r";
-    
 
     board[49][46] = "a";
     board[50][46] = "n";
-    board[51][46] = "s";
+    board[51][46] = "t";
+
+    board[49][48] = "s";
+    board[50][48] = "i";
+    board[51][48] = "p";
+
+    
+    expect(crossWord.board).toStrictEqual(board);
+    
+});
+
+test("Testing-placing-multiple-words-which-will-cross-at-multiple-points-square", () => {
+    const data = [
+        {
+            answer: "answer",
+            question: "how do you spell answer?"
+        }, 
+        {
+            answer: "ant",
+            question: "how do you spell ant?"
+        },
+        {
+            answer: "sip",
+            question: "how do you spell sip?"
+        },
+        {
+            answer: "top",
+            question: "how do you spell top?"
+        },
+    ]
+    const crossWord = new Crossword(data);
+
+    let board = initBoard();
+
+    board[49][46] = "a";
+    board[49][47] = "n";
+    board[49][48] = "s";
+    board[49][49] = "w";
+    board[49][50] = "e";
+    board[49][51] = "r";
+
+    board[49][46] = "a";
+    board[50][46] = "n";
+    board[51][46] = "t";
+
+    board[49][48] = "s";
+    board[50][48] = "i";
+    board[51][48] = "p";
+
+    board[51][46] = "t";
+    board[51][47] = "o";
+    board[51][48] = "p";
+
     
     expect(crossWord.board).toStrictEqual(board);
     
