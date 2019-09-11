@@ -1,4 +1,5 @@
 import PdfObjectType from '../../lib/enums/PdfObjectType';
+import path from 'path';
 
 class CipherWheel {
     alphabet = []
@@ -65,29 +66,72 @@ class CipherWheel {
     }
 
     toPdf() {
+        let width = 20;
+        let height = 20;
+
         return [{
                 type: PdfObjectType.TEXT,
-                content: this.encodedMessage,
-                x: 50,
-                y: 50
+                text: "For the teacher:",
+                fillColor: "red"
+            },
+            {
+                type: PdfObjectType.TEXT,
+                text: `Word: ${this.message}`,
+                fillColor: "green"
+            },
+            {
+                type: PdfObjectType.TEXT,
+                text: `Starting Code: ${this.startCode}`
+            },
+            {
+                type: PdfObjectType.TEXT,
+                text: "---------------------------------------------------------"
+            },
+            {
+                type: PdfObjectType.BR,
             },
             {
                 type: PdfObjectType.BR,
             },
             {
                 type: PdfObjectType.IMAGE,
-                path: "",
-                x: 150,
-                y: 150,
+                imagePath: path.resolve("assets/", "cipherwheel.jpg"),
+                options: {
+                    fit: [400, 212],
+                    align: 'center',
+                    valign: 'center'
+                }
             },
+            {
+                type: PdfObjectType.BR,
+            },
+            {
+                type: PdfObjectType.VECTOR,
+                callback: (doc) => {
+                    let fontSize = 12;
+                    let xOffset = fontSize / 2;
+                    let xRect = doc.x;
+                    for (let i = 0; i < this.encodedMessage.length; i++) {
+                        let yRect = doc.y;
+                        doc.fontSize(12).text(this.encodedMessage[i], xRect + width / 2 - fontSize / 2, yRect, {
+                            continue: true,
+                            lineBreak: false
+                        });
+                        doc.rect(xRect, doc.y - height / 2 + fontSize / 2, width, height).stroke();
+                        xRect += width;
+                    }
+                }
+            }
         ];
     }
 
     toString() {
-        console.log('message: ', this.message)
-        console.log('startCode: ', this.startCode);
-        console.log('innerWheel: ', this.innerWheel);
-        console.log('encodedMessage: ', this.encodedMessage)
+        str = '';
+        str.concat('message: ', this.message)
+        str.concat('startCode: ', this.startCode);
+        str.concat('innerWheel: ', this.innerWheel);
+        str.concat('encodedMessage: ', this.encodedMessage);
+        return str;
     }
 }
 

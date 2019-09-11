@@ -6,8 +6,8 @@ import {
 import {
     createDoc,
     addText
-} from './pdfHelpers';
-import WritableBufferStream from './WrittableBufferStream';
+} from '../lib/pdf/pdfHelpers';
+import WritableBufferStream from '../lib/pdf/WrittableBufferStream';
 
 const router = express.Router();
 
@@ -15,21 +15,11 @@ function validateRequest(req) {
     return true;
 }
 
-function test(res) {
-    const writeStream = new WritableBufferStream();
-    let doc = createDoc(writeStream);
-    writeStream.on('finish', () => {
-        sendPdf(res, writeStream.toBuffer())
-    });
-    addText(doc, "Hello, World!", 100, 100)
-    doc.end();
-}
-
 router.post('/', (req, res, next) => {
     try {
         // validateRequest(req);
-        // gameGenerate();
-        test(res);
+        console.log(req.body)
+        gameGenerate(res, req.body);
     } catch (e) {
         console.log(e)
         res.status(500).json({
