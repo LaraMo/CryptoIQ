@@ -3,7 +3,7 @@ import Storyline from './Storyline';
 test('test class', () => {
     const storyline = new Storyline();
     console.log(storyline);
-    expect('True').toBe('True'); ///todo, check is defined
+    expect(storyline).toBeDefined(); ///todo, check is defined
 });
 
 test('create a yaml file', () => {

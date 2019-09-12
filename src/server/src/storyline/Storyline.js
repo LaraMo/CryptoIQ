@@ -5,7 +5,9 @@ const _ = require('lodash');
 
 class Storyline {
 
-    constructor() {}
+    constructor(data) {
+        this.storylineData = data.storyline
+    }
 
     //Creates a .yml file
     generateYamlFile() {
@@ -16,14 +18,15 @@ class Storyline {
 
     //Loops through the enum array and returns the right story
     getDataFromEnumns() {
-        const storyline = [{ id: uuidv1() }];
-        _.map(StorylineComponents, (text) => {
-            console.log(text);
-            storyline.push(text)
-        })
+        let storyline = [{ id: uuidv1() }];
+        _.map(this.storylineData, (text, index) => {
+            let field = new Object();
+            field[index] = text;
+            storyline.push(field)
+        });
+
         return storyline;
     }
-
 }
 
 export default Storyline;

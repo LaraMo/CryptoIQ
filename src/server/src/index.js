@@ -27,7 +27,7 @@ app.get('/test', (req, res) => {
 });
 
 app.use('/game-generate', gamegenRouter);
-app.use('/storyline', storylineRouter);
+app.use('/storyline', storylineRouter); //todo
 
 const PORT = process.env.PORT;
 
