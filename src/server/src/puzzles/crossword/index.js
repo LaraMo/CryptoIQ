@@ -194,34 +194,47 @@ class Crossword {
             if(placedWord.direction == "h") {
                 //The word crosses the placed word vertically
                 for(let j = 0; j < wordToPlace.length; j++) {
+                    if(staticPosition + j > this.GRID_ROWS)
+                        return false;
                     /*
                         checks col to the right and to the left, if there is a word to the right or to the left make sure that the current
                         row/col holds the letter that we are trying to place which makes for a good intersection
                     */
                     if(this._board[startPosition + j][staticPosition - 1] != null || this._board[startPosition + j][staticPosition + 1] != null) {
                         if(this._board[startPosition + j][staticPosition] && this._board[startPosition + j][staticPosition] != null) { 
-                            console.log(this.board[startPosition + j][staticPosition] + " /// " + wordToPlace[j])
-                            console.log(this.board[startPosition + j][staticPosition] == null)
                             if(this._board[startPosition + j][staticPosition] != wordToPlace[j])
                                 return false;
-                            else
+                            else 
                                 intersections++;
+                        } else {
+                            for(let k = 0; k < j; k++) {
+                                if(this._board[startPosition + j][staticPosition - (j + k)] != wordToPlace[k]) {
+                                    return false;
+                                }
+                            }
                         }
-                    }
+                    } 
                 }
             }
             else if(placedWord.direction == "v") {
                 //The word crosses the placed word horizontally
                 for(let j = 0; j < wordToPlace.length; j++) {
+                    if(staticPosition + j > this.GRID_COLS)
+                        return false;
                     //does the same as above, but checks above and below the row
                     if(this._board[staticPosition - 1][startPosition + j] != null || this._board[staticPosition + 1][startPosition + j] != null) {
                         if(this._board[staticPosition][startPosition + j] !=null) {
-                            console.log(this.board[staticPosition][staticPosition + j] + " /// " + wordToPlace[j])
                             //TODO: add logic to check row above to see if the letter above is == wordToPlace[j-1] if j > 0
                             if(this._board[staticPosition][startPosition + j] != wordToPlace[j])
                                 return false;
                             else
                                 intersections++;
+                        } else {
+                            for(let k = 0; k < j; k++) {
+                                if(this._board[staticPosition - (j + k)][startPosition + j] != wordToPlace[k]) {
+                                    return false;
+                                }
+                            }
                         }
                     }
                 }
