@@ -148,12 +148,12 @@ test("Testing-placing-words-which-will-not-fit-together", () => {
             question: "how do you spell answer?"
         }, 
         {
-            answer: "ans",
-            question: "how do you spell ans?"
+            answer: "answe",
+            question: "how do you spell answe?"
         },
         {
-            answer: "nu",
-            question: "how do you spell ans?"
+            answer: "nuz",
+            question: "how do you spell nuz?"
         },
     ]
     const crossWord = new Crossword(data);
@@ -171,6 +171,9 @@ test("Testing-placing-words-which-will-not-fit-together", () => {
     board[49][46] = "a";
     board[50][46] = "n";
     board[51][46] = "s";
+    board[52][46] = "w";
+    board[53][46] = "e";
+
     
     expect(crossWord.board).toStrictEqual(board);
     
@@ -222,11 +225,11 @@ test("Testing-placing-multiple-words-which-will-cross-at-multiple-points-square"
             question: "how do you spell answer?"
         }, 
         {
-            answer: "ant",
+            answer: "antt",
             question: "how do you spell ant?"
         },
         {
-            answer: "sip",
+            answer: "sipp",
             question: "how do you spell sip?"
         },
         {
@@ -248,16 +251,17 @@ test("Testing-placing-multiple-words-which-will-cross-at-multiple-points-square"
     board[49][46] = "a";
     board[50][46] = "n";
     board[51][46] = "t";
+    board[52][46] = "t";
 
     board[49][48] = "s";
     board[50][48] = "i";
     board[51][48] = "p";
+    board[52][48] = "p";
 
     board[51][46] = "t";
     board[51][47] = "o";
     board[51][48] = "p";
 
-    
     expect(crossWord.board).toStrictEqual(board);
     
 });

@@ -181,6 +181,7 @@ class Crossword {
             if(overlap) {
                 return overlap;
             }
+
             // console.log("WORD: " + wordToPlace +
             // "\n" + (wordToPlace.substring(0, wordToPlace.indexOf(collisionLetter)).length) +
             // "\n" + "word-Collision: " + wordCollisionIndexes[i] +
@@ -188,7 +189,6 @@ class Crossword {
             // "\n" + "static-pos: " + staticPosition +
             // "\n" + "placed-word: " + placedWord.word +
             // "\n" + "placed-static-pos: " + placedWord.staticPosition
-
             // );
 
             if(placedWord.direction == "h") {
@@ -199,10 +199,14 @@ class Crossword {
                         row/col holds the letter that we are trying to place which makes for a good intersection
                     */
                     if(this._board[startPosition + j][staticPosition - 1] != null || this._board[startPosition + j][staticPosition + 1] != null) {
-                        if(this._board[startPosition + j][staticPosition] != collisionLetter)
-                            return false;
-                        else
-                            intersections++;
+                        if(this._board[startPosition + j][staticPosition] && this._board[startPosition + j][staticPosition] != null) { 
+                            console.log(this.board[startPosition + j][staticPosition] + " /// " + wordToPlace[j])
+                            console.log(this.board[startPosition + j][staticPosition] == null)
+                            if(this._board[startPosition + j][staticPosition] != wordToPlace[j])
+                                return false;
+                            else
+                                intersections++;
+                        }
                     }
                 }
             }
@@ -211,10 +215,14 @@ class Crossword {
                 for(let j = 0; j < wordToPlace.length; j++) {
                     //does the same as above, but checks above and below the row
                     if(this._board[staticPosition - 1][startPosition + j] != null || this._board[staticPosition + 1][startPosition + j] != null) {
-                        if(this._board[staticPosition][startPosition + j] != wordToPlace[wordCollisionIndexes[i]])
-                            return false;
-                        else
-                            intersections++;
+                        if(this._board[staticPosition][startPosition + j] !=null) {
+                            console.log(this.board[staticPosition][staticPosition + j] + " /// " + wordToPlace[j])
+                            //TODO: add logic to check row above to see if the letter above is == wordToPlace[j-1] if j > 0
+                            if(this._board[staticPosition][startPosition + j] != wordToPlace[j])
+                                return false;
+                            else
+                                intersections++;
+                        }
                     }
                 }
             }
@@ -231,6 +239,10 @@ class Crossword {
             }
         }
         return best;
+    }
+
+    shrinkBoard() {
+        
     }
 }
 

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "babel src/index.js -d dist",
-    "test": "jest",
+    "test": "jest -t Testing-placing-words-which-will-not-fit-together",
     "dev": "nodemon --exec babel-node src/index.js",
     "start": "node dist/index.js"
   },
