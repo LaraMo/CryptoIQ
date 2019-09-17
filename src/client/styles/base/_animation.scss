@@ -2,21 +2,35 @@
 This file contains animations 
 **/
 
-
 //Body Container -- Called on page refresh
 @-webkit-keyframes slide {
-    100% { margin: 0; }
-  }
-  
-  @keyframes slide {
-    100% { margin: 0; }
-  }
+    100% {
+        margin: 0;
+    }
+}
 
+@keyframes slide {
+    100% {
+        margin: 0;
+    }
+}
 
-  //Checkbox -- Called when checked
-  @keyframes wave
-  {
-    50%
-    {transform: scale(1.5)}
-  }
- 
+//Checkbox -- Called when checked
+@keyframes wave {
+    50% {
+        transform: scale(1.5)
+    }
+}
+
+//Button -- Called when hovers on a button
+@keyframes biggerBorder {
+    0% {
+        border: 0.6px solid
+    }
+    50% {
+        border: 1.2px solid
+    }
+    100% {
+        border: 2.4px solid
+    }
+}

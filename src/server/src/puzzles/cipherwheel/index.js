@@ -109,16 +109,16 @@ class CipherWheel {
                 type: PdfObjectType.VECTOR,
                 callback: (doc) => {
                     let fontSize = 12;
-                    let xOffset = fontSize/2;
+                    let xOffset = fontSize / 2;
                     let xRect = doc.x;
                     for (let i = 0; i < this.encodedMessage.length; i++) {
                         let yRect = doc.y;
-                        doc.fontSize(12).text(this.encodedMessage[i], xRect + width/2 - fontSize/2, yRect, {
+                        doc.fontSize(12).text(this.encodedMessage[i], xRect + width / 2 - fontSize / 2, yRect, {
                             continue: true,
                             lineBreak: false
                         });
-                        doc.rect(xRect, doc.y - height/2 + fontSize/2, width, height).stroke();
-                        xRect +=  width;
+                        doc.rect(xRect, doc.y - height / 2 + fontSize / 2, width, height).stroke();
+                        xRect += width;
                     }
                 }
             }
