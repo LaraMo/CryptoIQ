@@ -1,13 +1,11 @@
 import PdfFactory from '../lib/pdf/PdfFactory';
 import CipherWheel from '../puzzles/cipherwheel';
 
-export function gameGenerate(res, data) {
-    const pdfFactory = new PdfFactory(res);
+export async function gameGenerate(res, data) {
+    const pdfFactory = new PdfFactory(res);    
+    const cipherWheel = new CipherWheel('TEST', "HARD");
 
-    
-    const cipherWheel = new CipherWheel('JUST TESTING');
-
-    pdfFactory.append(cipherWheel.toPdf())
+    pdfFactory.append(await cipherWheel.toPdf())
     pdfFactory.build()
 }
 
