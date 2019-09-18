@@ -301,7 +301,51 @@ test("Testing-placing-words-with-overlap", () => {
     
 });
 
+test('shrink', () => {
+    const data = [
+                {
+                    answer: "answer",
+                    question: "how do you spell answer?"
+                },
+                {
+                    answer: "ans",
+                    question: "how do you spell ans?"
+                },
+            ]
+            const crossWord = new Crossword(data);
+            crossWord.shrink();
+            // console.log(crossWord.board);
 
+            let str = "";
+            for (let i = 0, a = 0; i < crossWord._board.length; i++) {
+                for(let j = 0, b = 0; j < crossWord._board[0].length; j++) {
+                    console.log("Value: ", crossWord.board[i][j])
+                    if(crossWord.board[i][j]) {
+                        str += crossWord.board[i][j] + ' '
+                    } else {
+                        str += '_ ';
+                    }
+                }
+                str += '\n'
+            }
+            console.log(str)
+            let board = initBoard();
+        
+            // board[49][46] = "a";
+            // board[49][47] = "n";
+            // board[49][48] = "s";
+            // board[49][49] = "w";
+            // board[49][50] = "e";
+            // board[49][51] = "r";
+            
+        
+            // board[49][46] = "a";
+            // board[50][46] = "n";
+            // board[51][46] = "s";
+            
+            // expect(crossWord.board).toStrictEqual(board);
+            
+})
 function initBoard() {
     let board = new Array(100);
         

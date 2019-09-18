@@ -1,0 +1,172 @@
+@import './base/variables.scss';
+@import './base/commun.scss';
+@import './base/animation.scss';
+  .home {
+  padding-top: 40px;
+  width: 100%;
+   &Container{
+     align-items: center;
+     display: flex;
+     justify-content: center;
+     flex-direction: column;
+   }
+   //Page title
+     &-title {
+      width: 600px;
+      >h1 {
+        background: -webkit-gradient(linear,left top,left bottom,from($home_primary_background),to($home_secondary_background));
+        font-size: 48px;
+        font-weight: 400;
+        letter-spacing: 1px;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent; 
+       }
+      > h2 {
+        letter-spacing: 2px;
+        > span {
+          background: -webkit-gradient(linear,left top,left bottom,from($home_primary_background),to($home_secondary_background));
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;  
+        }
+      }
+   }
+   //Form general
+   &-form {
+    background:$home_form_primary_background;
+    border-left: 7px solid $home_primary_background;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.8);
+    border-radius: 10px;
+    cursor: pointer;
+    display: flexbox;
+    flex-direction: column;
+    margin: 5px 0 30px 0;
+    padding: 20px;
+    width: 700px;
+    &Container{
+      > h3 {
+        display: flex;
+        justify-content: center;
+        padding: 0;
+      }
+    }
+    //Vocabulary Container
+    &-vocContainer{
+      margin-top: 25px;
+    }
+    &-field {
+      align-items: center;
+      display: flex;
+      margin-top: 5px;
+      //general
+      >*{
+        padding: 5px;
+      }
+      //voc
+      &-word, &-definition {
+        margin-bottom: 25px;
+        > p {
+          margin: 0;
+        }
+      }
+      //error
+      &-error {
+        background: $error_primary_background;
+        border:  1px solid $error_primary_border;
+        color: $error_primary_fontColor;
+        font-weight: bold;
+        padding: 8px;
+      }
+      //storyline
+      &-storyline {
+        display: flex;
+        flex-direction: column;
+        > div {
+          align-items: center;
+          display: flex;
+        }
+          >textarea {
+            background: none;
+            border: 1px solid $home_form_primary_border;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.8);
+            padding: 5px;
+        }
+      }
+    }
+      //Form 1 -- General
+      &-inputText {
+        width: 153px;
+      }
+      &-selectMenu{
+        background: none;
+        box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
+        cursor: pointer;
+        padding: 2px;
+      }
+      &-checkbox{
+        cursor: pointer;
+        height: 30px;
+        &:checked{
+          animation: wave .4s ease;
+        }
+      }
+
+      //Form 2 -- Add vocabulary
+      &-title{
+        >span,a {
+          background: -webkit-gradient(linear,left top,left bottom,from($home_primary_background),to($home_secondary_background));
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;  
+        }
+      }
+   }
+  }
+
+    ///General
+    #defintion {
+      width: 380px;
+    }
+  
+    #numberOfStudents {
+      width: 153px;
+    } 
+
+    .hideError {
+      display: none;
+    }
+
+  /////Animations
+  //Slides first
+  #slide1 {
+    margin-left: -2500px;
+    animation: slide 2s forwards;
+    -webkit-animation: slide 2s forwards;
+  }
+  //Slides second
+  #slide2 {
+    margin-right: -2500px;
+    animation: slide 2s forwards;
+    -webkit-animation: slide 2s forwards;
+  }
+
+  .submitButton {
+    background: -webkit-gradient(linear,left top,left bottom,from($home_primary_background),to($home_secondary_background));
+    padding: 15px;
+    border-radius: 10px;
+    border-color:  $home_primary_background;
+    font-size: 15px;
+    font-weight: 400; 
+    align-content: center;
+  }
+
+body {
+  padding-block-end: 72px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+  

@@ -18,6 +18,18 @@
             ],
             "port": 5858,
             "cwd": "${workspaceRoot}/src/server"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug",
+            "runtimeArgs": [
+                "--inspect-brk=127.0.0.1:5858"
+            ],
+            "program": "${workspaceRoot}/src/server/src/index.js",
+            "runtimeExecutable": "${workspaceFolder}/src/server/node_modules/.bin/babel-node",
+            "port": 5858,
+            "cwd": "${workspaceRoot}/src/server"
         }
     ],
     

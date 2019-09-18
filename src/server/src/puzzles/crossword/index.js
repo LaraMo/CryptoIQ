@@ -1,5 +1,8 @@
-class Crossword {
+import PdfObjectType from '../../lib/enums/PdfObjectType'; 
+import { calculateCenterX } from '../../lib/pdf/pdfHelpers';
 
+class Crossword {
+    
     constructor(clues) {
         //Crossword should at least contain 2 words
         if(clues && clues.length > 1) {
@@ -9,13 +12,14 @@ class Crossword {
             this._currentHorizontalPosition = 1;
             this.initBoard();
             this.placeAnswersOnBoard();
+            //this.shrink();
+
         }
     }
-
     get clues() {
         return this._clues;
     }
-
+    
     get board() {
         return this._board;
     }
@@ -57,7 +61,6 @@ class Crossword {
         this.GRID_COLS = 100;
 
         this._board = new Array(this.GRID_ROWS);
-
         for(let i = 0; i < this._board.length; i ++) {
             this._board[i] = new Array(this.GRID_COLS);
         }
@@ -286,8 +289,91 @@ class Crossword {
         return best;
     }
 
-    shrinkBoard() {
-        
+    shrink() {
+        let minRow = this.GRID_ROWS;
+        let minCol = this.GRID_COLS;
+        let maxRow = 0;
+        let maxCol = 0;
+
+        for (let i = 0; i < this.GRID_ROWS; i++) {
+            for(let j = 0; j < this.GRID_COLS; j++) {
+                if(this._board[i][j]) {
+                    console.log('I', i, '/ J', j, '/', this._board[i][j]);
+                    if(j < minCol) minCol = j;
+                    if(j > maxCol) maxCol = j;
+                    if(i < minRow) minRow = i;
+                    if(i > maxRow) maxRow = i;
+                }
+            }
+        }
+
+        console.log('Min row', minRow, '/ maxRow', maxRow, '/ minCol', minCol, 'maxCol', maxCol);
+
+
+        const newBoard = Array(maxRow - minRow + 1).fill([]);
+        for (let i = 0; i < maxRow - minRow + 1; i++) {
+            newBoard[i] = new Array(maxCol - minCol + 1).fill(undefined);
+        }
+
+        for (let i = 0, a = 0; i < this._board.length; i++) {
+            for(let j = 0, b = 0; j < this._board[0].length; j++) {
+                if(i >= minRow && i <= maxRow && j >= minCol && j <= maxCol) {
+                    console.log(newBoard[a])
+                    console.log(this._board[i][j]);
+                    console.log('A', a)
+                    newBoard[a][b] = this._board[i][j];
+                    b++;
+                }
+            }
+            if (i >= minRow && i <= maxRow) {
+                a++;
+            }
+        }
+
+        this._board = newBoard;
+        this.GRID_COLS = maxCol;
+        this.GRID_ROWS = maxRow;
+    }
+
+    toPdf() {
+        let height = 20;
+        let width = 20;
+        let _this = this;
+        let pdfIns = [
+            {
+                type: PdfObjectType.TEXT,
+                text: "Testing: ",
+            },
+            {
+                type: PdfObjectType.VECTOR,
+                callback: (doc) => {
+                    let fontSize = 8;
+                    // let xOffset = calculateCenterX(doc, width * this.GRID_COLS);
+                    let xOffset = 0;
+                    let xRect = doc.x + xOffset;
+                    let yRect = doc.y;
+
+                    for (let i = 0; i < _this.GRID_COLS / 10; i++) {
+                        for(let j = 0; j < _this.GRID_ROWS / 10; j++) {
+                        if(_this._board[i][j]) {
+                            console.log('I', i, '/ J', j, '/', _this._board[i][j]);
+                            console.log("yRect: ", yRect);
+                            console.log("xRect: ", xRect);
+                            doc.fontSize(12).text(_this._board[i][j], xRect + width / 2 - fontSize / 2, yRect, {
+                                continue: true,
+                                lineBreak: false
+                            });
+                            doc.rect(xRect, yRect - height / 2 + fontSize / 2, width, height).stroke();
+                        }
+                        xRect += width;
+                        }
+                        yRect += height;
+                        xRect = doc.x + xOffset;
+                    }
+                }
+            }
+        ];
+        return pdfIns
     }
 }
 
