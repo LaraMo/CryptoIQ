@@ -5,6 +5,8 @@ class Crossword {
         if(clues && clues.length > 1) {
             //Sort the array from longest word to shortest word
             this._clues = clues.sort((a, b) => b.answer.length - a.answer.length);
+            this._currentVerticalPosition = 1;
+            this._currentHorizontalPosition = 1;
             this.initBoard();
             this.placeAnswersOnBoard();
         }
@@ -16,6 +18,31 @@ class Crossword {
 
     get board() {
         return this._board;
+    }
+
+    /**
+     * gets all the clues for the words which are placed vertically
+     */
+    get verticalClues() {
+       return this.getClues("v")
+    }
+
+    /**
+     * gets all the clues for the words which are placed horizontally
+     */
+    get horizontalClues() {
+        return this.getClues("h")
+    }
+
+    /**
+     * gets all the clues for the words which are placed in a given direction
+     * @param {string} direction h or v
+     * @returns {Array} clues
+     */
+    getClues(direction) {
+        if(direction != "v" || direction != "h")
+            return new Array();
+        return this.placedWordsOnTheBoard.map(word => word.direction == direction).sort((a,b) => a.position - b.position)
     }
 
     /**
@@ -89,8 +116,10 @@ class Crossword {
             direction : "h",
             startIndex: xStartPosition,
             endIndex: xStartPosition + word.length -1,
-            staticPosition: yPosition
+            staticPosition: yPosition,
+            position: this._currentHorizontalPosition
         });
+        this._currentHorizontalPosition++;
     }
 
     /**
@@ -111,8 +140,11 @@ class Crossword {
             direction : "v",
             startIndex: yStartPosition,
             endIndex: yStartPosition + word.length -1,
-            staticPosition: xPosition
+            staticPosition: xPosition,
+            position: this._currentVerticalPosition
         });
+
+        this._currentVerticalPosition++;
     }
 
     /**
