@@ -11,9 +11,14 @@ class Crossword {
             this._currentVerticalPosition = 1;
             this._currentHorizontalPosition = 1;
             this.initBoard();
-            this.placeAnswersOnBoard();
-            //this.shrink();
+            let wordsNotPlaced = this._clues;
+            this.placeAnswersOnBoard(wordsNotPlaced);
 
+            for(let i = 0; i < 10; i++) {
+                wordsNotPlaced = this.wordsWhichCantBePlaced;
+                this.wordsWhichCantBePlaced = [];
+                this.placeAnswersOnBoard(clues);
+            }
         }
     }
     get clues() {
@@ -69,8 +74,8 @@ class Crossword {
     /**
      * Places all the words on the board
      */
-    placeAnswersOnBoard() {
-        this._clues.forEach((word, index) => {
+    placeAnswersOnBoard(clues) {
+        clues.forEach((word, index) => {
             if(index == 0) {
                 //place the first word in the middle of the board, and build the rest of the board around the first word
                 if(word.answer.length % 2 == 0)
