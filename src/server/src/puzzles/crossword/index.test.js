@@ -33,7 +33,7 @@ test("Testing placing initial word with even number of letters", () => {
     ]
     const crossWord = new Crossword(data);
 
-    let board = initBoard();
+    let board = initBoard(100,100);
     
 
     board[49][46] = "a";
@@ -60,7 +60,7 @@ test("Testing placing initial word with odd number of letters", () => {
     ]
     const crossWord = new Crossword(data);
 
-    let board = initBoard();
+    let board = initBoard(100,100);
     
 
     board[46][49] = "a";
@@ -88,7 +88,7 @@ test("Testing-placing-two-words-longest-word-has-odd-number-of-letters", () => {
     ]
     const crossWord = new Crossword(data);
 
-    let board = initBoard();
+    let board = initBoard(100,100);
 
     board[46][49] = "a";
     board[47][49] = "n";
@@ -123,7 +123,7 @@ test("Testing-placing-two-words-longest-word-has-even-number-of-letters", () => 
     ]
     const crossWord = new Crossword(data);
 
-    let board = initBoard();
+    let board = initBoard(100,100);
 
     board[49][46] = "a";
     board[49][47] = "n";
@@ -158,7 +158,7 @@ test("Testing-placing-words-which-will-not-fit-together", () => {
     ]
     const crossWord = new Crossword(data);
 
-    let board = initBoard();
+    let board = initBoard(100,100);
 
     board[49][46] = "a";
     board[49][47] = "n";
@@ -196,7 +196,7 @@ test("Testing-placing-multiple-words-which-will-cross-at-multiple-points", () =>
     ]
     const crossWord = new Crossword(data);
 
-    let board = initBoard();
+    let board = initBoard(100,100);
 
     board[49][46] = "a";
     board[49][47] = "n";
@@ -239,7 +239,7 @@ test("Testing-placing-multiple-words-which-will-cross-at-multiple-points-square"
     ]
     const crossWord = new Crossword(data);
 
-    let board = initBoard();
+    let board = initBoard(100,100);
 
     board[49][46] = "a";
     board[49][47] = "n";
@@ -283,7 +283,7 @@ test("Testing-placing-words-with-overlap", () => {
     ]
     const crossWord = new Crossword(data);
 
-    let board = initBoard();
+    let board = initBoard(100,100);
 
     board[49][46] = "a";
     board[49][47] = "n";
@@ -303,54 +303,56 @@ test("Testing-placing-words-with-overlap", () => {
 
 test('shrink', () => {
     const data = [
-                {
-                    answer: "answer",
-                    question: "how do you spell answer?"
-                },
-                {
-                    answer: "ans",
-                    question: "how do you spell ans?"
-                },
-            ]
-            const crossWord = new Crossword(data);
-            crossWord.shrink();
-            // console.log(crossWord.board);
+        {
+            answer: "answer",
+            question: "how do you spell answer?"
+        },
+        {
+            answer: "ans",
+            question: "how do you spell ans?"
+        },
+    ]
+    const crossWord = new Crossword(data);
+    crossWord.shrink();
+    // console.log(crossWord.board);
 
-            let str = "";
-            for (let i = 0, a = 0; i < crossWord._board.length; i++) {
-                for(let j = 0, b = 0; j < crossWord._board[0].length; j++) {
-                    console.log("Value: ", crossWord.board[i][j])
-                    if(crossWord.board[i][j]) {
-                        str += crossWord.board[i][j] + ' '
-                    } else {
-                        str += '_ ';
-                    }
-                }
-                str += '\n'
+    let str = "";
+    for (let i = 0, a = 0; i < crossWord._board.length; i++) {
+        for(let j = 0, b = 0; j < crossWord._board[0].length; j++) {
+            console.log("Value: ", crossWord.board[i][j])
+            if(crossWord.board[i][j]) {
+                str += crossWord.board[i][j] + ' '
+            } else {
+                str += '_ ';
             }
-            console.log(str)
-            let board = initBoard();
-        
-            // board[49][46] = "a";
-            // board[49][47] = "n";
-            // board[49][48] = "s";
-            // board[49][49] = "w";
-            // board[49][50] = "e";
-            // board[49][51] = "r";
-            
-        
-            // board[49][46] = "a";
-            // board[50][46] = "n";
-            // board[51][46] = "s";
-            
-            // expect(crossWord.board).toStrictEqual(board);
-            
+        }
+        str += '\n'
+    }
+    console.log(str)
+    let board = initBoard(3,6);
+
+
+    board[0][0] = "a";
+    board[0][1] = "n";
+    board[0][2] = "s";
+    board[0][3] = "w";
+    board[0][4] = "e";
+    board[0][5] = "r";
+    
+
+    board[0][0] = "a";
+    board[1][0] = "n";
+    board[2][0] = "s";
+    
+    expect(crossWord.board).toStrictEqual(board);
+    
 })
-function initBoard() {
-    let board = new Array(100);
+
+function initBoard(row, col) {
+    let board = new Array(row);
         
     for(let i = 0; i < board.length; i ++) {
-        board[i] = new Array(100);
+        board[i] = new Array(col);
     }
     
     return board;
