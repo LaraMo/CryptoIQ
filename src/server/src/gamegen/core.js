@@ -24,7 +24,7 @@ export async function gameGenerate(res, data) {
         }
     ]
     const crossword = new CrossWord(clues);
-    pdfFactory.append(await crossword.toPdf())
+    pdfFactory.append(crossword.toGamePdf())
     pdfFactory.build()
 }
 

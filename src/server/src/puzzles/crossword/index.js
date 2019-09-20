@@ -1,5 +1,9 @@
 import PdfObjectType from '../../lib/enums/PdfObjectType'; 
 import { calculateCenterX } from '../../lib/pdf/pdfHelpers';
+import { removeDuplicates } from '../../lib/helperFunctions';
+import {
+    createCanvas
+} from 'canvas';
 
 class Crossword {
     
@@ -19,6 +23,7 @@ class Crossword {
                 this.wordsWhichCantBePlaced = [];
                 this.placeAnswersOnBoard(clues);
             }
+            this.shrink();
         }
     }
     get clues() {
@@ -33,14 +38,22 @@ class Crossword {
      * gets all the clues for the words which are placed vertically
      */
     get verticalClues() {
-       return this.getClues("v")
+       return removeDuplicates(this.getClues("v"), 'word');
     }
 
     /**
      * gets all the clues for the words which are placed horizontally
      */
     get horizontalClues() {
-        return this.getClues("h")
+        return removeDuplicates(this.getClues("h"), 'word');
+    }
+
+    get longestHorizontalClueLength() {
+        return Math.max.apply(Math, removeDuplicates(this.horizontalClues, 'word').map(clue => clue.word.length));
+    }
+
+    get longestVerticalClueLength() {
+        return Math.max.apply(Math, removeDuplicates(this.verticalClues, 'word').map(clue => clue.word.length));
     }
 
     /**
@@ -49,9 +62,11 @@ class Crossword {
      * @returns {Array} clues
      */
     getClues(direction) {
-        if(direction != "v" || direction != "h")
-            return new Array();
-        return this.placedWordsOnTheBoard.map(word => word.direction == direction).sort((a,b) => a.position - b.position)
+        if(direction === "v" || direction === "h")
+            return this.placedWordsOnTheBoard.filter(word => word.direction == direction).sort((a,b) => a.position - b.position)
+
+        console.log(this.placedWordsOnTheBoard.filter(word => word.direction == direction).sort((a,b) => a.position - b.position));
+        return new Array();
     }
 
     /**
@@ -303,7 +318,6 @@ class Crossword {
         for (let i = 0; i < this.GRID_ROWS; i++) {
             for(let j = 0; j < this.GRID_COLS; j++) {
                 if(this._board[i][j]) {
-                    console.log('I', i, '/ J', j, '/', this._board[i][j]);
                     if(j < minCol) minCol = j;
                     if(j > maxCol) maxCol = j;
                     if(i < minRow) minRow = i;
@@ -311,8 +325,6 @@ class Crossword {
                 }
             }
         }
-
-        console.log('Min row', minRow, '/ maxRow', maxRow, '/ minCol', minCol, 'maxCol', maxCol);
 
 
         const newBoard = Array(maxRow - minRow + 1).fill([]);
@@ -323,9 +335,6 @@ class Crossword {
         for (let i = 0, a = 0; i < this._board.length; i++) {
             for(let j = 0, b = 0; j < this._board[0].length; j++) {
                 if(i >= minRow && i <= maxRow && j >= minCol && j <= maxCol) {
-                    console.log(newBoard[a])
-                    console.log(this._board[i][j]);
-                    console.log('A', a)
                     newBoard[a][b] = this._board[i][j];
                     b++;
                 }
@@ -336,13 +345,38 @@ class Crossword {
         }
 
         this._board = newBoard;
-        this.GRID_COLS = maxCol;
-        this.GRID_ROWS = maxRow;
+        this.GRID_COLS = maxCol - minCol + 1;
+        this.GRID_ROWS = maxRow - minRow + 1;
     }
 
-    toPdf() {
-        let height = 20;
-        let width = 20;
+    generateCrossWordImage(doc, showAnswer) {
+        const supposedWidth = (doc.page.width - doc.page.margins.right - doc.page.margins.left) / this.longestHorizontalClueLength;
+        const tileWidth = 40 > supposedWidth ? supposedWidth : 40;
+        const tileHeight = tileWidth;
+        console.log(tileWidth * this.longestHorizontalClueLength);
+        const canvas = createCanvas(tileWidth * this.longestHorizontalClueLength, tileHeight * this.longestVerticalClueLength);
+        const ctx = canvas.getContext('2d');
+
+        ctx.font = "12px Arial";
+        ctx.textAlign = "center";
+        for (let i = 0; i <= this.GRID_COLS; i++) {
+            for(let j = 0; j <= this.GRID_ROWS; j++) {
+                if(this.board[i][j]) {
+                    ctx.fillText(this.board[i][j], tileWidth*j + tileWidth/2 - 1, tileHeight*i + tileHeight/2 + 2)
+                    ctx.strokeRect(tileWidth*j, tileHeight*i , tileWidth, tileHeight);
+                }
+
+            }
+        }
+        this.crossWordImageWidth = this.GRID_ROWS * tileWidth;
+        return canvas.toBuffer();
+    }
+
+    toInstructionPdf() {
+        return []
+    }
+
+    toGamePdf() {
         let _this = this;
         let pdfIns = [
             {
@@ -351,33 +385,25 @@ class Crossword {
             },
             {
                 type: PdfObjectType.VECTOR,
-                callback: (doc) => {
-                    let fontSize = 8;
-                    // let xOffset = calculateCenterX(doc, width * this.GRID_COLS);
-                    let xOffset = 0;
-                    let xRect = doc.x + xOffset;
-                    let yRect = doc.y;
-
-                    for (let i = 0; i < _this.GRID_COLS / 10; i++) {
-                        for(let j = 0; j < _this.GRID_ROWS / 10; j++) {
-                        if(_this._board[i][j]) {
-                            console.log('I', i, '/ J', j, '/', _this._board[i][j]);
-                            console.log("yRect: ", yRect);
-                            console.log("xRect: ", xRect);
-                            doc.fontSize(12).text(_this._board[i][j], xRect + width / 2 - fontSize / 2, yRect, {
-                                continue: true,
-                                lineBreak: false
-                            });
-                            doc.rect(xRect, yRect - height / 2 + fontSize / 2, width, height).stroke();
-                        }
-                        xRect += width;
-                        }
-                        yRect += height;
-                        xRect = doc.x + xOffset;
-                    }
+                callback: async (doc) => {
+                    console.log("In cb")
+                    const imageData = _this.generateCrossWordImage(doc, false);
+                    console.log(imageData);
+                    doc.image(imageData, calculateCenterX(doc, this.crossWordImageWidth));
                 }
             }
         ];
+
+        for(let i = 0; i < this.horizontalClues.length; i++) {
+            console.log(`Question: ${this.horizontalClues[i]}`)
+            pdfIns.push({
+                "type": PdfObjectType.BR
+            })
+            pdfIns.push({
+                "type": PdfObjectType.TEXT,
+                "text": `Question: ${this.horizontalClues[i].question}`
+            })
+        }
         return pdfIns
     }
 }

@@ -18,3 +18,9 @@ export function isObject(obj) {
     var type = typeof obj;
     return type === 'function' || type === 'object' && !!obj;
 };
+
+export function removeDuplicates(myArr, prop) {
+    return myArr.filter((obj, pos, arr) => {
+        return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
+    });
+}

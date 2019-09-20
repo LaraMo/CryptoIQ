@@ -21,13 +21,14 @@
     }
   },
   "lint-staged": {
-    "*.jsx?": [
+    "*.js?": [
       "./node_modules/.bin/eslint —fix",
       "./node_modules/prettier --write",
       "git add"
     ]
   },
   "dependencies": {
+    "@babel/runtime": "^7.6.0",
     "canvas": "^2.6.0",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
@@ -42,11 +43,13 @@
     "@babel/core": "^7.5.5",
     "@babel/node": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-transform-runtime": "^7.6.0",
     "@babel/preset-env": "^7.5.5",
     "babel-loader": "^8.0.6",
     "eslint": "^6.1.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.0",
     "husky": "^3.0.3",
     "jest": "^24.9.0",
