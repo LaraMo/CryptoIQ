@@ -16,7 +16,7 @@ class PdfFactory {
     doc = null;
     propsOrder = ['font', 'fillColor', 'imagePath', 'vectorPath', 'callback', 'text'];
     propsMap = null;
-    asyncQueue = []
+    asyncQueue = [];
 
     constructor(response) {
         this.writeStream = new WritableBufferStream();

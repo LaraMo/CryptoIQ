@@ -13,17 +13,18 @@ class GameGenerator {
     vocabulary = [];
     generalInfo = {};
     game = [];
+    gameData = {}
 
     constructor(data) {
         this.storyline = data.storyline;
         this.vocabulary = data.vocabulary;
         this.generalInfo = data.generalInfo;
         
-        this.generate();
+        // this.generate();
     }
 
     generate() {
-        this.pushTeac
+        this.gameData.teams = this.calculateTeamSize();
         this.pushStoryLine();
         switch(getEnumFrom(this.storyline.difficultyLevel)) {
             case Difficulty.EASY.VALUE:
@@ -41,14 +42,57 @@ class GameGenerator {
         this.game.push(this.storyline[storylineEnum])
     }
 
+    calculateTeamSize() {
+        let teamSize = {};
+        let numberStudent = parseInt(this.generalInfo.numberOfStudents);
+        let preferableTeamSize = [3, 4, 5];
+
+        preferableTeamSize.forEach((size) => teamSize[size] =  numberStudent % size)
+
+        let bestMatch = [];
+        Object.keys(teamSize).forEach((size) => {
+            if(teamSize[size] == 0) {
+                bestMatch = [{
+                    "teamSize": parseInt(size),
+                    "teamNumber":parseInt(numberStudent / size),
+                }] 
+            } else {
+                if(bestMatch.length === 0) {
+                    bestMatch = [{
+                        "teamSize": parseInt(size),
+                        "teamNumber": parseInt(numberStudent / size) 
+                    }, {
+                        "teamSize": parseInt(numberStudent % size),
+                        "teamNumber": 1
+                    }]
+                } else {
+                    if(bestMatch.length === 1) return;
+                    if(bestMatch[1].teamSize >= teamSize[size]) {
+                        bestMatch = [{
+                            "teamSize": parseInt(size),
+                            "teamNumber": parseInt(numberStudent / size)
+                        }, {
+                            "teamSize": parseInt(numberStudent % size),
+                            "teamNumber": 1
+                        }]
+                    }
+                }
+            }
+        }) 
+        return bestMatch;
+    }
+
     generatePuzzles(number) {
         
     }
 
-    toPdf() {
-        return this.pdfBuildStep;
+    toGamePdf() {
+        return this.gamePdf;
     }
 
+    toInstructionPdf() {
+        return this.insPdf;
+    }
 }
 
 export default GameGenerator;

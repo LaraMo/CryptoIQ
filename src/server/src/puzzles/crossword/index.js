@@ -1,12 +1,9 @@
 import PdfObjectType from '../../lib/enums/PdfObjectType'; 
 import { calculateCenterX } from '../../lib/pdf/pdfHelpers';
 import { removeDuplicates } from '../../lib/helperFunctions';
-import {
-    createCanvas
-} from 'canvas';
+import { createCanvas } from 'canvas';
 
 class Crossword {
-    
     constructor(clues) {
         //Crossword should at least contain 2 words
         if(clues && clues.length > 1) {
