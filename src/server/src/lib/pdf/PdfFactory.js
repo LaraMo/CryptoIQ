@@ -4,7 +4,8 @@ import {
 } from "./pdfHelpers";
 import PdfObjectType from "../enums/PdfObjectType";
 import {
-    sortObjectKeyByOrder
+    sortObjectKeyByOrder,
+    isObject
 } from "../helperFunctions";
 import {
     sendPdf
@@ -35,8 +36,8 @@ class PdfFactory {
             "vectorPath": (pathString) => {
                 this.doc.path(pathString).stroke();
             },
-            "callback": (func) => {
-                func(this.doc);
+            "callback": async (func) => {
+                await func(this.doc);
             }
         }
         this.writeStream.on('finish', () => {
@@ -45,14 +46,14 @@ class PdfFactory {
 
     }
 
-    build(ins) {
+    async buildStep(ins) {
         // Text always has to be last
         const keys = sortObjectKeyByOrder(ins, this.propsOrder);
-        keys.forEach(key => {
+        for (const key of keys) {
             if (key in this.propsMap && this.propsMap[key] instanceof Function) {
-                this.propsMap[key](ins[key], ins.options)
+                const res = await this.propsMap[key](ins[key], ins.options)
             }
-        })
+        }
     }
 
     buildLineBreak(ins) {
@@ -69,7 +70,7 @@ class PdfFactory {
             case PdfObjectType.TEXT:
             case PdfObjectType.VECTOR:
                 delete step['type'];
-                this.build(step);
+                this.buildStep(step);
                 break;
         }
     }
@@ -77,12 +78,13 @@ class PdfFactory {
     append(buildSteps) {
         if (Array.isArray(buildSteps)) {
             buildSteps.forEach((step) => this.parseStep(step))
-        } else if (Object.isObject(buildSteps)) {
+        } else if (isObject(buildSteps)) {
             this.parseStep(buildSteps)
         }
     }
 
     build() {
+        console.log("End")
         this.doc.end();
     }
 }

@@ -39,6 +39,8 @@
     box-shadow: 0 2px 10px rgba(0,0,0,0.8);
     border-radius: 10px;
     cursor: pointer;
+    display: flexbox;
+    flex-direction: column;
     margin: 5px 0 30px 0;
     padding: 20px;
     width: 700px;
@@ -149,5 +151,22 @@
     -webkit-animation: slide 2s forwards;
   }
 
+  .submitButton {
+    background: -webkit-gradient(linear,left top,left bottom,from($home_primary_background),to($home_secondary_background));
+    padding: 15px;
+    border-radius: 10px;
+    border-color:  $home_primary_background;
+    font-size: 15px;
+    font-weight: 400; 
+    align-content: center;
+  }
 
+body {
+  padding-block-end: 72px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
   
