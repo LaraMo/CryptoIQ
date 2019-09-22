@@ -1,5 +1,24 @@
 import PdfObjectType from '../../lib/enums/PdfObjectType';
 import path from 'path';
+import fs from 'fs';
+import probe from 'probe-image-size';
+import {
+    drawImageWithRotation,
+    calculateCenterX
+} from '../../lib/pdf/pdfHelpers'
+import {
+    createCanvas,
+    loadImage
+} from 'canvas';
+import {
+    drawImageRotated,
+    degToRad
+} from '../../lib/pdf/canvasHelpers'
+
+const Difficulty = {
+    "EASY": "EASY",
+    "HARD": "HARD"
+}
 
 class CipherWheel {
     alphabet = []
@@ -7,12 +26,16 @@ class CipherWheel {
     innerWheel = [];
     encodedMessage = '';
     message = '';
+    difficulty = Difficulty.HARD;
+    imageBuffer = "";
 
-    constructor(message) {
+    constructor(message, difficulty) {
         this.alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
         this.startCode = this.getRandomEncoder();
         this.encodedMessage = this.encodeMessage(message, this.alphabet, this.innerWheel);
         this.message = message;
+
+        this.difficulty = difficulty || this.difficulty;
     }
 
     getRandomEncoder() {
@@ -25,7 +48,8 @@ class CipherWheel {
             pos2 = Math.floor(Number(Math.random()) * (max - min)) + min;
         }
 
-        this.innerWheel = this.createInnerWheel(pos2 - pos1);
+        this.posDiff = pos2 - pos1;
+        this.innerWheel = this.createInnerWheel(this.posDiff);
         return [this.alphabet[pos1], this.alphabet[pos2]];
     }
 
@@ -52,6 +76,11 @@ class CipherWheel {
         return result;
     }
 
+    calculateImageRotation() {
+        let degreePerDiff = 360.000 / this.alphabet.length;
+        return this.posDiff * degreePerDiff;
+    }
+
     encodeMessage(message, outerWheel, innerWheel) {
         let result = '';
         message.split('').forEach((val) => {
@@ -65,19 +94,34 @@ class CipherWheel {
         return result;
     }
 
-    toPdf() {
-        let width = 20;
-        let height = 20;
+    async renderRotatedWheelImage() {
+        const canvas = createCanvas(300, 300);
+        const ctx = canvas.getContext('2d');
 
-        return [{
+        const outerWheelImage = await loadImage(path.resolve("assets/", "cipher_outer_wheel.png"));
+        const innerWheelImage = await loadImage(path.resolve("assets/", "cipher_inner_wheel.png"));
+
+        ctx.drawImage(outerWheelImage, 0, 0);
+        drawImageRotated(innerWheelImage, ctx,
+            outerWheelImage.width / 2.0,
+            outerWheelImage.height / 2.0,
+            outerWheelImage.width / 2.0,
+            outerWheelImage.height / 2.0,
+            degToRad(this.calculateImageRotation())
+        )
+        return canvas.toBuffer();
+    }
+
+    async toPdf() {
+        let height = 20;
+        let width = 20;
+        let pdfIns = [{
                 type: PdfObjectType.TEXT,
                 text: "For the teacher:",
-                fillColor: "red"
             },
             {
                 type: PdfObjectType.TEXT,
                 text: `Word: ${this.message}`,
-                fillColor: "green"
             },
             {
                 type: PdfObjectType.TEXT,
@@ -90,27 +134,41 @@ class CipherWheel {
             {
                 type: PdfObjectType.BR,
             },
-            {
-                type: PdfObjectType.BR,
-            },
-            {
+        ];
+
+        this.imageBuffer = null;
+        if (this.difficulty === Difficulty.HARD) {
+            this.imageBuffer = await this.renderRotatedWheelImage();
+            pdfIns = [...pdfIns, {
+                type: PdfObjectType.VECTOR,
+                callback: async (doc) => {
+                    console.log(calculateCenterX(doc, 500));
+                    doc.image(this.imageBuffer,
+                        calculateCenterX(doc, 130),
+                    )
+                }
+            }]
+        } else {
+            pdfIns = [...pdfIns, {
                 type: PdfObjectType.IMAGE,
                 imagePath: path.resolve("assets/", "cipherwheel.jpg"),
                 options: {
-                    fit: [400, 212],
                     align: 'center',
-                    valign: 'center'
+                    valign: 'center',
+                    fit: [500, 250]
                 }
-            },
-            {
+            }, ]
+        }
+
+        pdfIns = [...pdfIns, {
                 type: PdfObjectType.BR,
             },
             {
                 type: PdfObjectType.VECTOR,
                 callback: (doc) => {
-                    let fontSize = 12;
-                    let xOffset = fontSize / 2;
-                    let xRect = doc.x;
+                    let fontSize = 8;
+                    let xOffset = calculateCenterX(doc, width * this.encodeMessage.length);
+                    let xRect = doc.x + xOffset;
                     for (let i = 0; i < this.encodedMessage.length; i++) {
                         let yRect = doc.y;
                         doc.fontSize(12).text(this.encodedMessage[i], xRect + width / 2 - fontSize / 2, yRect, {
@@ -121,18 +179,10 @@ class CipherWheel {
                         xRect += width;
                     }
                 }
-            },
-            {
-                type: PdfObjectType.BR,
-            },
-            {
-                type: PdfObjectType.BR,
-            },
-            {
-                type: PdfObjectType.TEXT,
-                text: "---------------------------------------------------------"
-            },
-        ];
+            }
+        ]
+
+        return pdfIns;
     }
 
     toString() {
@@ -144,5 +194,3 @@ class CipherWheel {
         return str;
     }
 }
-
-export default CipherWheel;

@@ -7,9 +7,14 @@
 export function sortObjectKeyByOrder(obj, order) {
     const result = [];
     order.forEach(key => {
-        if(obj.hasOwnProperty(key)) {
+        if (obj.hasOwnProperty(key)) {
             result.push(key)
         }
     })
     return result;
 }
+
+export function isObject(obj) {
+    var type = typeof obj;
+    return type === 'function' || type === 'object' && !!obj;
+};
