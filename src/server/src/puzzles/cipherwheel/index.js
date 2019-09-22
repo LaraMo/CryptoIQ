@@ -121,7 +121,17 @@ class CipherWheel {
                         xRect += width;
                     }
                 }
-            }
+            },
+            {
+                type: PdfObjectType.BR,
+            },
+            {
+                type: PdfObjectType.BR,
+            },
+            {
+                type: PdfObjectType.TEXT,
+                text: "---------------------------------------------------------"
+            },
         ];
     }
 

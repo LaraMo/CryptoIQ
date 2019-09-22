@@ -8,7 +8,7 @@ export function createDoc(writeStream) {
 
 export function addText(doc, text, x, y) {
     doc.fontSize(15)
-        .text(text , x, y);
+        .text(text, x, y);
 }
 
 export function addImage(doc, path, fit) {
@@ -16,5 +16,5 @@ export function addImage(doc, path, fit) {
         fit: fit,
         align: 'center',
         valign: 'center'
-    });    
+    });
 }
