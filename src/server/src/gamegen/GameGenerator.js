@@ -1,4 +1,8 @@
 import {getEnumFrom, difficultyEnum as Difficulty} from '../lib/enums/Difficulty';
+import Puzzle from '../lib/enums/Puzzle';
+import CipherWheel from '../puzzles/cipherwheel';
+import Crossword from '../puzzles/crossword'
+import Lock from '../puzzles/lock'
 
 class GameGenerator {
     storyline = {
@@ -14,6 +18,8 @@ class GameGenerator {
     generalInfo = {};
     game = [];
     gameData = {}
+    insPdf = []
+    gamePdf = []
 
     constructor(data) {
         this.storyline = data.storyline;
@@ -25,9 +31,11 @@ class GameGenerator {
 
     generate() {
         this.gameData.teams = this.calculateTeamSize();
-        this.pushStoryLine();
+        // this.pushStoryLine();
         switch(getEnumFrom(this.storyline.difficultyLevel)) {
             case Difficulty.EASY.VALUE:
+                if(this.generalInfo.locks)
+                let allowedPuzzles = [];
                 break;
             case Difficulty.MEDIUM.VALUE:
                 break;

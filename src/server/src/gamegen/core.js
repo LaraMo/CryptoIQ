@@ -2,6 +2,10 @@ import PdfFactory from '../lib/pdf/PdfFactory';
 import CipherWheel from '../puzzles/cipherwheel';
 import Storyline from '../storyline/Storyline'; //temp
 import Lock from '../puzzles/lock';
+export function validateInputData() {
+
+}
+
 export function gameGenerate(res, data) {
     const pdfFactory = new PdfFactory(res);
     const cipherWheel = new CipherWheel('JUST TESTING');

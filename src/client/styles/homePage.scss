@@ -112,7 +112,9 @@
         }
         &-checkbox {
             cursor: pointer;
+            vertical-align: middle;
             height: 30px;
+            margin-left: 25px;
             &:checked {
                 animation: wave .4s ease;
             }

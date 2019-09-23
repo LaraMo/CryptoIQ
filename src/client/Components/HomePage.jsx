@@ -15,8 +15,8 @@ const HomePage = () => {
   const [generalInfo, setGeneralInfo] = useState({
     numberOfStudents: '',
     duration: 15,
-    locks: false,
-    textbook: false,
+    locks: true,
+    textbook: true,
   });
 
   const [vocalbulary, setVocabulary] = useState({
