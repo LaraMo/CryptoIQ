@@ -1,4 +1,4 @@
-import CipherWheel from './index';
+// import CipherWheel from './index';
 
 // test('generate encoder key', () => {
 //     const puzzle = new CipherWheel('hello');
@@ -36,7 +36,7 @@ import CipherWheel from './index';
 // })
 
 test('test class', () => {
-    const puzzle = new CipherWheel('bye');
-    console.log(puzzle);
+    // const puzzle = new CipherWheel('bye');
+    // console.log(puzzle);
     expect('True').toBe('True');
 })

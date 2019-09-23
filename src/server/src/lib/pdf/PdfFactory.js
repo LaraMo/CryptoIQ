@@ -16,6 +16,7 @@ class PdfFactory {
     doc = null;
     propsOrder = ['font', 'fillColor', 'imagePath', 'vectorPath', 'callback', 'text'];
     propsMap = null;
+    asyncQueue = [];
 
     constructor(response) {
         this.writeStream = new WritableBufferStream();
@@ -40,9 +41,13 @@ class PdfFactory {
                 await func(this.doc);
             }
         }
-        this.writeStream.on('finish', () => {
-            sendPdf(response, this.writeStream.toBuffer())
+        
+        this.writeStream.on('finish', async () => {
+            console.log("OLD")
+            sendPdf(this.response, this.writeStream.toBuffer())
         })
+
+        this.response = response
 
     }
 
@@ -54,6 +59,7 @@ class PdfFactory {
                 const res = await this.propsMap[key](ins[key], ins.options)
             }
         }
+        console.log("BYEE ", ins)
     }
 
     buildLineBreak(ins) {
@@ -70,6 +76,7 @@ class PdfFactory {
             case PdfObjectType.TEXT:
             case PdfObjectType.VECTOR:
                 delete step['type'];
+                console.log("Parsing")
                 this.buildStep(step);
                 break;
         }
@@ -83,7 +90,7 @@ class PdfFactory {
         }
     }
 
-    build() {
+    async build() {
         console.log("End")
         this.doc.end();
     }
