@@ -18,6 +18,27 @@ export default class VocabularyWord extends PureComponent {
     const defintion = 'Defintion';
     const pageNumber = 'Page';
     const {wordsEntered, defintionsEntered, pageNumberEntered,  index} = this.state;
+
+    let pageNumberInput = null;
+    if(this.props.acceptPageNumber) {
+      pageNumberInput = 
+      <div className="home-form-field-word">
+      <p>{pageNumber}</p>
+        <input
+          id="pageNumber"
+          value={pageNumberEntered}
+          onChange={e => {
+            this.props.onChange(e, this.props.index);
+            this.setState(
+              {
+                pageNumberEntered: e.target.value,
+              },
+              () => this.props.onChange(this.props.index, this.state),
+            );
+          }}
+        ></input>
+      </div>
+    }
     return (
       <div className="home-form-field">
         <div className="home-form-field-word">
@@ -51,23 +72,7 @@ export default class VocabularyWord extends PureComponent {
             }}
           ></input>
         </div>
-
-        <div className="home-form-field-word">
-          <p>{pageNumber}</p>
-          <input
-            id="pageNumber"
-            value={pageNumberEntered}
-            onChange={e => {
-              this.props.onChange(e, this.props.index);
-              this.setState(
-                {
-                  pageNumberEntered: e.target.value,
-                },
-                () => this.props.onChange(this.props.index, this.state),
-              );
-            }}
-          ></input>
-        </div>
+        {pageNumberInput}
       </div>
     );
   }

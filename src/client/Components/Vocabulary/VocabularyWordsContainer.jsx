@@ -1,16 +1,28 @@
 import React, {PureComponent} from 'react';
 import _ from 'lodash';
 import VocabularyWord from './PartialComponents/VocabularyWord';
+import ErrorMessage from '../PartialComponents/ErrorMessage';
 
 export default class VocabularyWordsContainer extends PureComponent {
   constructor(props) {
     super(props);
+    this.MIN_WORD_COUNT = 5;
+    this.MAX_WORD_COUNT = 25
     this.state = {
-      maxNumberOfWords: 1,
+      maxNumberOfWords: this.MIN_WORD_COUNT,
       words: [],
+      error: "",
     };
-    
     this._onWordChange = this._onWordChange.bind(this);
+
+    this._onWordCountChange = (value) => {
+      if (parseInt(value) <= this.MAX_WORD_COUNT && parseInt(value) >= this.MIN_WORD_COUNT) {
+        this.setStateExt({maxNumberOfWords: value, error: ""});
+      } else {
+        this.setStateExt( {maxNumberOfWords: value, error: `Invalid number of word! Please enter a number from ${this.MIN_WORD_COUNT} to ${this.MAX_WORD_COUNT}`})
+      }
+    }
+    this._onWordCountChange = this._onWordCountChange.bind(this);
   }
 
   setStateExt(state) {
@@ -29,15 +41,22 @@ export default class VocabularyWordsContainer extends PureComponent {
     const vocabularyWords = 'Vocabulary Words';
     //Form
     const instructionsPart1 = 'Enter any';
-    const instructionsPart2 = 'and/or ';
+    const instructionsPart2 = ' and/or ';
     const instructionsPart3 = 'vocabulary and defintions';
     const instructionsPart4 = 'events and dates';
     const maxNumberOfWords = 'How many words would you like to add?';
     const generateInput = [];
-    for (let i = 0; i < this.state.maxNumberOfWords; i++) {
-      generateInput.push(
-        <VocabularyWord index={i} key={i} onChange={this._onWordChange} />,
-      );
+    if(!this.state.error) {
+      for (let i = 0; i < this.state.maxNumberOfWords; i++) {
+        generateInput.push(
+          <VocabularyWord index={i} key={i} onChange={this._onWordChange} acceptPageNumber={this.props.acceptPageNumber}/>,
+        );
+      }
+    }
+    
+    let errorMessage = null;
+    if(this.state.error) {
+      errorMessage = <ErrorMessage error={this.state.error}/>
     }
 
     return (
@@ -49,19 +68,15 @@ export default class VocabularyWordsContainer extends PureComponent {
             {instructionsPart2}
             <span>{instructionsPart4}</span>
           </p>
-
+          {errorMessage}
           <div className="home-form-field">
             <p>{maxNumberOfWords}</p>
             <input
               className="home-form-inputText"
               name="numberOfStudents"
               value={this.state.maxNumberOfWords}
-              onChange={e => {
-                // if (Number(e.target.value) <= 15 && Number(e.target.value) > 0) {
-                this.setStateExt({maxNumberOfWords: e.target.value});
-                // } else {
-                //   console.error("Invalid VOC count");
-                // }
+              onChange={(e) => {
+                this._onWordCountChange(e.target.value)
               }}
             />
           </div>

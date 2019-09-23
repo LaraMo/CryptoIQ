@@ -35,8 +35,7 @@ const HomePage = () => {
     ending: '',
   });
 
-
-  const createEscapeRoom = "Give me an escape room!";
+  const createEscapeRoom = 'Give me an escape room!';
   const _onSubmit = () => {
     let payload = Object.assign(
       {},
@@ -44,9 +43,9 @@ const HomePage = () => {
       {vocalbulary: vocalbulary},
       {storyline: storyline},
     );
-    console.log(payload)
+    console.log(payload);
     submitGameGen(payload);
-  }
+  };
 
   const _onSubmitSaveStory = () => {
     let payload = Object.assign(
@@ -55,10 +54,9 @@ const HomePage = () => {
       {vocalbulary: vocalbulary},
       {storyline: storyline},
     );
-    console.log(payload)
+    console.log(payload);
     submitGameGen(payload);
-  }
-
+  };
 
   const _onSubmitDeleteStory = () => {
     let payload = Object.assign(
@@ -67,10 +65,9 @@ const HomePage = () => {
       {vocalbulary: vocalbulary},
       {storyline: storyline},
     );
-    console.log(payload)
+    console.log(payload);
     submitGameGen(payload);
-  }
-
+  };
 
   const _onSubmitEditStory = () => {
     let payload = Object.assign(
@@ -79,9 +76,9 @@ const HomePage = () => {
       {vocalbulary: vocalbulary},
       {storyline: storyline},
     );
-    console.log(payload)
+    console.log(payload);
     submitGameGen(payload);
-  }
+  };
 
   return (
     <div className="home">
@@ -89,14 +86,21 @@ const HomePage = () => {
       <div className="homeContainer">
         <Title />
         <form id="slide2" className="home-formContainer" onSubmit={_onSubmit}>
-          <GeneralInfoContainer updateForm={state => setGeneralInfo(state)}/>
+          <GeneralInfoContainer updateForm={state => {setGeneralInfo(state)}} />
           <VocabularyWordsContainer
             updateForm={state => setVocabulary(state)}
+            acceptPageNumber={generalInfo.textbook}
           />
-          <StorylineContainer delete={_onSubmitDeleteStory} edit={_onSubmitEditStory} save={_onSubmitSaveStory} updateForm={state => setStoryline(state)}/>
+          <StorylineContainer
+            delete={_onSubmitDeleteStory}
+            edit={_onSubmitEditStory}
+            save={_onSubmitSaveStory}
+            updateForm={state => setStoryline(state)}
+          />
           <SubmitButton
             text={createEscapeRoom}
-            onClick={_onSubmit}></SubmitButton>
+            onClick={_onSubmit}
+          ></SubmitButton>
         </form>
       </div>
     </div>

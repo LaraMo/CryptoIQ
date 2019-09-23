@@ -1,5 +1,6 @@
 import React, { PureComponent } from "react";
 import DropdownOption from "../../Public/DropdownOption";
+import ErrorMessage from "../PartialComponents/ErrorMessage"
 import { durationEnum } from "../Enums/duration";
 
 export default class GeneralInfo extends PureComponent {
@@ -50,7 +51,7 @@ export default class GeneralInfo extends PureComponent {
     const numberOfStudentsPlaceholder = "Numbers only";
     const duration = "Duration of activity:";
     const locks = "Include locks:";
-    const textbook = "Allow use of textbook:";
+    const textbook = "Use of textbook:";
     const { general } = this.state;
 
     return (
@@ -58,6 +59,7 @@ export default class GeneralInfo extends PureComponent {
         <h3>{generalInfo}</h3>
 
         <div className="home-form">
+          <ErrorMessage error={this.state.error}/>
           <div className="home-form-field">
             <p>{numberOfStudents}</p>
             <input
@@ -68,12 +70,6 @@ export default class GeneralInfo extends PureComponent {
               onChange={this.validateInputField}
             />
           </div>
-          <span
-            className="home-form-field-error hideError"
-            ref={this.nonNumericError}
-          >
-            {this.state.error}
-          </span>
           <div className="home-form-field">
             <p>{duration}</p>
             <select
