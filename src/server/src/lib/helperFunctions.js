@@ -24,3 +24,19 @@ export function removeDuplicates(myArr, prop) {
         return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
     });
 }
+
+export function randomWords(words, count) {
+    let result = [];
+    let copy = new Array(words);
+    count = count || 1;
+    do {
+        let min = 0;
+        let max = copy.length;
+        const position = Math.floor(Number(Math.random()) * (max - min)) + min;
+        result.push(copy[position]);
+        copy = copy.splice(position, 1);
+        count--;
+    } while(count != 0)
+   
+    return result;
+}

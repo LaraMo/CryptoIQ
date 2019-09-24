@@ -1,18 +1,13 @@
 import {getEnumFrom, difficultyEnum as Difficulty} from '../lib/enums/Difficulty';
+import Storyline from '../lib/enums/Storyline';
 import Puzzle from '../lib/enums/Puzzle';
 import CipherWheel from '../puzzles/cipherwheel';
 import Crossword from '../puzzles/crossword'
 import Lock from '../puzzles/lock'
+import {TwoGamesWithLockAndPageNumberStrategy} from "./strategies/";
 
 class GameGenerator {
-    storyline = {
-        TITLE: "The kings rings",
-        OPENING: "",
-        ACTION1: "",
-        ACTION2: "",
-        ENDING: "",
-        
-    };
+    storyline = {};
     puzzles = [];
     vocabulary = [];
     generalInfo = {};
@@ -31,13 +26,19 @@ class GameGenerator {
 
     generate() {
         this.gameData.teams = this.calculateTeamSize();
-        // this.pushStoryLine();
+        this.pushStoryLine();
         switch(getEnumFrom(this.storyline.difficultyLevel)) {
             case Difficulty.EASY.VALUE:
-                if(this.generalInfo.locks)
-                let allowedPuzzles = [];
+                if(this.generalInfo.locks && this.generalInfo.textbook) {
+                    let generated = TwoGamesWithLockAndPageNumberStrategy.generate();
+                    // generated.forEach(puzzle => );
+                    generated.forEach(puzzle => this.gamePdf.push(puzzle.toInstructionPdf()));
+                }
                 break;
             case Difficulty.MEDIUM.VALUE:
+                if(this.generalInfo.locks) {
+                    let allowedPuzzles = [Puzzle.CIPHER_WHEEL, Puzzle.LOCK_COMBINATION, Puzzle.CROSS_WORD];
+                }
                 break;
             case Difficulty.HARD.VALUE:
                 break;
@@ -46,8 +47,13 @@ class GameGenerator {
         }
     }
 
-    pushStoryLine(storylineEnum) {
-        this.game.push(this.storyline[storylineEnum])
+    pushStage(puzzle, storylineEnum) {
+        this.pushStoryLine(storylineEnum, this.gamePdf);
+        this.gamePdf.pushPuzzle(puzzle.toGamePdf());
+    }
+
+    pushStoryLine(storylineEnum, pdfArray) {
+        pdfArray.push(this.storyline[storylineEnum]);
     }
 
     calculateTeamSize() {

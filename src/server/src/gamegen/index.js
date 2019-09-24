@@ -11,10 +11,6 @@ import WritableBufferStream from '../lib/pdf/WrittableBufferStream';
 
 const router = express.Router();
 
-function validateRequest(req) {
-    return true;
-}
-
 router.post('/', (req, res, next) => {
     try {
         // validateRequest(req);

@@ -12,7 +12,7 @@ const Checkbox = props => {
   const {label} = props;
 
   return (
-    <div className="checkbox">
+    <div className="home-form-field checkbox">
       <label>
         {label}
         <input

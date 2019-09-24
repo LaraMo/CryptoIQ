@@ -4,8 +4,8 @@ import path from 'path';
 class Lock {
 
     words = []; // format: {index: 0, wordsEntered: "test1", defintionsEntered: "test1", pageNumberEntered: "100"}
-    constructor(data) {
-        this.words = data.vocalbulary.words;
+    constructor(words) {
+        this.words = words;
         this.randomWords = [];
         this.lockCombo = [];
         this.isValidPageNumbers = false;
