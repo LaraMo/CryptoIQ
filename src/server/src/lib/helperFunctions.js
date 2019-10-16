@@ -25,18 +25,28 @@ export function removeDuplicates(myArr, prop) {
     });
 }
 
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+  }
+
 export function randomWords(words, count) {
     let result = [];
-    let copy = new Array(words);
+    let copy = words.slice();
     count = count || 1;
     do {
         let min = 0;
         let max = copy.length;
-        const position = Math.floor(Number(Math.random()) * (max - min)) + min;
+
+        let position = getRandomInt(min, max)
         result.push(copy[position]);
-        copy = copy.splice(position, 1);
+        copy.splice(position, 1);
         count--;
-    } while(count != 0)
-   
+    } while (count != 0)
     return result;
+}
+
+export function diffWords(originalList, takenList) {
+    return originalList.filter((word) => takenList.indexOf(word) === -1).filter(el => !!el);
 }

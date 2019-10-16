@@ -1,4 +1,5 @@
 import PDFDocument from 'pdfkit';
+import PdfObjectType from '../enums/PdfObjectType';
 
 export function createDoc(writeStream) {
     const doc = new PDFDocument;
@@ -34,13 +35,22 @@ var doTransform = function (x, y, angle) {
 
 export function drawImageWithRotation(doc, image, x, y, rotation) {
     doc.save();
-        var loc = doTransform(x, y, rotation);
-        doc.rotate(rotation, x, y);
-        doc.image(image, loc.y, loc.x);
-        console.log("New Location: ", loc)
-        doc.restore();
+    var loc = doTransform(x, y, rotation);
+    doc.rotate(rotation, x, y);
+    doc.image(image, loc.y, loc.x);
+    // console.log("New Location: ", loc)
+    doc.restore();
 };
 
 export function calculateCenterX(doc, objWidth) {
-    return (doc.page.width - objWidth - doc.page.margins.left - doc.page.margins.right)/2;
+    return (doc.page.width - objWidth - doc.page.margins.left - doc.page.margins.right) / 2;
+}
+
+export function textInstruction(text, options) {
+    return Object.assign({}, {
+            type: PdfObjectType.TEXT,
+            text
+        },
+        options
+    )
 }

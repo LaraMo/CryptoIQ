@@ -14,7 +14,7 @@ const router = express.Router();
 router.post('/', (req, res, next) => {
     try {
         // validateRequest(req);
-        console.log(req.body)
+        // console.log(req.body)
         gameGenerate(res, req.body);
     } catch (e) {
         console.log(e)

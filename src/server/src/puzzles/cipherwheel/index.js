@@ -112,7 +112,7 @@ class CipherWheel {
         return canvas.toBuffer();
     }
 
-    async toPdf() {
+    async toGamePdf() {
         let height = 20;
         let width = 20;
         let pdfIns = [{
@@ -142,7 +142,7 @@ class CipherWheel {
             pdfIns = [...pdfIns, {
                 type: PdfObjectType.VECTOR,
                 callback: async (doc) => {
-                    console.log(calculateCenterX(doc, 500));
+                    // console.log(calculateCenterX(doc, 500));
                     doc.image(this.imageBuffer,
                         calculateCenterX(doc, 130),
                     )
@@ -185,6 +185,10 @@ class CipherWheel {
         return pdfIns;
     }
 
+    toInstructionPdf() {
+        return [];
+    }
+
     toString() {
         str = '';
         str.concat('message: ', this.message)
@@ -194,3 +198,5 @@ class CipherWheel {
         return str;
     }
 }
+
+export default CipherWheel;

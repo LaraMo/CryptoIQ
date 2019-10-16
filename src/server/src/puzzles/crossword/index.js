@@ -385,14 +385,14 @@ class Crossword {
                 callback: async (doc) => {
                     console.log("In cb")
                     const imageData = _this.generateCrossWordImage(doc, false);
-                    console.log(imageData);
+                    // console.log(imageData);
                     doc.image(imageData, calculateCenterX(doc, this.crossWordImageWidth));
                 }
             }
         ];
 
         for(let i = 0; i < this.horizontalClues.length; i++) {
-            console.log(`Question: ${this.horizontalClues[i]}`)
+            // console.log(`Question: ${this.horizontalClues[i]}`)
             pdfIns.push({
                 "type": PdfObjectType.BR
             })

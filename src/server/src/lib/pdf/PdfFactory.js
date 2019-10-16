@@ -16,7 +16,6 @@ class PdfFactory {
     doc = null;
     propsOrder = ['font', 'fillColor', 'imagePath', 'vectorPath', 'callback', 'text'];
     propsMap = null;
-    asyncQueue = [];
 
     constructor(response) {
         this.writeStream = new WritableBufferStream();
@@ -41,14 +40,15 @@ class PdfFactory {
                 await func(this.doc);
             }
         }
-        
-        this.writeStream.on('finish', async () => {
-            console.log("OLD")
-            sendPdf(this.response, this.writeStream.toBuffer())
+
+        this.writeStream.on("finish", () => {
+            console.log("wtf")
+            // console.log(this)
+            this.pdfBuffer = this.writeStream.toBuffer();
+            sendPdf(this.response, this.pdfBuffer);
         })
 
         this.response = response
-
     }
 
     async buildStep(ins) {
@@ -59,14 +59,14 @@ class PdfFactory {
                 const res = await this.propsMap[key](ins[key], ins.options)
             }
         }
-        console.log("BYEE ", ins)
+        // console.log("BYEE ", ins)
     }
 
     buildLineBreak(ins) {
         this.doc.moveDown(ins.space || undefined);
     }
 
-    parseStep(step) {
+    async parseStep(step) {
         switch (step.type) {
             case PdfObjectType.BR:
                 delete step['type'];
@@ -77,12 +77,12 @@ class PdfFactory {
             case PdfObjectType.VECTOR:
                 delete step['type'];
                 console.log("Parsing")
-                this.buildStep(step);
+                await this.buildStep(step);
                 break;
         }
     }
 
-    append(buildSteps) {
+    async append(buildSteps) {
         if (Array.isArray(buildSteps)) {
             buildSteps.forEach((step) => this.parseStep(step))
         } else if (isObject(buildSteps)) {
@@ -92,7 +92,16 @@ class PdfFactory {
 
     async build() {
         console.log("End")
+       
         this.doc.end();
+        // while(!this.pdfBuffer) {}
+        console.log(this.pdfBuffer)
+        return this.pdfBuffer;
+
+        // return new Promise((resolve, reject) => {
+        //     this.writeStream.on("error", () => reject(error));
+            
+        // })
     }
 }
 

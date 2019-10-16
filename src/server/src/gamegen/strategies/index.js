@@ -1,1 +1,1 @@
-export * from './TwoGamesWithLockAndPageNumberStrategy';
+export {default as TwoGamesWithLockAndPageNumberStrategy} from './TwoGamesWithLockAndPageNumberStrategy';

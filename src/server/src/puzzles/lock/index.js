@@ -255,6 +255,10 @@ class Lock {
         }
     }
 
+
+    toInstructionPdf() {
+        return [];
+    }
 }
 
 export default Lock;
