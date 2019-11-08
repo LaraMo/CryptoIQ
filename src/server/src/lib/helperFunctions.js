@@ -7,9 +7,46 @@
 export function sortObjectKeyByOrder(obj, order) {
     const result = [];
     order.forEach(key => {
-        if(obj.hasOwnProperty(key)) {
+        if (obj.hasOwnProperty(key)) {
             result.push(key)
         }
     })
     return result;
+}
+
+export function isObject(obj) {
+    var type = typeof obj;
+    return type === 'function' || type === 'object' && !!obj;
+};
+
+export function removeDuplicates(myArr, prop) {
+    return myArr.filter((obj, pos, arr) => {
+        return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
+    });
+}
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+  }
+
+export function randomWords(words, count) {
+    let result = [];
+    let copy = words.slice();
+    count = count || 1;
+    do {
+        let min = 0;
+        let max = copy.length;
+
+        let position = getRandomInt(min, max)
+        result.push(copy[position]);
+        copy.splice(position, 1);
+        count--;
+    } while (count != 0)
+    return result;
+}
+
+export function diffWords(originalList, takenList) {
+    return originalList.filter((word) => takenList.indexOf(word) === -1).filter(el => !!el);
 }

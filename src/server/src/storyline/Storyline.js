@@ -1,6 +1,5 @@
-import StorylineComponents from '../lib/enums/StorylineComponents';
 const uuidv1 = require('uuid/v1');
-const yaml = require('write-yaml');
+const writeYaml = require('write-yaml');
 const _ = require('lodash');
 
 class Storyline {
@@ -11,14 +10,15 @@ class Storyline {
 
     //Creates a .yml file
     generateYamlFile() {
-        yaml('./src/storyline/storyline.yml', this.getDataFromEnumns(), function(err) {
+        const storyId = uuidv1();
+        writeYaml(`./src/storyline/data/storyline-${storyId}.yml`, this.getDataFromClient(storyId), function(err) {
             console.log(err);
         });
     }
 
     //Loops through the enum array and returns the right story
-    getDataFromEnumns() {
-        let storyline = [{ id: uuidv1() }];
+    getDataFromClient(storyId) {
+        let storyline = [{ id: storyId }];
         _.map(this.storylineData, (text, index) => {
             let field = new Object();
             field[index] = text;

@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react';
 import Textarea from './PartialComponents/Textarea';
 import {difficultyEnum} from '../Enums/difficulty';
 import DropdownOption from '../../Public/DropdownOption';
+import SubmitButton from '../PartialComponents/SubmitButton';
 
 export default class Storyline extends PureComponent {
   constructor(props) {
@@ -50,6 +51,10 @@ export default class Storyline extends PureComponent {
     for (let i = 0; i < this.state.difficultyLevel; i++) {
       generateTextarea.push(<Textarea index={i} key={i} value={this.state.actions[i]} onChange={(event) => this._onChangeAction(i, event)}/>);
     }
+
+    const saveStory = "Save story 💾";
+    const editStory = "Edit story ✍🏻";
+    const deleteStroy = "Delete story 🗑️";
 
     return (
       <div id="slide2" className="home-formContainer">
@@ -115,6 +120,21 @@ export default class Storyline extends PureComponent {
               placeholder={endingPlaceholder}
               onChange={e => this.setStateExt({ending: e.target.value})}
             />
+          </div>
+
+          <div className="home-form-field-submission">
+          <SubmitButton
+            text={saveStory}
+            onClick={this.props.save}></SubmitButton>
+
+            <SubmitButton
+            text={editStory}
+            onClick={this.props.edit}></SubmitButton>
+
+
+            <SubmitButton
+            text={deleteStroy}
+            onClick={this.props.delete}></SubmitButton>
           </div>
         </div>
       </div>

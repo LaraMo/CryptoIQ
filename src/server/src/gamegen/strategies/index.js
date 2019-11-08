@@ -1,0 +1,1 @@
+export {default as TwoGamesWithLockAndPageNumberStrategy} from './TwoGamesWithLockAndPageNumberStrategy';

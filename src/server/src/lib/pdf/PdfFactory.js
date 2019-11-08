@@ -4,7 +4,8 @@ import {
 } from "./pdfHelpers";
 import PdfObjectType from "../enums/PdfObjectType";
 import {
-    sortObjectKeyByOrder
+    sortObjectKeyByOrder,
+    isObject
 } from "../helperFunctions";
 import {
     sendPdf
@@ -35,31 +36,35 @@ class PdfFactory {
             "vectorPath": (pathString) => {
                 this.doc.path(pathString).stroke();
             },
-            "callback": (func) => {
-                func(this.doc);
+            "callback": async (func) => {
+                await func(this.doc);
             }
         }
-        this.writeStream.on('finish', () => {
-            sendPdf(response, this.writeStream.toBuffer())
+
+        this.writeStream.on("finish", () => {
+            this.pdfBuffer = this.writeStream.toBuffer();
+            sendPdf(this.response, this.pdfBuffer);
         })
 
+        this.response = response
     }
 
-    buildStep(ins) {
+    async buildStep(ins) {
         // Text always has to be last
         const keys = sortObjectKeyByOrder(ins, this.propsOrder);
-        keys.forEach(key => {
+        for (const key of keys) {
             if (key in this.propsMap && this.propsMap[key] instanceof Function) {
-                this.propsMap[key](ins[key], ins.options)
+                const res = await this.propsMap[key](ins[key], ins.options)
             }
-        })
+        }
+        // console.log("BYEE ", ins)
     }
 
     buildLineBreak(ins) {
         this.doc.moveDown(ins.space || undefined);
     }
 
-    parseStep(step) {
+    async parseStep(step) {
         switch (step.type) {
             case PdfObjectType.BR:
                 delete step['type'];
@@ -69,21 +74,23 @@ class PdfFactory {
             case PdfObjectType.TEXT:
             case PdfObjectType.VECTOR:
                 delete step['type'];
-                this.buildStep(step);
+                console.log("Parsing")
+                await this.buildStep(step);
                 break;
         }
     }
 
-    append(buildSteps) {
+    async append(buildSteps) {
         if (Array.isArray(buildSteps)) {
             buildSteps.forEach((step) => this.parseStep(step))
-        } else if (Object.isObject(buildSteps)) {
+        } else if (isObject(buildSteps)) {
             this.parseStep(buildSteps)
         }
     }
 
-    build() {
+    async build() {       
         this.doc.end();
+        return this.pdfBuffer;
     }
 }
 
