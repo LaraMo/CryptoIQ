@@ -5,7 +5,7 @@ const SubmitButton = (props) => {
     props.onClick()
     e.preventDefault();
   };
-  return <button type="button" className="submitButton" onClick={_onSubmit}>Get me an escape room!</button>;
+  return <button type="button" className="submitButton" onClick={_onSubmit}>{props.text}</button>;
 };
 
 export default SubmitButton;

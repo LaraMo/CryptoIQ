@@ -35,7 +35,44 @@ const HomePage = () => {
     ending: '',
   });
 
+
+  const createEscapeRoom = "Give me an escape room!";
   const _onSubmit = () => {
+    let payload = Object.assign(
+      {},
+      {general: generalInfo},
+      {vocalbulary: vocalbulary},
+      {storyline: storyline},
+    );
+    console.log(payload)
+    submitGameGen(payload);
+  }
+
+  const _onSubmitSaveStory = () => {
+    let payload = Object.assign(
+      {},
+      {general: generalInfo},
+      {vocalbulary: vocalbulary},
+      {storyline: storyline},
+    );
+    console.log(payload)
+    submitGameGen(payload);
+  }
+
+
+  const _onSubmitDeleteStory = () => {
+    let payload = Object.assign(
+      {},
+      {general: generalInfo},
+      {vocalbulary: vocalbulary},
+      {storyline: storyline},
+    );
+    console.log(payload)
+    submitGameGen(payload);
+  }
+
+
+  const _onSubmitEditStory = () => {
     let payload = Object.assign(
       {},
       {general: generalInfo},
@@ -56,8 +93,9 @@ const HomePage = () => {
           <VocabularyWordsContainer
             updateForm={state => setVocabulary(state)}
           />
-          <StorylineContainer updateForm={state => setStoryline(state)}/>
+          <StorylineContainer delete={_onSubmitDeleteStory} edit={_onSubmitEditStory} save={_onSubmitSaveStory} updateForm={state => setStoryline(state)}/>
           <SubmitButton
+            text={createEscapeRoom}
             onClick={_onSubmit}></SubmitButton>
         </form>
       </div>

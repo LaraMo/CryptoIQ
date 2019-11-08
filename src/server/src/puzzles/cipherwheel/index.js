@@ -194,5 +194,3 @@ class CipherWheel {
         return str;
     }
 }
-
-export default CipherWheel;
