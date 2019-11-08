@@ -1,24 +1,25 @@
 import express from 'express';
-import core from './core';
+import {
+    gameGenerate,
+    sendPdf
+} from './core';
+import {
+    createDoc,
+    addText
+} from '../lib/pdf/pdfHelpers';
+import WritableBufferStream from '../lib/pdf/WrittableBufferStream';
 
 const router = express.Router();
 
-function validateRequest(req) {
-    return true;
-}
-
 router.post('/', (req, res, next) => {
     try {
-        console.log('wtf')
-        validateRequest(req);
-        core.gameGenerate()
-        res.status(200).json({
-            "result": true,
-        })
-    } catch(e) {
+        // validateRequest(req);
+        // console.log(req.body)
+        gameGenerate(res, req.body);
+    } catch (e) {
         console.log(e)
         res.status(500).json({
-            "result": false,
+            "result": "There was an error",
         })
     }
 })

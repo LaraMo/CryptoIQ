@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "babel src/index.js -d dist",
-    "dev": "nodemon --exec babel-node src/index.js",
+    "test": "jest",
+    "dev": "nodemon --exec babel-node src/index.js ",
+    "debug": "nodemon --exec babel-node --inspect src/index.js",
     "start": "node dist/index.js"
   },
   "keywords": [
@@ -20,29 +22,42 @@
     }
   },
   "lint-staged": {
-    "*.jsx?": [
+    "*.js?": [
       "./node_modules/.bin/eslint —fix",
       "./node_modules/prettier --write",
       "git add"
     ]
   },
   "dependencies": {
+    "@babel/runtime": "^7.6.0",
+    "canvas": "^2.6.0",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
+    "lodash": "^4.17.15",
     "morgan": "^1.9.1",
-    "pdf-lib": "^1.0.1"
+    "pdf-lib": "^1.0.1",
+    "pdfkit": "^0.10.0",
+    "svg-to-pdfkit": "^0.1.7",
+    "wordsearch": "^0.1.0",
+    "uuid": "^3.3.3",
+    "write-yaml": "^1.0.0",
+    "probe-image-size": "^4.1.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
     "@babel/node": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-transform-runtime": "^7.6.0",
     "@babel/preset-env": "^7.5.5",
     "babel-loader": "^8.0.6",
     "eslint": "^6.1.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.0",
     "husky": "^3.0.3",
+    "jest": "^24.9.0",
     "lint-staged": "^9.2.1",
     "nodemon": "*",
     "prettier": "1.18.2",
