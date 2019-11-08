@@ -11,7 +11,7 @@ export default class GeneralInfo extends PureComponent {
         numberOfStudents: '',
         duration: 15,
         locks: true,
-        textbook: true,
+        textbook: true, 
       },
       error: '',
     };

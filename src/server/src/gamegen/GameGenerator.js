@@ -74,6 +74,14 @@ class GameGenerator {
         }
     }
 
+    async pushGameHeader() {
+
+    }
+
+    async pushInstructionHeader() {
+        
+    }
+
     async pushStage(puzzle, storylineEnum) {
         this.pushStoryLine(storylineEnum, this.gamePdf);
         this.pushPuzzle(await puzzle.toGamePdf(),  this.gamePdf);

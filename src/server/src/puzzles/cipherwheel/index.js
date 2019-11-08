@@ -115,22 +115,7 @@ class CipherWheel {
     async toGamePdf() {
         let height = 20;
         let width = 20;
-        let pdfIns = [{
-                type: PdfObjectType.TEXT,
-                text: "For the teacher:",
-            },
-            {
-                type: PdfObjectType.TEXT,
-                text: `Word: ${this.message}`,
-            },
-            {
-                type: PdfObjectType.TEXT,
-                text: `Starting Code: ${this.startCode}`
-            },
-            {
-                type: PdfObjectType.TEXT,
-                text: "---------------------------------------------------------"
-            },
+        let pdfIns = [
             {
                 type: PdfObjectType.BR,
             },
@@ -169,24 +154,44 @@ class CipherWheel {
                     let fontSize = 8;
                     let xOffset = calculateCenterX(doc, width * this.encodeMessage.length);
                     let xRect = doc.x + xOffset;
-                    for (let i = 0; i < this.encodedMessage.length; i++) {
-                        let yRect = doc.y;
-                        doc.fontSize(12).text(this.encodedMessage[i], xRect + width / 2 - fontSize / 2, yRect, {
-                            continue: true,
-                            lineBreak: false
-                        });
-                        doc.rect(xRect, doc.y - height / 2 + fontSize / 2, width, height).stroke();
-                        xRect += width;
-                    }
+                    // for (let i = 0; i < this.encodedMessage.length; i++) {
+                    //     let yRect = doc.y;
+                    //     doc.fontSize(12).text(this.encodedMessage[i], xRect + width / 2 - fontSize / 2, yRect, {
+                    //         continue: true,
+                    //         lineBreak: false
+                    //     });
+                    //     doc.rect(xRect, doc.y - height / 2 + fontSize / 2, width, height).stroke();
+                    //     xRect += width;
+                    // }
+                    // doc.text("\n wtf", {
+                    //     continue: false,
+                    //     lineBreak: true
+                    // })
+                    // doc.moveDown(5);
                 }
-            }
+            },
+            {
+                type: PdfObjectType.BR,
+            },
         ]
 
         return pdfIns;
     }
 
     toInstructionPdf() {
-        return [];
+        return [{
+            type: PdfObjectType.TEXT,
+            text: "For the teacher:",
+        },
+        {
+            type: PdfObjectType.TEXT,
+            text: `Word: ${this.message}`,
+        },
+        {
+            type: PdfObjectType.TEXT,
+            text: `Starting Code: ${this.startCode}`
+        },
+       ];
     }
 
     toString() {

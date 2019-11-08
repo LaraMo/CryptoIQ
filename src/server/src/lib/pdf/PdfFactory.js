@@ -42,8 +42,6 @@ class PdfFactory {
         }
 
         this.writeStream.on("finish", () => {
-            console.log("wtf")
-            // console.log(this)
             this.pdfBuffer = this.writeStream.toBuffer();
             sendPdf(this.response, this.pdfBuffer);
         })
@@ -90,18 +88,9 @@ class PdfFactory {
         }
     }
 
-    async build() {
-        console.log("End")
-       
+    async build() {       
         this.doc.end();
-        // while(!this.pdfBuffer) {}
-        console.log(this.pdfBuffer)
         return this.pdfBuffer;
-
-        // return new Promise((resolve, reject) => {
-        //     this.writeStream.on("error", () => reject(error));
-            
-        // })
     }
 }
 
