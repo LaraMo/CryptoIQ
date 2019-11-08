@@ -7,21 +7,27 @@ export default class VocabularyWordsContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.MIN_WORD_COUNT = 5;
-    this.MAX_WORD_COUNT = 25
+    this.MAX_WORD_COUNT = 25;
     this.state = {
       maxNumberOfWords: this.MIN_WORD_COUNT,
       words: [],
-      error: "",
+      error: '',
     };
     this._onWordChange = this._onWordChange.bind(this);
 
-    this._onWordCountChange = (value) => {
-      if (parseInt(value) <= this.MAX_WORD_COUNT && parseInt(value) >= this.MIN_WORD_COUNT) {
-        this.setStateExt({maxNumberOfWords: value, error: ""});
+    this._onWordCountChange = value => {
+      if (
+        parseInt(value) <= this.MAX_WORD_COUNT &&
+        parseInt(value) >= this.MIN_WORD_COUNT
+      ) {
+        this.setStateExt({maxNumberOfWords: value, error: ''});
       } else {
-        this.setStateExt( {maxNumberOfWords: value, error: `Invalid number of word! Please enter a number from ${this.MIN_WORD_COUNT} to ${this.MAX_WORD_COUNT}`})
+        this.setStateExt({
+          maxNumberOfWords: value,
+          error: `Invalid number of word! Please enter a number from ${this.MIN_WORD_COUNT} to ${this.MAX_WORD_COUNT}`,
+        });
       }
-    }
+    };
     this._onWordCountChange = this._onWordCountChange.bind(this);
   }
 
@@ -46,17 +52,22 @@ export default class VocabularyWordsContainer extends PureComponent {
     const instructionsPart4 = 'events and dates';
     const maxNumberOfWords = 'How many words would you like to add?';
     const generateInput = [];
-    if(!this.state.error) {
+    if (!this.state.error) {
       for (let i = 0; i < this.state.maxNumberOfWords; i++) {
         generateInput.push(
-          <VocabularyWord index={i} key={i} onChange={this._onWordChange} acceptPageNumber={this.props.acceptPageNumber}/>,
+          <VocabularyWord
+            index={i}
+            key={i}
+            onChange={this._onWordChange}
+            acceptPageNumber={this.props.acceptPageNumber}
+          />,
         );
       }
     }
-    
+
     let errorMessage = null;
-    if(this.state.error) {
-      errorMessage = <ErrorMessage error={this.state.error}/>
+    if (this.state.error) {
+      errorMessage = <ErrorMessage error={this.state.error} />;
     }
 
     return (
@@ -75,11 +86,16 @@ export default class VocabularyWordsContainer extends PureComponent {
               className="home-form-inputText"
               name="numberOfStudents"
               value={this.state.maxNumberOfWords}
-              onChange={(e) => {
-                this._onWordCountChange(e.target.value)
+              onChange={e => {
+                this._onWordCountChange(e.target.value);
               }}
             />
           </div>
+
+          <span
+            className="home-form-field-error hideError"
+            ref={this.errorVocabularyWords}
+          ></span>
           <div className="home-form-vocContainer">{generateInput}</div>
         </div>
       </div>

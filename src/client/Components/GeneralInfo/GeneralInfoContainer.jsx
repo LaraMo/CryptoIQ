@@ -34,7 +34,7 @@ export default class GeneralInfo extends PureComponent {
     this.setStateExt({
       general: {...general, numberOfStudents: e.target.value},
     });
-    const errorContainer = this.nonNumericError.current;
+    const errorNumberOfStudents = this.nonNumericError.current;
 
     if (e.target.value.match(/([1-9]|[1-4][0-9]|50)/)) {
       this.setStateExt({error: ''});
