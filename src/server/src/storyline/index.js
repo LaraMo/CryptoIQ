@@ -1,4 +1,5 @@
 import express from 'express';
+import StorylineComponents from '../lib/enums/StorylineComponents';
 
 const router = express.Router();
 
@@ -8,15 +9,15 @@ router.route('/')
         //Get a random storyline
         res.status(200).json({
             "result": true,
-        }) 
+        })
     })
     .post((req, res, next) => {
-    //TODO: Nick
-    //Create new story line -> store in data folder
-    res.status(200).json({
-        "result": true,
+        //TODO: Nick
+        //Create new story line -> store in data folder
+        res.status(200).json({
+            "result": true,
+        })
     })
-})
 
 router.route('/:id')
     .get((req, res, next) => {

@@ -24,4 +24,4 @@ router.post('/', (req, res, next) => {
     }
 })
 
-export default router;
+export default router
