@@ -34,16 +34,16 @@
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "lodash": "^4.17.15",
-    "merge-yaml": "^1.0.0",
-    "read-yaml": "^1.1.0",
+    "merge-yaml": "^1.1.0",
     "morgan": "^1.9.1",
     "pdf-lib": "^1.0.1",
     "pdfkit": "^0.10.0",
+    "probe-image-size": "^4.1.1",
+    "read-yaml": "^1.1.0",
     "svg-to-pdfkit": "^0.1.7",
-    "wordsearch": "^0.1.0",
     "uuid": "^3.3.3",
-    "write-yaml": "^1.0.0",
-    "probe-image-size": "^4.1.1"
+    "wordsearch": "^0.1.0",
+    "write-yaml": "^1.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",

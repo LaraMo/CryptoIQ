@@ -279,7 +279,7 @@ import Crossword from "./index";
 //         {
 //             answer: "az",
 //             question: "how do you spell azzz?"
-//         },
+//         }, 
 //     ]
 //     const crossWord = new Crossword(data);
 
