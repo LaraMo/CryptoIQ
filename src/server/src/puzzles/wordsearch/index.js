@@ -1,13 +1,13 @@
 import wordsearch from 'wordsearch';
 import {
-    drawGrid
+    drawGrid,
+    styleDefault
 } from "../../lib/pdf/canvasHelpers"
 import PdfObjectType from '../../lib/enums/PdfObjectType';
 import {
     calculateCenterX
 } from '../../lib/pdf/pdfHelpers';
 class Wordsearch {
-
     constructor(words, isEasy) {
         this._words = words.sort((a, b) => b.length - a.length);
         if (isEasy)
@@ -21,9 +21,7 @@ class Wordsearch {
 
         for (let y = 0; y < this._solved.length; y++) {
             for (let x = 0; x < this._solved[0].length; x++) {
-                console.log(this._solved[y][x])
                 if (this._solved[y][x] === ' ' || !this._solved[y][x]) {
-                    console.log(x, y);
                     this._solved[y][x] = '*';
                 }
 
@@ -47,26 +45,49 @@ class Wordsearch {
         let pdfIns = [];
         this.imageBuffer = await this.generateImage(false);
         console.log(this.imageBuffer)
-        pdfIns = [...pdfIns, {
-            type: PdfObjectType.VECTOR,
-            callback: async (doc) => {
-                doc.image(this.imageBuffer)
+        pdfIns = [...pdfIns,
+            {
+                type: PdfObjectType.BR
+            },
+            {
+                type: PdfObjectType.VECTOR,
+                callback: async (doc) => {
+                    doc.image(this.imageBuffer,
+                        calculateCenterX(doc, styleDefault.cellWidth * this._grid.length),
+                    )
+                    console.log(styleDefault.cellWidth * this._grid.length);
+                    console.log(calculateCenterX(doc, styleDefault.cellWidth * this._grid.length));
+                },
+            },
+            {
+                type: PdfObjectType.BR
             }
-        }]
+
+        ]
         return pdfIns;
     }
 
     async toInstructionPdf() {
         let pdfIns = [];
         this.imageBuffer = await this.generateImage(true);
-        pdfIns = [...pdfIns, {
-            type: PdfObjectType.VECTOR,
-            callback: async (doc) => {
-                doc.image(this.imageBuffer,
-                    calculateCenterX(doc, 130),
-                )
+        pdfIns = [...pdfIns,
+            {
+                type: PdfObjectType.BR
+            },
+            {
+                type: PdfObjectType.VECTOR,
+                callback: async (doc) => {
+                    doc.image(this.imageBuffer,
+                        calculateCenterX(doc, styleDefault.cellWidth * this._grid.length),
+                    )
+                    console.log(styleDefault.cellWidth * this._grid.length);
+                    console.log(calculateCenterX(doc, styleDefault.cellWidth * this._grid.length));
+                },
+            },
+            {
+                type: PdfObjectType.BR
             }
-        }]
+        ]
         return pdfIns;
 
     }

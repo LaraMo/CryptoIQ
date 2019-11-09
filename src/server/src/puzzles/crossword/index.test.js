@@ -1,4 +1,4 @@
-import Crossword from "./index";
+import Crossword from "./index.old";
 
 // test("Testing Crossword with no words given", () => {
 //     const crossWord = new Crossword();

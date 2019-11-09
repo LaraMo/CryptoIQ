@@ -57,7 +57,6 @@ class PdfFactory {
                 const res = await this.propsMap[key](ins[key], ins.options)
             }
         }
-        // console.log("BYEE ", ins)
     }
 
     buildLineBreak(ins) {
@@ -74,7 +73,6 @@ class PdfFactory {
             case PdfObjectType.TEXT:
             case PdfObjectType.VECTOR:
                 delete step['type'];
-                console.log("Parsing")
                 await this.buildStep(step);
                 break;
         }
