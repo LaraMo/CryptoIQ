@@ -12,8 +12,6 @@ router.route('/')
         })
     })
     .post((req, res, next) => {
-        //TODO: Nick
-        //Create new story line -> store in data folder
         res.status(200).json({
             "result": true,
         })

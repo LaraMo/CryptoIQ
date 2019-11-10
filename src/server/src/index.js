@@ -1,12 +1,15 @@
-import express from 'express';
 import dotenv from 'dotenv';
+dotenv.config();
+
+// console.log(process.env)
+import express from 'express';
 import morgan from 'morgan';
+morgan('tiny');
+
 
 import gamegenRouter from './gamegen';
-import storylineRouter from './storyline'
+import storylineRouter from './storyline';
 
-dotenv.config();
-morgan('tiny');
 
 const app = express();
 
@@ -14,7 +17,7 @@ const app = express();
 app.use(express.json())
 
 //Enable CORS
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
@@ -31,6 +34,9 @@ app.use('/storyline', storylineRouter); //todo
 
 const PORT = process.env.PORT;
 
-app.listen(PORT, () => {
-    console.log(`server running on port ${PORT}`)
-});
+import db_setup from './db/setup';
+db_setup.then((db) => {
+    app.listen(PORT, () => {
+        console.log(`server running on port ${PORT}`)
+    });
+}).catch(err => console.error(err));

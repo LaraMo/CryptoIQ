@@ -3,4 +3,5 @@ node_modules/
 .vscode/
 dist/
 /**/*.js.map
+.sqlite
 Untitled*.js

@@ -1,7 +1,7 @@
 import Storyline from '../enums/Storyline';
 const story = {}
 
-story[Storyline.TITLE] = "The king's ringsss";
+story[Storyline.TITLE] = "The king's rings";
 story[Storyline.OPENING] = "Once upon a time there was a kingdom situated far far away. It was ruled by the glorious king Marcus and his beautiful wife Bianca. Their 20 years old daugther, Fiona was devine and very loved by everyone.";
 story[Storyline.QUEST] = "One day she disapeared... Thats when the king proposed to give the famous 'king'\s ring' to marry his daughter to the person who finds her"; 
 story[Storyline.ACTION1] = "The brave prince Brandon was very happy to go and find the missing princess. After climing mountains and looking over seas for months, he finally found a castle with the sign 'I got the missing princess'. To enter the castle he had to pass the obsticle in front of him.";

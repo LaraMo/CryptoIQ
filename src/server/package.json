@@ -40,6 +40,7 @@
     "pdfkit": "^0.10.0",
     "probe-image-size": "^4.1.1",
     "read-yaml": "^1.1.0",
+    "sqlite3": "^4.1.0",
     "svg-to-pdfkit": "^0.1.7",
     "uuid": "^3.3.3",
     "wordsearch": "^0.1.0",
