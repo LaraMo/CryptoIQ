@@ -5,9 +5,16 @@ import sqlite3 from 'sqlite3';
 import path from 'path';
 
 sqlite3.verbose();
-console.log(process.env.DB_PATH)
-const db = new sqlite3.Database(path.join(__dirname, process.env.DB_PATH), (err) => {
-    if (!err ) {
+const location = process.env.PERSIST_DB === 'true' ?
+    (path.isAbsolute(process.env.DB_PATH) ?
+        process.env.DB_PATH :
+        path.join(__dirname, process.env.DB_PATH)) :
+    ":memory:";
+
+// console.log(process.env.PERSIST_DB)
+// console.log(location)
+const db = new sqlite3.Database(location, (err) => {
+    if (!err) {
         console.log("Sqlite DB initialized!");
     } else {
         console.error("Error initializing db", err)

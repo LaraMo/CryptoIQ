@@ -35,8 +35,13 @@ app.use('/storyline', storylineRouter); //todo
 const PORT = process.env.PORT;
 
 import db_setup from './db/setup';
-db_setup.then((db) => {
-    app.listen(PORT, () => {
-        console.log(`server running on port ${PORT}`)
-    });
-}).catch(err => console.error(err));
+(async () => {
+    try {
+        await db_setup
+        app.listen(PORT, () => {
+            console.log(`server running on port ${PORT}`)
+        });
+    } catch (err) {
+        console.error(err);
+    }
+})();

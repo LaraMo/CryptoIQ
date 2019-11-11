@@ -29,7 +29,7 @@ function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
-  }
+}
 
 export function randomWords(words, count) {
     let result = [];
@@ -49,4 +49,19 @@ export function randomWords(words, count) {
 
 export function diffWords(originalList, takenList) {
     return originalList.filter((word) => takenList.indexOf(word) === -1).filter(el => !!el);
+}
+
+export function reflect(promise) {
+    return promise.then(function (v) {
+            return {
+                v: v,
+                status: "fulfilled"
+            }
+        },
+        function (e) {
+            return {
+                e: e,
+                status: "rejected"
+            }
+        });
 }
