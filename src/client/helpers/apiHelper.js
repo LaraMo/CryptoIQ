@@ -1,5 +1,10 @@
 import CONSTANT from '../Constant';
 
+const API_URL = "http://localhost:9000";
+export const EndPointMap = {
+    "storyline": `${API_URL}/storyline`
+} 
+
 function postPayload(data) {
     return {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -15,9 +20,39 @@ function postPayload(data) {
     }
 }
 
-function postData(url = '', data = {}) {
+export function getData(url = API_URL, args = {}) {
+    url = new URL(url)
+    if(args) {
+        url.search = new URLSearchParams(args).toString();
+    }
+    return fetch(url, {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'no-cache',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrer: 'no-referrer', // no-referrer, *client
+    }).then(response => response.json()).catch(console.error);
+}
+
+export function postData(url = API_URL, data = {}) {
     return fetch(url, postPayload(data))
-        .then(response => response.json()); // parses JSON response into native JavaScript objects 
+        .then(response => response.json()).catch(console.error);// parses JSON response into native JavaScript objects 
+}
+
+export function deleteData(url = API_URL, data = {}) {
+    return fetch(url, {
+        method: 'DELETE',
+        mode: 'cors',
+        cache: 'no-cache',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrer: 'no-referrer', // no-referrer, *client
+    }).then(response => response.json()).catch(console.error); // parses JSON response into native JavaScript objects 
 }
 
 export function submitGameGen(data) {

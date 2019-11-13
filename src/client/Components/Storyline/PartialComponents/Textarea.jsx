@@ -9,7 +9,7 @@ const TextArea = props => {
         {action}
         {props.index + 1}
       </p>
-      <textarea rows="5" cols="50" placeholder={actionPlaceholder} onChange={props.onChange} />
+      <textarea rows="5" cols="50" placeholder={actionPlaceholder} value={props.value} onChange={props.onChange} />
     </div>
   );
 };

@@ -7,9 +7,9 @@ import {
 } from 'tls';
 
 export const styleDefault =  {
-    cellWidth: 30,
-    cellHeight: 30,
-    fontSize: 24,
+    cellWidth: 15,
+    cellHeight: 15,
+    fontSize: 12,
     padding: 5
 }
 

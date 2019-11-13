@@ -10,7 +10,6 @@ import {difficultyEnum} from './Enums/difficulty';
 import SubmitButton from './PartialComponents/SubmitButton';
 import {submitGameGen} from '../helpers/apiHelper';
 import {useState} from 'react';
-
 const HomePage = () => {
   const [generalInfo, setGeneralInfo] = useState({
     numberOfStudents: '',

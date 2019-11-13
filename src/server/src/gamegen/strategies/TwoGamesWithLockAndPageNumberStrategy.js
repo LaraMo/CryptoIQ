@@ -13,12 +13,10 @@ export default class TwoGamesWithLockAndPageNumberStrategy extends Strategy {
     
     generate() {
         let firstLevel = randomWords(this.words);
-        // console.log(firstLevel)
         const cipherwheel = new CipherWheel(firstLevel[0].wordsEntered);
         let secondLevel = diffWords(this.words, firstLevel);
         secondLevel = randomWords(secondLevel, 3)
         const lockCombination = new Lock(secondLevel);
-        // console.log(lockCombination)
         return [cipherwheel, lockCombination];
     }
 

@@ -3,8 +3,8 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    mode: 'development',
-    entry: './index.js',
+    mode: 'development', 
+    entry: ['babel-polyfill', './index.js'],
     resolve: {
         extensions: ['.js', '.jsx']
     },

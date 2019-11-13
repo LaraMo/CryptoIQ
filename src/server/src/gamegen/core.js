@@ -30,8 +30,8 @@ export function validateStorylinePayload(data) {
         throw `Missing info: ending`;
     }
     let actionTypes = extractActions(data);
-    console.log(data)
-    console.log(actionTypes)
+    console.log("Received: ", data)
+    console.log("Actions: ", actionTypes)
     let minActionCount = 2
     if (actionTypes.length < minActionCount) {
         throw `Missing actions. Need at least ${minActionCount} actions`
@@ -41,32 +41,60 @@ export function validateStorylinePayload(data) {
 export async function gameGenerate(res, data) {
     // const gameGenerator = new GameGenerator(data); 
     // await gameGenerator.generate();
-    let data1 = [{
-            word: "placebo",
-            clue: "How do you spell answer?"
-        },
-        {
-            word: "cathatic",
-            clue: "How do you spell ans?"
-        },
-        {
-            word: "psychology",
-            clue: "What do you want to be?"
-        },
-        {
-            word: "freudian",
-            clue: "What sound?"
-        },
-        {
-            word: "conscious",
-            clue: "Definition of conscious"
-        }
-    ]
-    const pdfFactory = new PdfFactory(res);
-    await pdfFactory.append(await new Wordsearch(["hello", "quan", "this", "works"], false).toInstructionPdf())
-    await pdfFactory.append(await new Crossword(data1).toInstructionPdf())
-    // await pdfFactory.append(gameGenerator.toGamePdf());
-    const gamePdf = await pdfFactory.build();
+    // let data1 = [{
+    //         word: "placebo",
+    //         clue: "How do you spell answer?"
+    //     },
+    //     {
+    //         word: "cathatic",
+    //         clue: "How do you spell ans?"
+    //     },
+    //     {
+    //         word: "psychology",
+    //         clue: "What do you want to be?"
+    //     },
+    //     {
+    //         word: "freudian",
+    //         clue: "What sound?"
+    //     },
+    //     {
+    //         word: "conscious",
+    //         clue: "Definition of conscious"
+    //     }
+    // ]
+    // const pdfFactory = new PdfFactory(res);
+    // await pdfFactory.append(await new CipherWheel("TEST").toGamePdf())
+    // await pdfFactory.append(await new Wordsearch(["hello", "quan", "this", "works"], false).toGamePdf())
+    // await pdfFactory.append(await new Crossword(data1).toGamePdf())
+    // await pdfFactory.append(await new Lock( [
+    //     {
+    //         "wordsEntered": "placebo",
+    //         "pageNumberEntered": "125",
+    //         "definitionsEntered": "Definition of placebo"
+    //     },
+    //     {
+    //         "wordsEntered": "cathatic",
+    //         "pageNumberEntered": "38",
+    //         "definitionsEntered": "Definition of carthatic"
+    //     },
+    //     {
+    //         "wordsEntered": "psychology",
+    //         "pageNumberEntered": "72",
+    //         "definitionsEntered": "Definition of psychology"
+    //     },
+    //     {
+    //         "wordsEntered": "freudian",
+    //         "pageNumberEntered": "64",
+    //         "definitionsEntered": "Definition of freudian"
+    //     },
+    //     {
+    //         "wordsEntered": "conscious",
+    //         "pageNumberEntered": "347",
+    //         "definitionsEntered": "Definition of conscious"
+    //     }
+    // ]).toGamePdf())
+    // // await pdfFactory.append(gameGenerator.toGamePdf());
+    // const gamePdf = await pdfFactory.build();
 }
 
 export function sendPdf(res, buffer) {

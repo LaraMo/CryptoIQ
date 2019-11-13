@@ -1,21 +1,23 @@
 import dotenv from 'dotenv';
-dotenv.config();
 
+import cors from 'cors';
 // console.log(process.env)
 import express from 'express';
 import morgan from 'morgan';
-morgan('tiny');
 
+
+morgan('tiny');
+dotenv.config();
 
 import gamegenRouter from './gamegen';
 import storylineRouter from './storyline';
-
 
 const app = express();
 
 //Enables body parser for json payload
 app.use(express.json())
-
+app.use(cors())
+app.options('*', cors())
 //Enable CORS
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");

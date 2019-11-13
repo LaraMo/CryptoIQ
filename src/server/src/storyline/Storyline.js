@@ -30,6 +30,9 @@ class Storyline {
             } else {
                 result = rows[0];
                 console.log(result)
+                if(!result) {
+                    resolve(result);
+                }
                 if (!withActions) {
                     resolve(result);
                 } else {

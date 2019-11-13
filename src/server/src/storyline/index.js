@@ -47,6 +47,7 @@ router.route('/:title')
                 "result": storyline
             })
         } catch(err) {
+            console.error(err)
             res.status(500).json({
                 "status": "Failure",
                 "result": err
