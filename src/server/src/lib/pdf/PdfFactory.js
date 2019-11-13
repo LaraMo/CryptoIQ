@@ -1,6 +1,6 @@
 import WritableBufferStream from "./WrittableBufferStream";
 import {
-    createDoc
+    createDoc, calculateCenterX
 } from "./pdfHelpers";
 import PdfObjectType from "../enums/PdfObjectType";
 import {
@@ -14,29 +14,44 @@ import {
 class PdfFactory {
     writeStream = null;
     doc = null;
-    propsOrder = ['font', 'fillColor', 'imagePath', 'vectorPath', 'callback', 'text'];
+    propsOrder = ['fontSize', 'fillColor', 'imagePath', 'vectorPath', 'callback', 'text'];
     propsMap = null;
 
     constructor(response) {
         this.writeStream = new WritableBufferStream();
         this.doc = createDoc(this.writeStream);
         this.propsMap = {
+            'fontSize': (size) => {
+                this.previousSize = this.doc._fontSize;
+                return this.doc.fontSize(size)
+            },
             'font': (fontPath) => {
-                this.doc.font(fontPath)
+                return this.doc.font(fontPath)
             },
             'fillColor': (color) => {
-                this.doc.fillColor(color)
+                return this.doc.fillColor(color)
             },
             'imagePath': (path, options) => {
-                this.doc.image(path, options)
+                let {x, y, isCentered, fit} = options;
+                if(isCentered && fit) {
+                    x = calculateCenterX(this.doc, fit[0])
+                } else {
+                    x = x || this.doc.x;
+                }
+                y = y || this.doc.y;
+                return this.doc.image(path, x, y, options)
             },
             'text': (text, options) => {
-                this.doc.text(text, options);
+                // console.log(text)
+                return this.doc.text(text, options);
             },
             "vectorPath": (pathString) => {
                 this.doc.path(pathString).stroke();
             },
             "callback": async (func) => {
+                if(this.doc.y > this.doc.page.height - this.doc.page.margins.bottom) {
+                    this.doc.addPage()
+                }
                 await func(this.doc);
             }
         }
@@ -47,6 +62,13 @@ class PdfFactory {
         })
 
         this.response = response
+
+        this.applyDefaultSettings();
+    }
+
+    applyDefaultSettings() {
+        this.doc.font('Helvetica');
+        this.doc.fontSize(12);
     }
 
     async buildStep(ins) {
@@ -54,6 +76,7 @@ class PdfFactory {
         const keys = sortObjectKeyByOrder(ins, this.propsOrder);
         for (const key of keys) {
             if (key in this.propsMap && this.propsMap[key] instanceof Function) {
+                // console.log(key)
                 const res = await this.propsMap[key](ins[key], ins.options)
             }
         }
@@ -64,17 +87,19 @@ class PdfFactory {
     }
 
     async parseStep(step) {
-        switch (step.type) {
-            case PdfObjectType.BR:
-                delete step['type'];
-                this.buildLineBreak(step);
-                break;
-            case PdfObjectType.IMAGE:
-            case PdfObjectType.TEXT:
-            case PdfObjectType.VECTOR:
-                delete step['type'];
-                await this.buildStep(step);
-                break;
+        if(step) {
+            switch (step.type) {
+                case PdfObjectType.BR:
+                    delete step['type'];
+                    this.buildLineBreak(step);
+                    break;
+                case PdfObjectType.IMAGE:
+                case PdfObjectType.TEXT:
+                case PdfObjectType.VECTOR:
+                    delete step['type'];
+                    await this.buildStep(step);
+                    break;
+            }
         }
     }
 

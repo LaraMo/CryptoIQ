@@ -1,15 +1,18 @@
 import PdfObjectType from '../../lib/enums/PdfObjectType'; //TODO
 import path from 'path';
+import { calculateCenterX } from '../../lib/pdf/pdfHelpers';
 
 class Lock {
 
     words = []; // format: {index: 0, wordsEntered: "test1", defintionsEntered: "test1", pageNumberEntered: "100"}
-    constructor(words) {
+    constructor(words, displayWords = false, randomOrder = false) {
         this.words = words;
         this.randomWords = [];
         this.lockCombo = [];
         this.isValidPageNumbers = false;
         this.isEnoughWords = false;
+        this._displayWords = displayWords
+        this._randomOrder = randomOrder
     }
 
     /*
@@ -51,9 +54,17 @@ class Lock {
     generateLockCombo() {
         let randomWords_PageNumber = [];
 
+        let counter = 0;
+
         while (this.randomWords.length != 3) {
             //get a random word from the list
-            let word = this.getARandomWord();
+            let word;
+            if(this._randomOrder) {
+                word = this.getARandomWord();
+            } else {
+                word = this.words[counter];
+                counter++;
+            }
             //make sure that this word is unique
             if (!this.randomWords.includes(word.wordsEntered)) {
                 this.randomWords.push(word.wordsEntered);
@@ -94,32 +105,31 @@ class Lock {
                         valign: 'center'
                     }
                 },
-                {
-                    type: PdfObjectType.TEXT,
-                    text: "____________________________________________________________________",
-                    fillColor: "brown"
-                },
-                {
-                    type: PdfObjectType.BR,
-                },
-                {
-                    type: PdfObjectType.BR,
-                },
-                {
-                    type: PdfObjectType.BR,
-                },
-                {
-                    type: PdfObjectType.BR,
-                },
-                {
-                    type: PdfObjectType.BR,
-                },
-                {
-                    type: PdfObjectType.BR,
-                },
-                {
-                    type: PdfObjectType.BR,
-                },
+                // {
+                //     type: PdfObjectType.TEXT,
+                //     text: "____________________________________________________________________",
+                // },
+                // {
+                //     type: PdfObjectType.BR,
+                // },
+                // {
+                //     type: PdfObjectType.BR,
+                // },
+                // {
+                //     type: PdfObjectType.BR,
+                // },
+                // {
+                //     type: PdfObjectType.BR,
+                // },
+                // {
+                //     type: PdfObjectType.BR,
+                // },
+                // {
+                //     type: PdfObjectType.BR,
+                // },
+                // {
+                //     type: PdfObjectType.BR,
+                // },
             ]
         } else if (!this.validatePageNumbers()) {
             return [{
@@ -138,61 +148,62 @@ class Lock {
                 {
                     type: PdfObjectType.TEXT,
                     text: "____________________________________________________________________",
-                    fillColor: "brown"
+                    // fillColor: "brown"
                 },
-                {
-                    type: PdfObjectType.BR,
-                },
-                {
-                    type: PdfObjectType.BR,
-                },
-                {
-                    type: PdfObjectType.BR,
-                },
-                {
-                    type: PdfObjectType.BR,
-                },
-                {
-                    type: PdfObjectType.BR,
-                },
-                {
-                    type: PdfObjectType.BR,
-                },
-                {
-                    type: PdfObjectType.BR,
-                },
+                // {
+                //     type: PdfObjectType.BR,
+                // },
+                // {
+                //     type: PdfObjectType.BR,
+                // },
+                // {
+                //     type: PdfObjectType.BR,
+                // },
+                // {
+                //     type: PdfObjectType.BR,
+                // },
+                // {
+                //     type: PdfObjectType.BR,
+                // },
+                // {
+                //     type: PdfObjectType.BR,
+                // },
+                // {
+                //     type: PdfObjectType.BR,
+                // },
             ]
         } else {
             this.generateLockCombo();
             return [{
                     type: PdfObjectType.IMAGE,
-                    imagePath: path.resolve("assets/", "lock.png"),
+                    imagePath: path.resolve("assets/", "lock-banner.png"),
                     options: {
                         fit: [250, 250],
+                        isCentered: true
                     }
                 },
                 {
                     type: PdfObjectType.BR,
                 },
+                ...(() => {
+                    if(this._displayWords) {
+                        return [ {
+                            type: PdfObjectType.TEXT,
+                            text: 'Here are your chosen words:',
+                        },{
+                            type: PdfObjectType.TEXT,
+                            text: `
+                            •  ${ this.randomWords[0] }
+                            •  ${ this.randomWords[1] }
+                            •  ${ this.randomWords[2] }`,
+                        }
+                    ]
+                    } 
+                    return [];
+                })(),
                 {
                     type: PdfObjectType.BR,
-                },
-                {
-                    type: PdfObjectType.TEXT,
-                    text: 'Here are your chosen words:',
-                    fillColor: "black",
-                },
-
-                {
-                    type: PdfObjectType.TEXT,
-                    text: `
-                    •  ${ this.randomWords[0] }
-                    •  ${ this.randomWords[1] }
-                    •  ${ this.randomWords[2] }`,
-                    fillColor: "black",
-                },
-                {
-                    type: PdfObjectType.BR
+                    space: 3  
                 },
                 {
                     type: PdfObjectType.TEXT,
@@ -202,54 +213,23 @@ class Lock {
   ➤ The words are in that order for a reason.
   ➤ Pay attention to the page numbers, digit by digit.
   ➤ Enter your lock combination here: `,
-                    fillColor: "black",
+                },
+                {
+                    type: PdfObjectType.BR,
                 },
                 {
                     type: PdfObjectType.IMAGE,
-                    imagePath: path.resolve("assets/", "cubes.jpg"),
+                    imagePath: path.resolve("assets/", "lock-vector.png"),
                     options: {
-                        fit: [220, 100],
+                        fit: [220, 220],
                         align: 'center',
-                        valign: 'center'
+                        valign: 'center',
+                        isCentered: true
                     }
                 },
                 {
-                    type: PdfObjectType.BR
-                },
-                {
-                    type: PdfObjectType.BR
-                },
-                {
-                    type: PdfObjectType.BR
-                },
-                {
-                    type: PdfObjectType.BR
-                },
-                {
-                    type: PdfObjectType.BR
-                },
-                {
-                    type: PdfObjectType.BR
-                },
-                {
-                    type: PdfObjectType.BR
-                },
-                {
-                    type: PdfObjectType.TEXT,
-                    text: `~ Answer ~
-                                             |     ${this.lockCombo[0]}     |     ${this.lockCombo[1]}     |     ${this.lockCombo[2]}     | `,
-                    fillColor: "brown"
-                },
-                {
                     type: PdfObjectType.BR,
-                },
-                {
-                    type: PdfObjectType.TEXT,
-                    text: "____________________________________________________________________",
-                    fillColor: "brown"
-                },
-                {
-                    type: PdfObjectType.BR,
+                    space: 3  
                 },
             ]
         }

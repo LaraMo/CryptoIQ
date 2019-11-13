@@ -54,7 +54,7 @@ export default class GeneralInfo extends PureComponent {
     const numberOfStudents = 'Number of students:';
     const numberOfStudentsPlaceholder = 'Numbers only';
     const duration = 'Duration of activity:';
-    const locks = 'Include locks:';
+    const locks = 'Include physical locks:';
     const textbook = 'Use of textbook:';
     const {general} = this.state;
 

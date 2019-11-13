@@ -44,19 +44,19 @@ export function drawImageWithRotation(doc, image, x, y, rotation) {
 
 export function calculateCenterX(doc, objWidth) {
     console.log("Yo");
-    console.log(doc.page.width);
-    console.log(objWidth)
-    console.log(doc.page.margins.left);
-    console.log(doc.page.margins.right);
+    // console.log(doc.page.width);
+    // console.log(objWidth)
+    // console.log(doc.page.margins.left);
+    // console.log(doc.page.margins.right);
     console.log((doc.page.width - objWidth - doc.page.margins.left - doc.page.margins.right) / 2.0)
     return (doc.page.width - objWidth - doc.page.margins.left - doc.page.margins.right) / 2.0 + doc.page.margins.right;
 }
 
 export function textInstruction(text, options) {
     return Object.assign({}, {
-            type: PdfObjectType.TEXT,
-            text
-        },
-        options
-    )
+        type: PdfObjectType.TEXT,
+        text
+    }, {
+        "options": options
+    })
 }

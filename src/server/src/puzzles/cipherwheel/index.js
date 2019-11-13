@@ -8,11 +8,13 @@ import {
 } from '../../lib/pdf/pdfHelpers'
 import {
     createCanvas,
-    loadImage
+    loadImage,
 } from 'canvas';
 import {
     drawImageRotated,
-    degToRad
+    degToRad,
+    drawGrid,
+    styleDefault
 } from '../../lib/pdf/canvasHelpers'
 
 const Difficulty = {
@@ -26,16 +28,18 @@ class CipherWheel {
     innerWheel = [];
     encodedMessage = '';
     message = '';
-    difficulty = Difficulty.HARD;
+    difficulty = Difficulty.EASY;
     imageBuffer = "";
 
-    constructor(message, difficulty) {
+    constructor(message, difficulty, showStartingCode = false, showBanner = true) {
         this.alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
         this.startCode = this.getRandomEncoder();
         this.encodedMessage = this.encodeMessage(message, this.alphabet, this.innerWheel);
         this.message = message;
 
         this.difficulty = difficulty || this.difficulty;
+        this._showStartingCode = showStartingCode;
+        this._showBanner = showBanner;
     }
 
     getRandomEncoder() {
@@ -95,42 +99,67 @@ class CipherWheel {
     }
 
     async renderRotatedWheelImage() {
-        const canvas = createCanvas(300, 300);
+        this.outerWheelImage = await loadImage(path.resolve("assets/", "cipher_outer_wheel.png"));
+        this.innerWheelImage = await loadImage(path.resolve("assets/", "cipher_inner_wheel.png"));
+
+        const canvas = createCanvas(this.outerWheelImage.naturalWidth, this.outerWheelImage.naturalHeight);
         const ctx = canvas.getContext('2d');
 
-        const outerWheelImage = await loadImage(path.resolve("assets/", "cipher_outer_wheel.png"));
-        const innerWheelImage = await loadImage(path.resolve("assets/", "cipher_inner_wheel.png"));
 
-        ctx.drawImage(outerWheelImage, 0, 0);
-        drawImageRotated(innerWheelImage, ctx,
-            outerWheelImage.width / 2.0,
-            outerWheelImage.height / 2.0,
-            outerWheelImage.width / 2.0,
-            outerWheelImage.height / 2.0,
+        ctx.drawImage(this.outerWheelImage, 0, 0);
+        drawImageRotated(this.innerWheelImage, ctx,
+            this.outerWheelImage.width / 2.0,
+            this.outerWheelImage.height / 2.0,
+            this.outerWheelImage.width / 2.0,
+            this.outerWheelImage.height / 2.0,
             degToRad(this.calculateImageRotation())
         )
         return canvas.toBuffer();
     }
 
-    async toGamePdf() {
-        let height = 20;
-        let width = 20;
-        let pdfIns = [
-            {
-                type: PdfObjectType.BR,
-            },
-        ];
+    getWordGridIns() {
+        return {
+            type: PdfObjectType.VECTOR,
+            callback: (doc) => {
+                const wordGrid = [this.encodedMessage.split('')]
+                let imageBuffer = drawGrid(wordGrid, true, true, true);
+                doc.image(imageBuffer,
+                    calculateCenterX(doc, styleDefault.cellWidth * wordGrid[0].length), doc.y, {
+                        align: 'left'
+                    }
+                )
+            }
+        }
+    }
 
+    async getCipherWheelIns() {
+        let pdfIns = [];
+        this.preferedWidth = 200;
+        this.preferedHeight = 200;
         this.imageBuffer = null;
-        if (this.difficulty === Difficulty.HARD) {
+        if (this.difficulty === Difficulty.EASY) {
             this.imageBuffer = await this.renderRotatedWheelImage();
             pdfIns = [...pdfIns, {
                 type: PdfObjectType.VECTOR,
                 callback: async (doc) => {
-                    // console.log(calculateCenterX(doc, 500));
+                    // console.log(calculateCenterX(doc, 500))
+                    if(doc.y + this.preferedHeight > doc.page.height - doc.page.margins.bottom) {
+                        doc.addPage()
+                    }
+
                     doc.image(this.imageBuffer,
-                        calculateCenterX(doc, 130),
+                        calculateCenterX(doc, this.preferedWidth), doc.y, {
+                            fit: [this.preferedWidth, this.preferedHeight]
+                        }
                     )
+
+                    // doc.y, {
+                    //     align: 'left'
+                    // }
+                    console.log("WTF =================================")
+                    console.log(doc.y)
+                    console.log(doc.page)
+
                 }
             }]
         } else {
@@ -144,32 +173,52 @@ class CipherWheel {
                 }
             }, ]
         }
+        return pdfIns;
+    }
+
+    getBanner() {
+        if (this._showBanner) {
+            return {
+                type: PdfObjectType.IMAGE,
+                imagePath: path.resolve("assets/", "cipherwheel-banner.png"),
+                options: {
+                    fit: [250, 250],
+                    isCentered: true
+                }
+            }
+        }
+    }
+    async toGamePdf() {
+        let pdfIns = [
+            this.getBanner(),
+            {
+                type: PdfObjectType.BR,
+            }
+        ];
+        if (this._showStartingCode) {
+            pdfIns.push({
+                type: PdfObjectType.VECTOR,
+                callback: async (doc) => {
+                    let buffer = drawGrid([this.startCode], true, true, true, false)
+                    doc.image(buffer,
+                        calculateCenterX(doc, styleDefault.cellWidth * this.startCode.length), doc.y, {
+                            align: 'left'
+                        },
+                        
+                    )
+                }
+            });
+        }
+        pdfIns = [...pdfIns, {
+                type: PdfObjectType.BR,
+            },
+            ...await this.getCipherWheelIns()
+        ]
 
         pdfIns = [...pdfIns, {
                 type: PdfObjectType.BR,
             },
-            {
-                type: PdfObjectType.VECTOR,
-                callback: (doc) => {
-                    let fontSize = 8;
-                    let xOffset = calculateCenterX(doc, width * this.encodeMessage.length);
-                    let xRect = doc.x + xOffset;
-                    // for (let i = 0; i < this.encodedMessage.length; i++) {
-                    //     let yRect = doc.y;
-                    //     doc.fontSize(12).text(this.encodedMessage[i], xRect + width / 2 - fontSize / 2, yRect, {
-                    //         continue: true,
-                    //         lineBreak: false
-                    //     });
-                    //     doc.rect(xRect, doc.y - height / 2 + fontSize / 2, width, height).stroke();
-                    //     xRect += width;
-                    // }
-                    // doc.text("\n wtf", {
-                    //     continue: false,
-                    //     lineBreak: true
-                    // })
-                    // doc.moveDown(5);
-                }
-            },
+            this.getWordGridIns(),
             {
                 type: PdfObjectType.BR,
             },
@@ -178,20 +227,26 @@ class CipherWheel {
         return pdfIns;
     }
 
-    toInstructionPdf() {
-        return [{
-            type: PdfObjectType.TEXT,
-            text: "For the teacher:",
-        },
-        {
-            type: PdfObjectType.TEXT,
-            text: `Word: ${this.message}`,
-        },
-        {
-            type: PdfObjectType.TEXT,
-            text: `Starting Code: ${this.startCode}`
-        },
-       ];
+    async toInstructionPdf() {
+        let pdfIns = [
+            this.getBanner(),
+            {
+                type: PdfObjectType.BR,
+            },
+            {
+                type: PdfObjectType.TEXT,
+                text: `Word to solve for: ${this.message}`,
+            },
+
+            {
+                type: PdfObjectType.TEXT,
+                text: `Starting Code: ${this.startCode}`
+            }
+        ];
+
+        pdfIns = [...pdfIns, ...await this.getCipherWheelIns()]
+        pdfIns.push(this.getWordGridIns())
+        return pdfIns;
     }
 
     toString() {

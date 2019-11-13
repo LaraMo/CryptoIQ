@@ -393,8 +393,15 @@ class Crossword {
 
     toInstructionPdf() {
         let pdfIns = [{
-                type: PdfObjectType.TEXT,
-                text: "Testing: ",
+                type: PdfObjectType.IMAGE,
+                imagePath: path.resolve("assets/", "crossword-banner.png"),
+                options: {
+                    fit: [250, 250],
+                    isCentered: true
+                }
+            },
+            {
+                type: PdfObjectType.BR,
             },
             {
                 type: PdfObjectType.VECTOR,
@@ -412,8 +419,15 @@ class Crossword {
 
     toGamePdf() {
         let pdfIns = [{
-                type: PdfObjectType.TEXT,
-                text: "Testing: ",
+                type: PdfObjectType.IMAGE,
+                imagePath: path.resolve("assets/", "crossword-banner.png"),
+                options: {
+                    fit: [250, 250],
+                    isCentered: true
+                }
+            },
+            {
+                type: PdfObjectType.BR,
             },
             {
                 type: PdfObjectType.VECTOR,

@@ -7,10 +7,12 @@ import {
 } from 'tls';
 
 export const styleDefault =  {
-    cellWidth: 15,
-    cellHeight: 15,
+    cellWidth: 20,
+    cellHeight: 20,
     fontSize: 12,
-    padding: 5
+    padding: 5,
+    titleSize: 24,
+    paragraphIndent: 16
 }
 
 // x,y is the location on the canvas that the image will rotate around

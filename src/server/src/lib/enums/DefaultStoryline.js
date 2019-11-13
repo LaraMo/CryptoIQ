@@ -9,7 +9,7 @@ story[Storyline.ACTION1] = "The brave prince Brandon was very happy to go and fi
 story[Storyline.ACTION2] = "After passing the obstacle, he entered the castle. There he has to solve a riddle to unlock the door the princesses bedroom.";
 story[Storyline.ACTION3] = "She was not in the room, but he didn't give up! He knew that she was in there, somewhere. He started by looking at other rooms. All the rooms in this castle were locked. He has to go over an obstacle again...";
 story[Storyline.ACTION4] = "After finding Fiona and declaring his love for her. He had to fight the evil dragon and bring Fiona back to safety. Before they got back into the kindgom. A kind man asked to solve the riddle if we would like to pass the bridge.";
-story[Storyline.ENDING] = "Fiona and Brandon married after 3 days. They lived happily ever after";
+story[Storyline.ENDING] = "In the end, after all of the challenges, Brandon was able to brought Fiona back home. With the king's approval, they decided to get married, and lived happily ever after";
 
 defaultStories.push(Object.assign({}, story));
 
