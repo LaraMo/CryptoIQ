@@ -38,7 +38,7 @@ export function validateStorylinePayload(data) {
     }
 }
 
-export async function gameGenerate(res, data) {
+export async function gameGenerate(archive, data) {
     // let data1 = [{
     //         word: "placebo",
     //         clue: "How do you spell answer?"
@@ -139,13 +139,34 @@ export async function gameGenerate(res, data) {
             "ending": "Fiona and Brandon married after 3 days. They lived happily ever after"
         }
     }
+    // try {
+        const gameGenerator = new GameGenerator(data); 
+        await gameGenerator.generate();
+        const gameBuilder = new PdfFactory();
+        const insBuilder = new PdfFactory();
+        await gameBuilder.append(gameGenerator.toGamePdf());
+        // await pdfFactory.append(gameGenerator.toInstructionPdf());
+        return new Promise(async (resolve, reject) => {
+            try {
+                await gameBuilder.build(async (pdf) => {
+                    archive.append(pdf, { name: `game.pdf` });
+                    await insBuilder.append(gameGenerator.toInstructionPdf());
+                    await insBuilder.build((pdf) => {
+                         archive.append(pdf, { name: `instruction.pdf` });
+                         resolve(archive);
+                     });
+                });
+            } catch(err) {
+                reject(err)
+            }
+           
+        });
+       
+    // } catch(e) {
+    //     throw new Error(e.message);
+    // }
+    return ;
 
-    const gameGenerator = new GameGenerator(data); 
-    await gameGenerator.generate();
-    const pdfFactory = new PdfFactory(res);
-    await pdfFactory.append(gameGenerator.toGamePdf());
-    // await pdfFactory.append(gameGenerator.toInstructionPdf());
-    const gamePdf = await pdfFactory.build();
     
 }
 

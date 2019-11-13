@@ -153,13 +153,6 @@ class CipherWheel {
                         }
                     )
 
-                    // doc.y, {
-                    //     align: 'left'
-                    // }
-                    console.log("WTF =================================")
-                    console.log(doc.y)
-                    console.log(doc.page)
-
                 }
             }]
         } else {
@@ -237,7 +230,6 @@ class CipherWheel {
                 type: PdfObjectType.TEXT,
                 text: `Word to solve for: ${this.message}`,
             },
-
             {
                 type: PdfObjectType.TEXT,
                 text: `Starting Code: ${this.startCode}`

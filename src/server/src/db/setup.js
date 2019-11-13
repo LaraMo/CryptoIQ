@@ -23,7 +23,6 @@ const setupScript = [
 ];
 
 export default new Promise((resolve, reject) => {
-    console.log(db)
     db.addListener('open', function () {
         db.serialize(function () {
             setupScript.forEach(stmnt => db.run(stmnt));
@@ -44,7 +43,6 @@ export default new Promise((resolve, reject) => {
                                 stmnt.run([this.lastID, storyline[type], type]);
                             }
                         })
-                        console.log(db)
                         resolve(db);
                     }
                 });

@@ -20,6 +20,7 @@ class PdfFactory {
     constructor(response) {
         this.writeStream = new WritableBufferStream();
         this.doc = createDoc(this.writeStream);
+        this.cbQueue = [];
         this.propsMap = {
             'fontSize': (size) => {
                 this.previousSize = this.doc._fontSize;
@@ -56,12 +57,15 @@ class PdfFactory {
             }
         }
 
-        this.writeStream.on("finish", () => {
+        this.writeStream.on("finish", async () => {
             this.pdfBuffer = this.writeStream.toBuffer();
-            sendPdf(this.response, this.pdfBuffer);
+            for(let i = 0; i < this.cbQueue.length; i++) {
+                await this.cbQueue[i](this.pdfBuffer);
+            }
+            // sendPdf(this.response, this.pdfBuffer);
         })
 
-        this.response = response
+        // this.response = response
 
         this.applyDefaultSettings();
     }
@@ -111,10 +115,12 @@ class PdfFactory {
         }
     }
 
-    async build() {       
+    async build(cb) {       
         this.doc.end();
+        this.cbQueue.push(cb);
         return this.pdfBuffer;
     }
+
 }
 
 export default PdfFactory;

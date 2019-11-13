@@ -56,7 +56,6 @@ class Wordsearch {
             },
         ];
         this.imageBuffer = await this.generateImage(false);
-        console.log(this.imageBuffer)
         pdfIns = [...pdfIns,
             {
                 type: PdfObjectType.BR
@@ -67,7 +66,6 @@ class Wordsearch {
                     doc.image(this.imageBuffer,
                         calculateCenterX(doc, styleDefault.cellWidth * this._grid.length),
                     )
-                    console.log(styleDefault.cellWidth * this._grid.length);
                     console.log(calculateCenterX(doc, styleDefault.cellWidth * this._grid.length));
                 },
             },

@@ -127,10 +127,6 @@ class GameGenerator {
         // this.insPdf.push(meta);
     }
 
-    async pushFooter() {
-
-    }
-
     async pushStage(puzzle, storylineEnum) {
         let temp = []
         if(puzzle instanceof Array && puzzle.length > 1) {

@@ -432,7 +432,6 @@ class Crossword {
             {
                 type: PdfObjectType.VECTOR,
                 callback: async (doc) => {
-                    console.log(this.grid)
                     const imageData = drawGrid(this.board, false, true, true, this.activeWordList);
                     doc.image(imageData, calculateCenterX(doc, styleDefault.cellWidth * this.GRID_WIDTH));
                 }
