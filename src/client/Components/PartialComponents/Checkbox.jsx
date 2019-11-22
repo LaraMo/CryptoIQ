@@ -2,11 +2,12 @@ import React, {useState} from 'react';
 
 const Checkbox = props => {
   const [isChecked, setIsChecked] = useState(props.default || false);
-
+  const changeCallback = props.onChange;
   function toggleCheckboxChange() {
-    const {handleCheckboxChange, label} = props;
-    handleCheckboxChange(!isChecked);
     setIsChecked(!isChecked);
+    if (changeCallback) {
+      changeCallback(!isChecked);
+    }
   }
 
   const {label} = props;
@@ -18,7 +19,6 @@ const Checkbox = props => {
         <input
           type="checkbox"
           className="home-form-checkbox"
-          value={label}
           checked={isChecked}
           onChange={toggleCheckboxChange}
         />

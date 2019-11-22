@@ -6,7 +6,7 @@ import {
     checkServerIdentity
 } from 'tls';
 
-export const styleDefault =  {
+export const styleDefault = {
     cellWidth: 20,
     cellHeight: 20,
     fontSize: 12,
@@ -61,7 +61,7 @@ export function drawGrid(board, showLetter = true, upperCase = true, inBetweenWa
     var canvas = createCanvas(w * cellWidth + padding, h * cellHeight + padding)
     var ctx = canvas.getContext('2d');
     padding = padding / 2.0;
-   
+
     for (let y = 0; y < h; y++) {
         for (let x = 0; x < w; x++) {
             if (board[y][x]) {
@@ -92,14 +92,14 @@ export function drawGrid(board, showLetter = true, upperCase = true, inBetweenWa
                 if (showLetter) {
                     ctx.font = `normal ${style.fontSize}px sans-serif`;
                     ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';                
+                    ctx.textBaseline = 'middle';
                     let letter = upperCase ? board[y][x].toLocaleUpperCase() : board[y][x];
                     ctx.fillText(letter, x * cellWidth + (cellWidth / 2) + padding, (y * cellHeight) + (cellHeight / 2) + padding)
                 }
                 if (wordIndex) {
                     // console.log(wordIndex);
                     let index = wordIndex.filter((val) => val.x === y && val.y === x);
-                    if(index.length > 0 && index[0]) {
+                    if (index.length > 0 && index[0]) {
                         index = index[0]
                         console.log(index)
                         ctx.font = `normal ${6}px sans-serif`;
@@ -112,14 +112,24 @@ export function drawGrid(board, showLetter = true, upperCase = true, inBetweenWa
         }
     }
 
-    // if(wordIndex) {
-    //     wordIndex.forEach(word => {
-    //         ctx.font = `normal ${8}px sans-serif`;
-    //         ctx.textAlign = 'left';
-    //         ctx.textBaseline = 'top'
-    //         ctx.fillText(word.number, word.x * cellWidth + (cellWidth / 5.0) + padding, (word.y * cellHeight) + (cellHeight / 5.0) + padding)
-    //     })
-    // }
-
     return canvas.toBuffer();
+}
+
+export function wrapText(context, text, x, y, maxWidth, lineHeight) {
+    var words = String(text).split(' ');
+    var line = '';
+
+    for (var n = 0; n < words.length; n++) {
+        var testLine = line + words[n] + ' ';
+        var metrics = context.measureText(testLine);
+        var testWidth = metrics.width;
+        if (testWidth > maxWidth && n > 0) {
+            context.fillText(line, x, y);
+            line = words[n] + ' ';
+            y += lineHeight;
+        } else {
+            line = testLine;
+        }
+    }
+    context.fillText(line, x, y);
 }

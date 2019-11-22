@@ -1,4 +1,4 @@
-import Game from './Game';
+import GameGenerator from './GameGenerator';
 
 const mockDataInput = {
     general: {
@@ -9,8 +9,7 @@ const mockDataInput = {
     },
     "vocalbulary": {
         "maxNumberOfWords": 5,
-        "words": [
-            {
+        "words": [{
                 "wordsEntered": "placebo",
                 "pageNumberEntered": "125",
                 "definitionsEntered": "Definition of placebo",
@@ -50,43 +49,38 @@ const mockDataInput = {
 
 describe('Test game generation class', () => {
     test('caluateTeamSize to give correct number of Team and Size', () => {
-        let data = {
-            generalInfo: {
-                numberOfStudents: 25
-            }
+        mockDataInput["generalInfo"] = {
+            numberOfStudents: 25
+
         }
-        let game = new Game(data);
-        let teams = game.calculateTeamSize();
+        let game = new GameGenerator(mockDataInput);
+        let teams = game.calculateTeamSize(25, [3,4]);
         console.log(teams)
         expect(teams[0]["teamSize"]).toBe(5);
         expect(teams[0]["teamNumber"]).toBe(5);
 
-        data = {
-            generalInfo: {
-                numberOfStudents: 24
-            }
-        }
-        game = new Game(data);
-        teams = game.calculateTeamSize();
-        console.log(teams)
-        expect(teams[0]["teamSize"]).toBe(4);
-        expect(teams[0]["teamNumber"]).toBe(6);
+        // mockDataInput["generalInfo"] = {
+        //     numberOfStudents: 24
+        // }
+        // game = new GameGenerator(mockDataInput);
+        // teams = game.calculateTeamSize();
+        // console.log(teams)
+        // expect(teams[0]["teamSize"]).toBe(4);
+        // expect(teams[0]["teamNumber"]).toBe(6);
 
-        data = {
-            generalInfo: {
-                numberOfStudents: 22
-            }
-        }
-        game = new Game(data);
-        teams = game.calculateTeamSize();
-        console.log(teams)
+        // mockDataInput["generalInfo"] = {
+        //     numberOfStudents: 22
+        // }
+        // game = new GameGenerator(mockDataInput);
+        // teams = game.calculateTeamSize();
+        // console.log(teams)
         // expect(teams[0]["teamSize"]).toBe(4);
         // expect(teams[0]["teamNumber"]).toBe(6);
     })
 
-    test("Game generate test", () => {
-        const game = new Game(mockDataInput);
-        game.generate();
-        console.log(game);
-    })
+    // test("Game generate test", () => {
+    //     const game = new Game(mockDataInput);
+    //     game.generate();
+    //     console.log(game);
+    // })
 })

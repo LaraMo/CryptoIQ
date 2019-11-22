@@ -22,7 +22,8 @@ router.post('/', async (req, res, next) => {
             throw new Error(e.message);
         });
 
-        res.attachment(`cryptiq-${Date.now()}.zip`);    
+        // res.attachment(`cryptiq-${Date.now()}.zip`);    
+        res.attachment(`cryptiq.zip`);    
         archive.pipe(res);        
         const archiveMaterials = await gameGenerate(archive, req.body);
         archiveMaterials.finalize();

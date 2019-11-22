@@ -16,6 +16,8 @@ const HomePage = () => {
     duration: 15,
     locks: true,
     textbook: true,
+    rewardTicket: false,
+    ticketContent: 'Congrats! You won 1% bonus point for the next quiz'
   });
 
   const [vocalbulary, setVocabulary] = useState({

@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import DropdownOption from '../../Public/DropdownOption';
 import {ErrorMessage, Checkbox} from '../PartialComponents/';
+import {TicketDataInput} from './PartialComponents/';
 import {durationEnum} from '../Enums/duration';
 
 export default class GeneralInfo extends PureComponent {
@@ -11,7 +12,9 @@ export default class GeneralInfo extends PureComponent {
         numberOfStudents: '',
         duration: 15,
         locks: true,
-        textbook: true, 
+        textbook: true,
+        rewardTicket: false,
+        ticketContent: 'Congrats! You won 1% bonus point for the next quiz',
       },
       error: '',
     };
@@ -114,6 +117,19 @@ export default class GeneralInfo extends PureComponent {
                 general: {...this.state.general, textbook: value},
               })
             }
+          />
+
+          <TicketDataInput
+            onChecked={value => {
+              this.setStateExt({
+                general: {...general, rewardTicket: value},
+              });
+            }}
+            onContentChange={e => {
+              this.setStateExt({
+                general: {...general, ticketContent: e.target.value},
+              });
+            }}
           />
         </div>
       </div>

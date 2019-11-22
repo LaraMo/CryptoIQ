@@ -19,7 +19,7 @@
 - Finish game pdf for all the puzzles: [LOCK, CIPHERWHEEL, WORDSEARCH, CROSSWORD]
 
 
-- Point Bonus
+- [x] Point Bonus
 - Add client side localstorage of previous run
 - Fix CSS client side
-- Fix Team size suggestion
+- [x] Fix Team size suggestion

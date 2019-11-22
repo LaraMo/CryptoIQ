@@ -4,7 +4,9 @@ import {
 } from '../lib/enums/Difficulty';
 import Storyline from '../lib/enums/Storyline';
 import DefaultStoryline from '../lib/enums/DefaultStoryline';
-import {styleDefault} from "../lib/pdf/canvasHelpers"
+import {
+    styleDefault
+} from "../lib/pdf/canvasHelpers"
 import Puzzle from '../lib/enums/Puzzle';
 import CipherWheel from '../puzzles/cipherwheel';
 import Crossword from '../puzzles/crossword'
@@ -16,6 +18,11 @@ import PdfObjectType from '../lib/enums/PdfObjectType';
 import {
     textInstruction
 } from '../lib/pdf/pdfHelpers';
+import {
+    gameGenerate
+} from './core';
+import TicketGenerator from './TicketGenerator';
+import _ from 'lodash';
 
 class GameGenerator {
     storyline = {};
@@ -30,17 +37,28 @@ class GameGenerator {
     strategy;
 
     constructor(data) {
+        const {
+            general,
+            vocalbulary
+        } = data
+        this.preferedSize = [3, 4];
+
+        this.generalInfo = general;
+        this.studentCounts = general.numberOfStudents
         if (this.storyline) {
             this.storyline = data.storyline;
         } else {
             this.storyline = DefaultStoryline[0];
         }
-        this.vocabulary = data.vocalbulary.words;
-        this.generalInfo = data.general;
+        this.generateTicket = general.rewardTicket;
+        if (general.rewardTicket) {
+            this.ticketMessage = data.ticketContent || "Congrats! You won!"
+        }
 
-        this.gameData.teams = this.calculateTeamSize();
+        this.vocabulary = vocalbulary.words;
+        this.generalInfo = data.general;
+        this.teams = this.calculateTeamSize(this.studentCounts, this.preferedSize);
         this.loadStrategies();
-        // this.pushGameInstruction();
     }
 
     loadStrategies() {
@@ -61,6 +79,7 @@ class GameGenerator {
 
     async generate() {
         this.pushHeader();
+        console.log(this.storyline)
         switch (this.storyline.difficultyLevel) {
             case Difficulty.EASY.VALUE:
                 if (this.generalInfo.locks && this.generalInfo.textbook) {
@@ -86,8 +105,17 @@ class GameGenerator {
         }
         this.pushStoryLine(Storyline.ENDING, this.gamePdf);
         this.pushStoryLine(Storyline.ENDING, this.insPdf);
+        if (this.generateTicket && this.ticketMessage) {
+            let noTicket = Math.max.apply(Math, this.teams[1])
+            var tickets = [];
+            for (let i = 0; i < noTicket; i++) {
+                tickets.push();
+                this.insPdf.push(await new TicketGenerator(this.ticketMessage).toInstructionPdf())
+                console.log(this.ticketMessage)
+                console.log(this.insPdf[this.insPdf.length - 1])
+            }
+        }
     }
-
 
     async pushHeader() {
         let title = this.getTitleStep();
@@ -101,36 +129,44 @@ class GameGenerator {
         title.forEach(part => this.gamePdf.push(part));
         this.gamePdf.push({
             type: PdfObjectType.TEXT,
-            fontSize: styleDefault.fontSize 
+            fontSize: styleDefault.fontSize
         });
         this.pushStoryLine(Storyline.OPENING, this.gamePdf);
         this.pushStoryLine(Storyline.QUEST, this.gamePdf);
-        
+
 
 
         // INS HEADER
         // this.insPdf.push({
         //     'type': PdfObjectType.TEXT
         // })
-        // this.insPdf.push(title)
-        // this.pushGameInstruction();
-        // let teamSizeRecommendedText = this.gameData.teams.reduce(
-        //     (accumulator, value) =>
-        //     `${accumulator} ${value['teamNumber']} of ${value['teamSize']}`,
-        // );
+        this.insPdf.push(title)
+        console.log(this.teams[1])
+        let teamSize = this.teams[1].reduce((prev, current, i, arr) => {
+            if (current in prev) {
+                prev[current] += 1
+            } else {
+                prev[current] = 1
+            }
+            return prev
+        },  {})
+        let teamSizeRecommendedText = 
+            `${this.teams[0]} teams - ${Object.keys(teamSize)
+                .map(val => `${teamSize[val]} of ${val > 1 ? val + " people": val + " person"}`).join(', ')}`;
+        console.log(teamSizeRecommendedText)
+        let meta = [{
+            type: PdfObjectType.TEXT,
+            text: `Recommended team size: ${teamSizeRecommendedText}`,
+        }, ];
 
-        // let meta = [{
-        //     type: PdfObjectType.TEXT,
-        //     text: `Recommended team size: ${teamSizeRecommendedText}`,
-        // }, ];
-
-        // this.insPdf.push(meta);
+        this.insPdf.push(meta);
+        console.log(this.insPdf)
     }
 
     async pushStage(puzzle, storylineEnum) {
         let temp = []
-        if(puzzle instanceof Array && puzzle.length > 1) {
-            for(let i = 0; i < puzzle.length; i++) {
+        if (puzzle instanceof Array && puzzle.length > 1) {
+            for (let i = 0; i < puzzle.length; i++) {
                 await temp.push(...await puzzle[i].toGamePdf());
             }
         } else {
@@ -139,8 +175,8 @@ class GameGenerator {
         this.pushStoryLine(storylineEnum.toLowerCase(), this.gamePdf);
         this.pushPuzzle(temp, this.gamePdf);
         temp = []
-        if(puzzle instanceof Object && puzzle.length > 1) {
-            for(let i = 0; i < puzzle.length; i++) {
+        if (puzzle instanceof Object && puzzle.length > 1) {
+            for (let i = 0; i < puzzle.length; i++) {
                 await temp.push(...await puzzle[i].toInstructionPdf());
             }
         } else {
@@ -155,7 +191,7 @@ class GameGenerator {
             indent: styleDefault.paragraphIndent,
             align: 'justified'
         }
-        if(pdfArray) {
+        if (pdfArray) {
             pdfArray.push(textInstruction(this.storyline[storylineEnum.toLowerCase()], options));
             pdfArray.push({
                 type: PdfObjectType.BR,
@@ -170,8 +206,6 @@ class GameGenerator {
                 type: PdfObjectType.BR,
             })
         }
-
-        
     }
 
     pushPuzzle(puzzle, pdfArray) {
@@ -179,8 +213,7 @@ class GameGenerator {
             puzzle.forEach(ins => {
                 pdfArray.push(ins)
             })
-        }
-        else
+        } else
             console.error("Invalid input for puzzle generated")
     }
 
@@ -189,8 +222,7 @@ class GameGenerator {
     }
 
     getTitleStep() {
-        return [
-            {
+        return [{
                 type: PdfObjectType.BR,
             },
             {
@@ -212,51 +244,27 @@ class GameGenerator {
                 type: PdfObjectType.BR,
             }
         ]
-       
+
     }
 
-    calculateTeamSize() {
-        let teamSize = {};
-        let numberStudent = parseInt(this.generalInfo.numberOfStudents);
-        let preferableTeamSize = [3, 4, 5];
-
-        preferableTeamSize.forEach(size => (teamSize[size] = numberStudent % size));
-
-        let bestMatch = [];
-        Object.keys(teamSize).forEach(size => {
-            if (teamSize[size] == 0) {
-                bestMatch = [{
-                    teamSize: parseInt(size),
-                    teamNumber: parseInt(numberStudent / size),
-                }, ];
+    calculateTeamSize(total, preferedSize) {
+        if (total === 0) {
+            return [0, []];
+        }
+        if (preferedSize.length === 0 && total > 0) {
+            return [Infinity, []];
+        }
+        if (preferedSize[0] > total) {
+            return this.calculateTeamSize(total, preferedSize.slice(1));
+        } else {
+            var loseIt = this.calculateTeamSize(total, preferedSize.slice(1)); // just one call of change
+            var useIt = this.calculateTeamSize(total - preferedSize[0], preferedSize); // just one call of change
+            if (loseIt[0] < 1 + useIt[0]) {
+                return loseIt;
             } else {
-                if (bestMatch.length === 0) {
-                    bestMatch = [{
-                            teamSize: parseInt(size),
-                            teamNumber: parseInt(numberStudent / size),
-                        },
-                        {
-                            teamSize: parseInt(numberStudent % size),
-                            teamNumber: 1,
-                        },
-                    ];
-                } else {
-                    if (bestMatch.length === 1) return;
-                    if (bestMatch[1].teamSize >= teamSize[size]) {
-                        bestMatch = [{
-                                teamSize: parseInt(size),
-                                teamNumber: parseInt(numberStudent / size),
-                            },
-                            {
-                                teamSize: parseInt(numberStudent % size),
-                                teamNumber: 1,
-                            },
-                        ];
-                    }
-                }
+                return [1 + useIt[0], useIt[1].concat(preferedSize[0])];
             }
-        });
-        return bestMatch;
+        }
     }
 
     toGamePdf() {
@@ -264,7 +272,14 @@ class GameGenerator {
     }
 
     toInstructionPdf() {
-        return this.insPdf;
+        return this.insPdf.reduce((acc, cur) => {
+            if(_.isArray(cur)) {
+                cur.forEach(val => acc.push(val))
+            } else {
+                acc.push(cur)
+            }
+            return acc
+        }, []);
     }
 }
 

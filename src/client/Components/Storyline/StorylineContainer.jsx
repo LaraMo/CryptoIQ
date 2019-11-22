@@ -1,5 +1,4 @@
 import React, {PureComponent} from 'react';
-import Textarea from './PartialComponents/Textarea';
 import {difficultyEnum} from '../Enums/difficulty';
 import {
   getData,
@@ -9,7 +8,7 @@ import {
 } from '../../helpers/apiHelper';
 import DropdownOption from '../../Public/DropdownOption';
 import SubmitButton from '../PartialComponents/SubmitButton';
-import {ErrorMessage} from '../PartialComponents/';
+import {ErrorMessage, TextArea} from '../PartialComponents/';
 
 let defaultStoryline = ["The king's rings", "Secret Dawson"];
 
@@ -36,6 +35,7 @@ export default class Storyline extends PureComponent {
   setStateExt(state) {
     this.setState(state, () => {
       let storyline = this.getStorylineFromState();
+      console.log(storyline)
       this.props.updateForm(storyline);
     });
   }
@@ -64,6 +64,7 @@ export default class Storyline extends PureComponent {
         opening: this.state.opening,
         quest: this.state.quest,
         ending: this.state.ending,
+        difficultyLevel: this.state.difficultyLevel
       };
       this.state.actions.forEach(
         (action, i) => (result[`action${i + 1}`] = action),
@@ -76,6 +77,7 @@ export default class Storyline extends PureComponent {
         quest: this.state.quest,
         ending: this.state.ending,
         actions: this.state.actions,
+        difficultyLevel: this.state.difficultyLevel
       };
     }
   }
@@ -208,7 +210,7 @@ export default class Storyline extends PureComponent {
       'The left for the dangerous adventure in order to...';
     const ending = 'Enter ending:';
     const endingPlaceholder = '...and they lived happily ever after, the end!';
-    let generateTextarea = [];
+    let generateTextArea = [];
 
     let searchErrorMessage = null;
     if (this.state.searchError) {
@@ -221,8 +223,8 @@ export default class Storyline extends PureComponent {
     }
 
     for (let i = 0; i < this.state.difficultyLevel; i++) {
-      generateTextarea.push(
-        <Textarea
+      generateTextArea.push(
+        <TextArea
           index={i}
           key={i}
           value={this.state.actions[i]}
@@ -297,7 +299,7 @@ export default class Storyline extends PureComponent {
               onChange={e => this.setStateExt({quest: e.target.value})}
             />
           </div>
-          {generateTextarea}
+          {generateTextArea}
 
           <div className="home-form-field-storyline">
             <p>{ending}</p>
