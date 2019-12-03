@@ -175,23 +175,28 @@ class Lock {
   ➤ Pay attention to the page numbers, digit by digit.
   ➤ Enter your lock combination here: `,
                 },
-                {
-                    type: PdfObjectType.BR,
-                },
-                {
-                    type: PdfObjectType.IMAGE,
-                    imagePath: path.resolve("assets/", "lock-vector.png"),
-                    options: {
-                        fit: [220, 220],
-                        align: 'center',
-                        valign: 'center',
-                        isCentered: true
+                ...(() => {
+                    if (this._usePhysicalLock) {
+                        return [ {
+                            type: PdfObjectType.BR,
+                        },
+                        {
+                            type: PdfObjectType.IMAGE,
+                            imagePath: path.resolve("assets/", "lock-vector.png"),
+                            options: {
+                                fit: [220, 220],
+                                align: 'center',
+                                valign: 'center',
+                                isCentered: true
+                            }
+                        },
+                        {
+                            type: PdfObjectType.BR,
+                            space: 3
+                        }]
                     }
-                },
-                {
-                    type: PdfObjectType.BR,
-                    space: 3
-                },
+                    return [];
+                })(),
             ]
         }
     }

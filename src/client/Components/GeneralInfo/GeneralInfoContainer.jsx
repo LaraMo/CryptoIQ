@@ -10,7 +10,6 @@ export default class GeneralInfo extends PureComponent {
     this.state = {
       general: {
         numberOfStudents: '',
-        duration: 15,
         locks: true,
         textbook: true,
         rewardTicket: false,
@@ -77,7 +76,7 @@ export default class GeneralInfo extends PureComponent {
               onChange={this.validateInputField}
             />
           </div>
-          <div className="home-form-field">
+          {/* <div className="home-form-field">
             <p>{duration}</p>
             <select
               className="home-form-selectMenu"
@@ -95,7 +94,7 @@ export default class GeneralInfo extends PureComponent {
                 />
               ))}
             </select>
-          </div>
+          </div> */}
 
           <Checkbox
             className="home-form-field"

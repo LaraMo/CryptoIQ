@@ -12,7 +12,7 @@
     - 3 Games without page (MEDIUM) 3GNP
     - 4 Games with page and lock (HARD) 4GPL
     - 4 Games without page (HARD) 4GNP
-- Complete e2e flow
+- [x] Complete e2e flow
 
 - Finish ins pdf for all the puzzles: [LOCK, CIPHERWHEEL, WORDSEARCH, CROSSWORD] 
 
