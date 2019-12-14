@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Checkbox, TextArea} from '../../PartialComponents';
+import {Checkbox, TextArea, } from '../../PartialComponents';
 export default props => {
   const [isEnabled, setEnabled] = useState(false);
   const [ticketContent, setContent] = useState('You won 1% bonus');

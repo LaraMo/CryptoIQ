@@ -9,8 +9,10 @@ import {
 import DropdownOption from '../../Public/DropdownOption';
 import SubmitButton from '../PartialComponents/SubmitButton';
 import {ErrorMessage, TextArea} from '../PartialComponents/';
+import CONSTANT from '../../Constant';
+import SearchBox from './PartialComponent/SearchBox';
 
-let defaultStoryline = ["The king's rings", "Secret Dawson"];
+let defaultStoryline = ["The king's rings", 'Secret Dawson'];
 
 export default class Storyline extends PureComponent {
   constructor(props) {
@@ -24,24 +26,25 @@ export default class Storyline extends PureComponent {
       ending: '',
       searchError: '',
       generalError: '',
+      searchResult: []
     };
 
     this._getRandomStory = this._getRandomStory.bind(this);
     this._onSearch = this._onSearch.bind(this);
     this._onClickSave = this._onClickSave.bind(this);
     this._onClickDelete = this._onClickDelete.bind(this);
+    this._onSearchChange = _.debounce(this._onSearchChange.bind(this),  200)
   }
 
   setStateExt(state) {
     this.setState(state, () => {
       let storyline = this.getStorylineFromState();
-      console.log(storyline)
       this.props.updateForm(storyline);
     });
   }
 
   setStoryline(storyline) {
-    if(storyline) {
+    if (storyline) {
       const actionArray = [];
       Object.keys(storyline)
         .filter(keys => keys.indexOf('action') !== -1)
@@ -64,7 +67,7 @@ export default class Storyline extends PureComponent {
         opening: this.state.opening,
         quest: this.state.quest,
         ending: this.state.ending,
-        difficultyLevel: this.state.difficultyLevel
+        difficultyLevel: this.state.difficultyLevel,
       };
       this.state.actions.forEach(
         (action, i) => (result[`action${i + 1}`] = action),
@@ -77,7 +80,7 @@ export default class Storyline extends PureComponent {
         quest: this.state.quest,
         ending: this.state.ending,
         actions: this.state.actions,
-        difficultyLevel: this.state.difficultyLevel
+        difficultyLevel: this.state.difficultyLevel,
       };
     }
   }
@@ -93,7 +96,6 @@ export default class Storyline extends PureComponent {
   async _saveStory() {}
 
   async _onSearch(e) {
-    console.log(this.state);
     this.setState({
       searchError: '',
     });
@@ -122,14 +124,15 @@ export default class Storyline extends PureComponent {
   }
 
   async _getRandomStory() {
-    let storyline = await getData(EndPointMap.storyline);
+    let storyline = (await getData(EndPointMap.storyline)) || {};
     storyline = storyline.result;
-    if(storyline) {
+    if (storyline) {
       this.setStoryline(storyline);
     } else {
       this.setState({
-        generalError: 'There are currently no saved Storyline! Please fill in the storyline and Save it!'
-      })
+        generalError:
+          'There are currently no saved Storyline! Please fill in the storyline and Save it!',
+      });
     }
   }
 
@@ -138,10 +141,8 @@ export default class Storyline extends PureComponent {
       generalError: '',
     });
     let storyline = this.getStorylineFromState(true);
-    console.log(storyline);
     if (storyline.title) {
       let result = await postData(EndPointMap.storyline, storyline);
-      console.log(result);
     } else {
       this.setState({
         generalError: 'Please insert a title',
@@ -162,12 +163,12 @@ export default class Storyline extends PureComponent {
     let storyline = this.getStorylineFromState(false);
 
     if (storyline.title) {
-      if(defaultStoryline.indexOf(storyline.title) === -1) {
+      if (defaultStoryline.indexOf(storyline.title) === -1) {
         let result = await deleteData(
           `${EndPointMap.storyline}/${encodeURIComponent(this.state.title)}`,
           storyline,
         );
-        if(result.status) {
+        if (result.status) {
           this.setStoryline({
             title: '',
             opening: '',
@@ -176,13 +177,11 @@ export default class Storyline extends PureComponent {
             actions: ['', '', '', ''],
           });
         }
-        console.log(result);
       } else {
         this.setState({
           generalError: "Can't delete a default storyline!",
         });
       }
-      
     } else {
       this.setState({
         generalError: 'Please insert a title',
@@ -193,6 +192,18 @@ export default class Storyline extends PureComponent {
         generalError: '',
       });
     }, 3000);
+  }
+
+  async _onSearchChange(e) {
+    // console.log(e.target.value)
+    const searchString = e.target.value;
+    this.setStateExt({title: searchString});
+    const result = await getData(`${CONSTANT.STORYLINE_ENDPOINT}/search`, {
+      "searchString": searchString
+    })
+    this.setState({
+      searchResult: result.result
+    })
   }
 
   render() {
@@ -262,21 +273,25 @@ export default class Storyline extends PureComponent {
               ))}
             </select>
           </div>
-          <SubmitButton
-            text={getRandomStory}
-            onClick={this._getRandomStory}
-          ></SubmitButton>
-          {searchErrorMessage}
-          <div className="home-form-field">
-            <p>{title}</p>
-            <input
-              placeholder={titlePlaceholder}
-              value={this.state.title}
-              onChange={e => this.setStateExt({title: e.target.value})}
-            />
-          </div>
 
-          <SubmitButton text={'🔍'} onClick={this._onSearch}></SubmitButton>
+          <div className="home-form-field">
+            <SearchBox
+              label={title}
+              name="searchbox"
+              // onChange={(e) => this._onDebouncedSearch(e.target)}
+              onChange={e=> {
+                e.persist();
+                this._onSearchChange(e);
+              }}
+              result={this.state.searchResult}
+            />
+            <SubmitButton text={'🔍'} onClick={this._onSearch}></SubmitButton>
+            <SubmitButton
+              text={getRandomStory}
+              onClick={this._getRandomStory}
+            ></SubmitButton>
+            {searchErrorMessage}
+          </div>
 
           <div className="home-form-field-storyline">
             <p>{opening}</p>
@@ -317,10 +332,6 @@ export default class Storyline extends PureComponent {
               text={saveStory}
               onClick={this._onClickSave}
             ></SubmitButton>
-            {/* 
-            <SubmitButton
-            text={editStory}
-            onClick={this.props.edit}></SubmitButton> */}
 
             <SubmitButton
               text={deleteStroy}

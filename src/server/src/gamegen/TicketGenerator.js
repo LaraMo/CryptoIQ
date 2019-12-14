@@ -39,7 +39,6 @@ export default class TicketGenerator {
             var top = height / 3.5;
             ctx.font = `20px "Courier New", Courier, monospace`
             ctx.fillText(number, width / 2, top)
-            console.log('wtf')
         }
         top = top || 0;
         ctx.font = `12px "Courier New", Courier, monospace`

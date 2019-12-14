@@ -4,12 +4,16 @@ import _ from 'lodash';
 import '../styles/homePage.scss';
 import GeneralInfoContainer from './GeneralInfo/GeneralInfoContainer';
 import Title from './PartialComponents/Title';
+import Footer from './Footer'
 import VocabularyWordsContainer from './Vocabulary/VocabularyWordsContainer';
 import StorylineContainer from './Storyline/StorylineContainer';
 import {difficultyEnum} from './Enums/difficulty';
 import SubmitButton from './PartialComponents/SubmitButton';
 import {submitGameGen} from '../helpers/apiHelper';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
+import { getLatestGameData, storeItem, generalInfoKey, vocalbularyKEy, storylineKey } from '../helpers/localStorageHelper';
+import { validateForm } from '../helpers/utility';
+
 const HomePage = () => {
   const [generalInfo, setGeneralInfo] = useState({
     numberOfStudents: '',
@@ -36,6 +40,42 @@ const HomePage = () => {
     ending: '',
   });
 
+  const [canSubmit, setCanSubmit] = useState(false)
+
+  useEffect(() => {
+    const gameData = getLatestGameData();
+    if(gameData) {
+      const {generalInfo, vocalbulary, storyline} = gameData;
+      if(generalInfo) {
+        setGeneralInfo(gameData.generalInfo);
+      }
+
+      if(vocalbulary) {
+        setVocabulary(vocalbulary);
+      }
+
+      if(storyline) {
+        setStoryline(storyline);
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    try {
+      let payload = Object.assign(
+        {},
+        {general: generalInfo},
+        {vocalbulary: vocalbulary},
+        {storyline: storyline},
+      );
+      validateForm(payload);
+      setCanSubmit(true);
+    } catch(error) {
+      // console.error(error);
+      setCanSubmit(false);
+    }
+  })
+
   const createEscapeRoom = 'Give me an escape room!';
   const _onSubmit = () => {
     let payload = Object.assign(
@@ -44,41 +84,13 @@ const HomePage = () => {
       {vocalbulary: vocalbulary},
       {storyline: storyline},
     );
+    storeItem(generalInfoKey, generalInfo);
+    storeItem(vocalbularyKEy, vocalbulary)
+    storeItem(storylineKey, storyline)
     submitGameGen(payload);
   };
 
-  const _onSubmitSaveStory = () => {
-    let payload = Object.assign(
-      {},
-      {general: generalInfo},
-      {vocalbulary: vocalbulary},
-      {storyline: storyline},
-    );
-    console.log(payload);
-    submitGameGen(payload);
-  };
-
-  const _onSubmitDeleteStory = () => {
-    let payload = Object.assign(
-      {},
-      {general: generalInfo},
-      {vocalbulary: vocalbulary},
-      {storyline: storyline},
-    );
-    console.log(payload);
-    submitGameGen(payload);
-  };
-
-  const _onSubmitEditStory = () => {
-    let payload = Object.assign(
-      {},
-      {general: generalInfo},
-      {vocalbulary: vocalbulary},
-      {storyline: storyline},
-    );
-    console.log(payload);
-    submitGameGen(payload);
-  };
+ 
 
   return (
     <div className="home">
@@ -92,12 +104,10 @@ const HomePage = () => {
             acceptPageNumber={generalInfo.textbook}
           />
           <StorylineContainer
-            delete={_onSubmitDeleteStory}
-            edit={_onSubmitEditStory}
-            save={_onSubmitSaveStory}
             updateForm={state => setStoryline(state)}
           />
-          <SubmitButton
+           <SubmitButton
+            disabled={!canSubmit}
             text={createEscapeRoom}
             onClick={_onSubmit}
           ></SubmitButton>

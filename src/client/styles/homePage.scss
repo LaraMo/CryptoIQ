@@ -83,9 +83,11 @@
                 color: $error_primary_fontColor;
                 font-weight: bold;
                 padding: 8px;
+                border-radius: 5px;
             }
             //storyline
             &-storyline {
+                margin-left: 5px;
                 display: flex;
                 flex-direction: column;
                 >div {
@@ -142,7 +144,8 @@
 }
 
 .hideError {
-    visibility: hidden;
+    // visibility: hidden;
+    display: none;
 }
 
 /////Animations
@@ -162,7 +165,7 @@
 
 .submitButton {
     background: -webkit-gradient(linear, left top, left bottom, from($button_primary_background), to($button_secondary_background));
-    border: 0.6px solid;
+    border: 2.4px solid transparent;
     border-radius: 5px;
     font-size: 15px;
     letter-spacing: .2px;
@@ -170,21 +173,29 @@
     margin: auto;
     padding: 8px;
     &:hover {
-        animation: biggerBorder .3s ease;
         border: 2.4px solid;
         cursor: pointer;
     }
 }
 
-body {
-    padding-block-end: 72px;
+
+#pageNumber {
+    width: 50px;
 }
+
+// body {
+    //  padding-block-end: 72px;
+// }
 
 form {
     display: flex;
     flex-direction: column;
 }
 
-#pageNumber {
-    width: 50px;
+footer {
+    position: relative;
+    margin-top: 5vh;
+    margin-bottom: 0;
+    color: grey;
+    font-size: smaller;
 }

@@ -80,7 +80,6 @@ class PdfFactory {
         const keys = sortObjectKeyByOrder(ins, this.propsOrder);
         for (const key of keys) {
             if (key in this.propsMap && this.propsMap[key] instanceof Function) {
-                // console.log(key)
                 const res = await this.propsMap[key](ins[key], ins.options)
             }
         }

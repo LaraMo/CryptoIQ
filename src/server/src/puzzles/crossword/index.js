@@ -237,9 +237,6 @@ class Crossword {
             rowStr = "";
 
         }
-        console.log(result)
-        console.log('across ' + this.acrossCount);
-        console.log('down ' + this.downCount);
     }
 
     shuffleArray(array) {
@@ -407,7 +404,6 @@ class Crossword {
                 type: PdfObjectType.VECTOR,
                 callback: async (doc) => {
                     console.log("In cb")
-                    // console.log(this.grid)
                     const imageData = drawGrid(this.board, true, true, true, this.activeWordList);
                     doc.image(imageData, calculateCenterX(doc, styleDefault.cellWidth * this.GRID_WIDTH));
                 }

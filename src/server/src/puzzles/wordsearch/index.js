@@ -66,7 +66,6 @@ class Wordsearch {
                     doc.image(this.imageBuffer,
                         calculateCenterX(doc, styleDefault.cellWidth * this._grid.length),
                     )
-                    console.log(calculateCenterX(doc, styleDefault.cellWidth * this._grid.length));
                 },
             },
             {
@@ -99,8 +98,6 @@ class Wordsearch {
                     doc.image(this.imageBuffer,
                         calculateCenterX(doc, styleDefault.cellWidth * this._grid.length),
                     )
-                    console.log(styleDefault.cellWidth * this._grid.length);
-                    console.log(calculateCenterX(doc, styleDefault.cellWidth * this._grid.length));
                 },
             },
             {

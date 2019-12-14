@@ -19,6 +19,12 @@ const setupScript = [
         storyline_id INTEGER REFERENCES storyline(id) ON DELETE CASCADE,
         action TEXT,
         type TEXT
+    )`,
+    `CREATE TABLE IF NOT EXISTS error_log(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        message TEXT,
+        traceback TEXT,
+        createdAt INTEGER
     )`
 ];
 

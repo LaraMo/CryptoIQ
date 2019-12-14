@@ -19,7 +19,7 @@ export default class GeneralInfo extends PureComponent {
     };
 
     this.validateInputField = this.validateInputField.bind(this);
-    this.nonNumericError = React.createRef();
+    // this.nonNumericError = React.createRef();
     this._onCheckBoxChanged = this._onCheckBoxChanged.bind(this);
   }
 
@@ -36,14 +36,14 @@ export default class GeneralInfo extends PureComponent {
     this.setStateExt({
       general: {...general, numberOfStudents: e.target.value},
     });
-    const errorNumberOfStudents = this.nonNumericError.current;
+    // const errorNumberOfStudents = this.nonNumericError.current;
 
     if (e.target.value.match(/([1-9]|[1-4][0-9]|50)/)) {
       this.setStateExt({error: ''});
-      errorContainer.classList.add('hideError');
+      // errorContainer.classList.add('hideError');
     } else {
-      this.setStateExt({error: 'Please enter a number from 0-50'});
-      errorContainer.classList.remove('hideError');
+      this.setStateExt({error: 'Please enter a number from 1-50'});
+      // errorContainer.classList.remove('hideError');
     }
   }
 
@@ -57,7 +57,7 @@ export default class GeneralInfo extends PureComponent {
     const numberOfStudentsPlaceholder = 'Numbers only';
     const duration = 'Duration of activity:';
     const locks = 'Include physical locks:';
-    const textbook = 'Use of textbook:';
+    const textbook = 'Use of textbook/slide:';
     const {general} = this.state;
 
     return (
@@ -76,31 +76,12 @@ export default class GeneralInfo extends PureComponent {
               onChange={this.validateInputField}
             />
           </div>
-          {/* <div className="home-form-field">
-            <p>{duration}</p>
-            <select
-              className="home-form-selectMenu"
-              onChange={e =>
-                this.setStateExt({
-                  general: {...general, duration: e.target.value},
-                })
-              }
-            >
-              {_.map(durationEnum, option => (
-                <DropdownOption
-                  key={option.VALUE}
-                  value={option.VALUE}
-                  label={option.LABEL}
-                />
-              ))}
-            </select>
-          </div> */}
 
           <Checkbox
             className="home-form-field"
             label={locks}
             default={this.state.general.locks}
-            handleCheckboxChange={value =>
+            onChange={value =>
               this.setStateExt({
                 general: {...this.state.general, locks: value},
               })
@@ -111,7 +92,7 @@ export default class GeneralInfo extends PureComponent {
             className="home-form-field"
             label={textbook}
             default={this.state.general.textbook}
-            handleCheckboxChange={value =>
+            onChange={value =>
               this.setStateExt({
                 general: {...this.state.general, textbook: value},
               })
@@ -121,12 +102,12 @@ export default class GeneralInfo extends PureComponent {
           <TicketDataInput
             onChecked={value => {
               this.setStateExt({
-                general: {...general, rewardTicket: value},
+                general: {...this.state.general, rewardTicket: value},
               });
             }}
             onContentChange={e => {
               this.setStateExt({
-                general: {...general, ticketContent: e.target.value},
+                general: {...this.state.general, ticketContent: e.target.value},
               });
             }}
           />

@@ -50,3 +50,26 @@ export function insertAction(data = {
         }
     })
 }
+
+export function insertErrorLog(data = {
+    message,
+    traceback,
+    createdAt
+}) {
+    return new Promise((resolve, reject) => {
+        const {
+            message,
+            traceback,
+            createdAt
+        } = data;
+
+        let stmnt = db.prepare("INSERT INTO error_log(message, traceback, createdAt) VALUES (?, ?, ?);");
+        stmnt.run([message, traceback, createdAt], (err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(this);
+            }
+        })
+    })
+}

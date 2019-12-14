@@ -32,6 +32,7 @@ function getRandomInt(min, max) {
 }
 
 export function randomWords(words, count) {
+    words = words || [];
     let result = [];
     let copy = words.slice();
     count = count || 1;

@@ -79,7 +79,6 @@ class GameGenerator {
 
     async generate() {
         this.pushHeader();
-        console.log(this.storyline)
         switch (this.storyline.difficultyLevel) {
             case Difficulty.EASY.VALUE:
                 if (this.generalInfo.locks && this.generalInfo.textbook) {
@@ -111,8 +110,6 @@ class GameGenerator {
             for (let i = 0; i < noTicket; i++) {
                 tickets.push();
                 this.insPdf.push(await new TicketGenerator(this.ticketMessage).toInstructionPdf())
-                console.log(this.ticketMessage)
-                console.log(this.insPdf[this.insPdf.length - 1])
             }
         }
     }
@@ -141,7 +138,6 @@ class GameGenerator {
         //     'type': PdfObjectType.TEXT
         // })
         this.insPdf.push(title)
-        console.log(this.teams[1])
         let teamSize = this.teams[1].reduce((prev, current, i, arr) => {
             if (current in prev) {
                 prev[current] += 1
@@ -153,14 +149,12 @@ class GameGenerator {
         let teamSizeRecommendedText = 
             `${this.teams[0]} teams - ${Object.keys(teamSize)
                 .map(val => `${teamSize[val]} of ${val > 1 ? val + " people": val + " person"}`).join(', ')}`;
-        console.log(teamSizeRecommendedText)
         let meta = [{
             type: PdfObjectType.TEXT,
             text: `Recommended team size: ${teamSizeRecommendedText}`,
         }, ];
 
         this.insPdf.push(meta);
-        console.log(this.insPdf)
     }
 
     async pushStage(puzzle, storylineEnum) {

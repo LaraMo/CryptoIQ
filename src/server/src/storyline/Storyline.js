@@ -18,10 +18,6 @@ export function extractActions(data) {
     return actionTypes;
 }
 class Storyline {
-    // constructor(data) {
-    //     this.storylineData = data.storyline
-    // }
-
     static withActions(resolve, reject, err, rows, withActions = true) {
         try {
             let result = {};
@@ -75,6 +71,37 @@ class Storyline {
         })
     }
 
+    static getTitles(searchString = "") {
+        console.log("YO")
+        return new Promise((resolve, reject) => {
+            if(searchString) {
+                if(searchString.indexOf(' ') !== -1) {
+                    searchString.split(' ').reduce((prev, cur) => prev += cur + "%", "")
+                }
+                searchString = `%${searchString}%`
+                let query = `SELECT s.title FROM storyline s WHERE s LIKE ? ORDER BY s.id DESC`;
+                let stmnt = db.prepare(query);
+                stmnt.run([searchString], function (err) {
+                    if (err) {
+                        reject(err)
+                    } else {
+                        resolve(this);
+                    }
+                })
+            } else {
+                let query = `SELECT UNIQUE s.title FROM storyline s ORDER BY s.id DESC`;
+                let stmnt = db.prepare(query);
+                stmnt.run([searchString], function (err) {
+                    if (err) {
+                        reject(err)
+                    } else {
+                        resolve(this);
+                    }
+                })
+            }
+        })
+    }
+
     static addToDb(data = {
         title,
         opening,
@@ -94,8 +121,6 @@ class Storyline {
                     ending
                 } = data;
                 let actionTypes = extractActions(data);
-                console.log(actionTypes)
-                // console.log(actionKeys)
                 db.serialize(async function () {
                     const {
                         lastID
@@ -121,7 +146,16 @@ class Storyline {
     }
 
     // update(title, data) {
-    //     var sql = `UPDATE storyline SET WHERE title = '${title}'`;
+    //     return new Promise((resolve, reject) => {
+    //         try {
+    //             var sql = `UPDATE storyline SET WHERE title = '${title}'`;
+    //             resolve(await Promise.all(result.map(reflect)))
+    //         } catch (err) {
+    //             reject(err)
+    //         }
+
+    //     })
+
     // }
 
     static delete(title = "") {

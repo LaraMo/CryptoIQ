@@ -6,7 +6,7 @@ import ErrorMessage from '../PartialComponents/ErrorMessage';
 export default class VocabularyWordsContainer extends PureComponent {
   constructor(props) {
     super(props);
-    this.MIN_WORD_COUNT = 5;
+    this.MIN_WORD_COUNT = 8;
     this.MAX_WORD_COUNT = 25;
     this.state = {
       maxNumberOfWords: this.MIN_WORD_COUNT,

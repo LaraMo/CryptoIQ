@@ -58,11 +58,21 @@ export function deleteData(url = API_URL, data = {}) {
 export function submitGameGen(data) {
     let payload = postPayload(data);
     fetch(CONSTANT.GAME_GEN_ENDPOINT, payload)
-        .then((response) => {
-            return response.blob().then(blob => blob);
+        .then((response) => {            
+            console.log(response)
+            if(response.headers.get('Content-Type') === 'application/zip') {
+                return response.blob().then(blob => blob);
+            }
         }).then(file => {
-            let fileUrl = URL.createObjectURL(file);
-            window.location = fileUrl;
-            return fileUrl;
+            if(file) {
+                let fileUrl = URL.createObjectURL(file);
+                window.location = fileUrl;
+                return fileUrl;
+            } else {
+                throw 'Error occured during game generation'
+            }   
+        }).catch(e => {
+            console.error(e);
+            throw e;
         })
 }

@@ -38,7 +38,6 @@ export function drawImageWithRotation(doc, image, x, y, rotation) {
     var loc = doTransform(x, y, rotation);
     doc.rotate(rotation, x, y);
     doc.image(image, loc.y, loc.x);
-    // console.log("New Location: ", loc)
     doc.restore();
 };
 

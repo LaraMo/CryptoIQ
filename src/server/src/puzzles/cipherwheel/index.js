@@ -142,7 +142,6 @@ class CipherWheel {
             pdfIns = [...pdfIns, {
                 type: PdfObjectType.VECTOR,
                 callback: async (doc) => {
-                    // console.log(calculateCenterX(doc, 500))
                     if(doc.y + this.preferedHeight > doc.page.height - doc.page.margins.bottom) {
                         doc.addPage()
                     }
