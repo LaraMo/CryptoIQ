@@ -7,7 +7,7 @@ import morgan from 'morgan';
 
 
 morgan('tiny');
-dotenv.config();
+dotenv.config({path: __dirname + '/.env'});
 
 import gamegenRouter from './gamegen';
 import storylineRouter from './storyline';

@@ -5,4 +5,5 @@ dist/
 /**/*.js.map
 .sqlite
 Untitled*.js
+/**/src/server/dist/
 cryptiq.sqlite
