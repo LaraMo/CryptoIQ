@@ -9,7 +9,7 @@ module.exports = {
         extensions: ['.js', '.jsx']
     },
     output: {
-        filename: 'bundle.[hash].js',
+        filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
         publicPath: '/'
     },
@@ -40,7 +40,8 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'Production',
             template: 'dist/index.html',
-            favicon: 'dist/favicon.ico'
+            favicon: 'dist/favicon.ico',
+            inject: false
         })
     ],
 };

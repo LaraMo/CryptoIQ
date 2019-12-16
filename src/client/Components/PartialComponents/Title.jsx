@@ -1,7 +1,6 @@
 import React from "react";
-
 //Main Title and Description Section
-const projectTitle = "CryptIQ 🧩";
+const projectTitle = "CryptIQ";
 const descriptionPart1 = "Simple ";
 const descriptionPart2 = "and ";
 const descriptionPart3 = "reusable ";
@@ -13,7 +12,7 @@ const getStartedPart2 = "now";
 const Title = () => {
   return (
     <div id="slide1" className="home-title">
-      <h1>{projectTitle}</h1>
+      <h1>{projectTitle} <span>💬</span></h1>
       <h2>
         <span>{descriptionPart1}</span>
         {descriptionPart2}
