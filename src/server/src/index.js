@@ -34,7 +34,7 @@ app.get('/test', (req, res) => {
 app.use('/game-generate', gamegenRouter);
 app.use('/storyline', storylineRouter); //todo
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 9000;
 
 import db_setup from './db/setup';
 (async () => {

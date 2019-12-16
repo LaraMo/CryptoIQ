@@ -6,7 +6,6 @@ import path from 'path';
 import fs from 'fs';
 sqlite3.verbose();
 
-
 const location = process.env.PERSIST_DB === 'true' ?
     (path.isAbsolute(process.env.DB_PATH) ?
         process.env.DB_PATH :
