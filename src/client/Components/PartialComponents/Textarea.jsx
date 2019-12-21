@@ -10,7 +10,7 @@ const TextArea = props => {
     <div className="home-form-field-storyline">
       <p>
         {label}
-        {props.index && props.index + 1}
+        {props.storyline? props.index + 1 : "" } {/* This logic is used since the text area box is used in other forms, not just the storyline */}
       </p>
       <textarea
         rows={rows}

@@ -25,6 +25,7 @@ export default props => {
       <Checkbox label={label} onChange={onChecked} />
       {isEnabled && (
         <TextArea
+          storyline = {false}
           rows="1"
           cols="1"
           label="Enter ticket message:"

@@ -18,8 +18,8 @@ const HomePage = () => {
   const [generalInfo, setGeneralInfo] = useState({
     numberOfStudents: '',
     duration: 15,
-    locks: true,
-    textbook: true,
+    locks: false,
+    textbook: false,
     rewardTicket: false,
     ticketContent: 'Congrats! You won 1% bonus point for the next quiz'
   });
@@ -97,6 +97,7 @@ const HomePage = () => {
       <PageProgress color={'skyblue'} height={8} />
       <div className="homeContainer">
         <Title />
+        {console.log("Hello I am here from the component" + generalInfo.textbook)}
         <form id="slide2" className="home-formContainer" onSubmit={_onSubmit}>
           <GeneralInfoContainer updateForm={state => {setGeneralInfo(state)}} />
           <VocabularyWordsContainer
