@@ -28,11 +28,11 @@
 - [ ] Fix deployment
 
 - [x] Add client side localstorage of previous run : FIX BUG THAT WHEN REFRESHED, STORYLINE LOADS ALL ACTION TO THE FIRST TEXTAREA... | Staus:  | Duration:
-- [ ] Client:Add message feedback //on the button when trying to generate | Staus:  | Duration:
+- [x] Client:Add message feedback //on the button when trying to generate | Staus: DONE | Duration: 45m
 
 - [x] Add client-side validation -- DONE -- 
     - [x] Vocabulary: words all letter, page number all number | Status: DONE | Duration: 30m //had to fix a mini regex bug 
     - [x] General Info: N# of students < 50 | Staus: DONE | Duration: 15m
-    - [x] ALL: Make sure the text fields are not empty on submission | Staus:  | Duration:
+    - [x] ALL: Make sure the text fields are not empty on submission | Staus: DONE | Duration: 1h
 
 

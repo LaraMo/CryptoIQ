@@ -104,8 +104,10 @@ const HomePage = () => {
 
 
     console.log(voc.children[0])
-    if(validateArrayOnSubmission(voc, "Couldn't Generate Game: All vocabulary fields must be filled") 
-    // && validateOnSubmission(numberOfStudents, "Couldn't Generate Game: Number of students is empty")){
+    if(
+    validateArrayOnSubmission(voc, "Couldn't Generate Game: All vocabulary fields must be filled") 
+    && 
+    validateOnSubmission(numberOfStudents, "Couldn't Generate Game: Number of students is empty")
     ){
       submitGameGen(payload);
     }
