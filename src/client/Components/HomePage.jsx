@@ -31,7 +31,7 @@ const HomePage = () => {
   });
 
   const [vocalbulary, setVocabulary] = useState({
-    maxNumberOfWords: 1,
+    maxNumberOfWords: 8,
   });
 
   const [storyline, setStoryline] = useState({
