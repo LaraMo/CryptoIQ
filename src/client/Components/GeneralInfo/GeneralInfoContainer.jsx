@@ -1,9 +1,9 @@
 import React, {PureComponent} from 'react';
-import DropdownOption from '../../Public/DropdownOption';
 import {ErrorMessage, Checkbox} from '../PartialComponents/';
 import {TicketDataInput} from './PartialComponents/';
-import {durationEnum} from '../Enums/duration';
 import {validator}  from '../../helpers/clientValidation';
+import {getLatestGameData} from '../../helpers/localStorageHelper';
+
 export default class GeneralInfo extends PureComponent {
   constructor(props) {
     super(props);
@@ -23,9 +23,32 @@ export default class GeneralInfo extends PureComponent {
     this._onCheckBoxChanged = this._onCheckBoxChanged.bind(this);
   }
 
-  setStateExt(state) {
+  sync() {
+    const {generalInfo} = getLatestGameData();
+    console.log(generalInfo);
+    this.setStateExt({
+      general: {
+        numberOfStudents: generalInfo.numberOfStudents,
+        locks: generalInfo.locks,
+        textbook: generalInfo.textbook,
+        rewardTicket: generalInfo.rewardTicket,
+        ticketContent: generalInfo.ticketContent,
+      },
+    }, () => {
+      console.log(this.state);
+    });
+  }
+
+  componentDidMount() {
+    this.sync();
+  }
+
+  setStateExt(state, cb) {
     this.setState(state, () => {
       this.props.updateForm(this.state.general);
+      if(cb && _.isFunction(cb)) {
+        cb()
+      }
     });
   }
 
@@ -83,8 +106,6 @@ export default class GeneralInfo extends PureComponent {
               })
             }
           />
-
-
 
           <Checkbox
             className="home-form-field"

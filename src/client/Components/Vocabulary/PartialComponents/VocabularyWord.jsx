@@ -29,8 +29,24 @@ export default class VocabularyWord extends PureComponent {
     }
   }
 
-  componentDidUpdate(prev) {
-
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      this.props.savedDefinition &&
+      !prevState.wordsEntered &&
+      !prevState.defintionsEntered &&
+      !prevState.pageNumberEntered
+    ) {
+      const {
+        wordsEntered,
+        defintionsEntered,
+        pageNumberEntered,
+      } = this.props.savedDefinition;
+      this.setState({
+        wordsEntered,
+        defintionsEntered,
+        pageNumberEntered,
+      });
+    }
   }
 
   render() {
