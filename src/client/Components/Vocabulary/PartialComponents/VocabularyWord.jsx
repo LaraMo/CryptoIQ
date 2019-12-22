@@ -12,12 +12,38 @@ export default class VocabularyWord extends PureComponent {
     };
   }
 
+  componentDidMount() {
+    console.log(this.props.savedDefinition)
+    if (this.props.savedDefinition) {
+      const {
+        wordsEntered,
+        defintionsEntered,
+        pageNumberEntered,
+        index,
+      } = this.props.savedDefinition;
+      this.setState({
+        wordsEntered,
+        defintionsEntered,
+        pageNumberEntereda,
+      });
+    }
+  }
+
+  componentDidUpdate(prev) {
+
+  }
+
   render() {
     //Form
     const word = 'Word';
     const defintion = 'Defintion';
     const pageNumber = 'Page';
-    const {wordsEntered, defintionsEntered, pageNumberEntered,  index} = this.state;
+    const {
+      wordsEntered,
+      defintionsEntered,
+      pageNumberEntered,
+      index,
+    } = this.state;
 
     let pageNumberInput = null;
     if(this.props.acceptPageNumber) {
@@ -52,7 +78,7 @@ export default class VocabularyWord extends PureComponent {
                 {
                   wordsEntered: e.target.value,
                 },
-                () => this.props.onChange(this.props.index, this.state,),
+                () => this.props.onChange(this.props.index, this.state),
               );
             }}
           />

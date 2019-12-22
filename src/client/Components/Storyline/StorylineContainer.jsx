@@ -11,6 +11,7 @@ import SubmitButton from '../PartialComponents/SubmitButton';
 import {ErrorMessage, TextArea} from '../PartialComponents/';
 import CONSTANT from '../../Constant';
 import SearchBox from './PartialComponent/SearchBox';
+import { getLatestGameData } from '../../helpers/localStorageHelper';
 
 let defaultStoryline = ["The king's rings", 'Secret Dawson'];
 
@@ -34,9 +35,20 @@ export default class Storyline extends PureComponent {
     this._onClickSave = this._onClickSave.bind(this);
     this._onClickDelete = this._onClickDelete.bind(this);
     this._onSearchChange = _.debounce(this._onSearchChange.bind(this),  200)
-    // this._onSearchChange = this._onSearchChange.bind(this)
     this._onResultClick = this._onResultClick.bind(this); 
     this.setTitle = this.setTitle.bind(this)
+
+  }
+
+  componentDidMount() {
+    this.sync()
+  }
+
+  sync() {
+    const {storyline}  = getLatestGameData()
+    console.log("LOL", storyline)
+
+    this.setStoryline(storyline);
   }
 
   setStateExt(state, cb) {

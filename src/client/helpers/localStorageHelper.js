@@ -6,9 +6,9 @@ export const storylineKey = 'storyline';
 
 export function getLatestGameData() {
   return {
-    [generalInfoKey]: getItem(generalInfoKey),
-    [vocalbularyKEy]: getItem(vocalbularyKEy),
-    [storylineKey]: getItem(storylineKey),
+    [generalInfoKey]: JSON.parse(getItem(generalInfoKey)),
+    [vocalbularyKEy]: JSON.parse(getItem(vocalbularyKEy)),
+    [storylineKey]: JSON.parse(getItem(storylineKey)),
   }
 }
 
