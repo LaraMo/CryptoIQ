@@ -1,10 +1,5 @@
 import CONSTANT from '../Constant';
 
-const API_URL = "http://localhost:9000";
-export const EndPointMap = {
-    "storyline": `${API_URL}/storyline`
-} 
-
 function postPayload(data) {
     return {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.

@@ -13,7 +13,6 @@ export default class VocabularyWord extends PureComponent {
   }
 
   componentDidMount() {
-    console.log(this.props.savedDefinition)
     if (this.props.savedDefinition) {
       const {
         wordsEntered,
@@ -29,8 +28,24 @@ export default class VocabularyWord extends PureComponent {
     }
   }
 
-  componentDidUpdate(prev) {
-
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      this.props.savedDefinition &&
+      !prevState.wordsEntered &&
+      !prevState.defintionsEntered &&
+      !prevState.pageNumberEntered
+    ) {
+      const {
+        wordsEntered,
+        defintionsEntered,
+        pageNumberEntered,
+      } = this.props.savedDefinition;
+      this.setState({
+        wordsEntered,
+        defintionsEntered,
+        pageNumberEntered,
+      });
+    }
   }
 
   render() {

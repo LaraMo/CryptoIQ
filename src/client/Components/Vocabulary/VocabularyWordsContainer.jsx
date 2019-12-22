@@ -38,8 +38,6 @@ export default class VocabularyWordsContainer extends PureComponent {
 
   sync() {
     const { vocalbulary }  = getLatestGameData()
-    console.log("LOL", vocalbulary)
-
     this.setVocabulary(vocalbulary);
   }
 

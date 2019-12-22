@@ -1,17 +1,12 @@
 import React, {PureComponent} from 'react';
 import {difficultyEnum} from '../Enums/difficulty';
-import {
-  getData,
-  EndPointMap,
-  postData,
-  deleteData,
-} from '../../helpers/apiHelper';
+import {getData, postData, deleteData} from '../../helpers/apiHelper';
 import DropdownOption from '../../Public/DropdownOption';
 import SubmitButton from '../PartialComponents/SubmitButton';
 import {ErrorMessage, TextArea} from '../PartialComponents/';
 import CONSTANT from '../../Constant';
 import SearchBox from './PartialComponent/SearchBox';
-import { getLatestGameData } from '../../helpers/localStorageHelper';
+import {getLatestGameData} from '../../helpers/localStorageHelper';
 
 let defaultStoryline = ["The king's rings", 'Secret Dawson'];
 
@@ -27,27 +22,27 @@ export default class Storyline extends PureComponent {
       ending: '',
       searchError: '',
       generalError: '',
-      searchResult: []
+      searchResult: [],
     };
 
     this._getRandomStory = this._getRandomStory.bind(this);
     this._onSearch = this._onSearch.bind(this);
     this._onClickSave = this._onClickSave.bind(this);
     this._onClickDelete = this._onClickDelete.bind(this);
-    this._onSearchChange = _.debounce(this._onSearchChange.bind(this),  200)
-    this._onResultClick = this._onResultClick.bind(this); 
-    this.setTitle = this.setTitle.bind(this)
-
+    this._onSearchChange = _.debounce(this._onSearchChange.bind(this), 200);
+    this._onResultClick = this._onResultClick.bind(this);
+    this.setTitle = this.setTitle.bind(this);
   }
 
   componentDidMount() {
-    this.sync()
+    this.sync();
   }
 
   sync() {
-    const {storyline}  = getLatestGameData()
-    console.log("LOL", storyline)
-
+    const {storyline} = getLatestGameData();
+    this.setStateExt({
+      difficultyLevel: storyline.difficultyLevel,
+    });
     this.setStoryline(storyline);
   }
 
@@ -55,8 +50,8 @@ export default class Storyline extends PureComponent {
     this.setState(state, () => {
       let storyline = this.getStorylineFromState();
       this.props.updateForm(storyline);
-      if(cb && cb instanceof Function) {
-        cb()
+      if (cb && cb instanceof Function) {
+        cb();
       }
     });
   }
@@ -73,7 +68,7 @@ export default class Storyline extends PureComponent {
         opening: storyline.opening,
         quest: storyline.quest,
         ending: storyline.ending,
-        actions: actionArray,
+        actions: actionArray[0],
       });
     }
   }
@@ -120,7 +115,9 @@ export default class Storyline extends PureComponent {
     let search = {};
     if (this.state.title) {
       search = await getData(
-        `${EndPointMap.storyline}/${encodeURIComponent(this.state.title)}`,
+        `${CONSTANT.STORYLINE_ENDPOINT}/${encodeURIComponent(
+          this.state.title,
+        )}`,
       );
       if (search.status === 'SUCCESS' && search.result) {
         this.setStoryline(search.result);
@@ -142,7 +139,7 @@ export default class Storyline extends PureComponent {
   }
 
   async _getRandomStory() {
-    let storyline = (await getData(EndPointMap.storyline)) || {};
+    let storyline = (await getData(CONSTANT.STORYLINE_ENDPOINT)) || {};
     storyline = storyline.result;
     if (storyline) {
       this.setStoryline(storyline);
@@ -160,11 +157,11 @@ export default class Storyline extends PureComponent {
     });
     let storyline = this.getStorylineFromState(true);
     if (storyline.title) {
-      let result = await postData(EndPointMap.storyline, storyline);
-      console.log(result)
-      if (result.status === "SUCCESS") {
-        alert("Storyline Saved!")
-      } else if(result.status === "FAILURE") {
+      let result = await postData(CONSTANT.STORYLINE_ENDPOINT, storyline);
+      console.log(result);
+      if (result.status === 'SUCCESS') {
+        alert('Storyline Saved!');
+      } else if (result.status === 'FAILURE') {
         alert(result.result);
       }
     } else {
@@ -189,7 +186,9 @@ export default class Storyline extends PureComponent {
     if (storyline.title) {
       if (defaultStoryline.indexOf(storyline.title) === -1) {
         let result = await deleteData(
-          `${EndPointMap.storyline}/${encodeURIComponent(this.state.title)}`,
+          `${CONSTANT.STORYLINE_ENDPOINT}/${encodeURIComponent(
+            this.state.title,
+          )}`,
           storyline,
         );
         if (result.status) {
@@ -220,34 +219,37 @@ export default class Storyline extends PureComponent {
 
   async _onSearchChange(e) {
     this.setState({
-      title: ''
-    })
+      title: '',
+    });
     const searchString = e.target.value;
     const result = await getData(`${CONSTANT.STORYLINE_ENDPOINT}/search`, {
-      "searchString": searchString
-    })
-    if(result.status === 'SUCCESS') {
+      searchString: searchString,
+    });
+    if (result.status === 'SUCCESS') {
       this.setState({
-        "title": searchString,
-        searchResult: result.result
-      })
+        title: searchString,
+        searchResult: result.result,
+      });
     }
   }
 
   async _onResultClick(e) {
     let result = e.target.innerText;
-    this.setStateExt({
-      title: result,
-      searchResult: []
-    }, () => {
-      this._onSearch()
-    })
+    this.setStateExt(
+      {
+        title: result,
+        searchResult: [],
+      },
+      () => {
+        this._onSearch();
+      },
+    );
   }
 
   async setTitle(title) {
     this.setStateExt({
-      title
-    })
+      title,
+    });
   }
 
   render() {
@@ -314,6 +316,12 @@ export default class Storyline extends PureComponent {
                   key={option.VALUE}
                   value={option.VALUE}
                   label={option.LABEL}
+                  {...{
+                    selected:
+                      option.VALUE === this.state.difficultyLevel
+                        ? true
+                        : null,
+                  }}
                 />
               ))}
             </select>
@@ -325,7 +333,7 @@ export default class Storyline extends PureComponent {
               name="searchbox"
               title={this.state.title}
               _onResultClick={this._onResultClick}
-              onChange={e=> {
+              onChange={e => {
                 e.persist();
                 this._onSearchChange(e);
               }}
@@ -338,9 +346,7 @@ export default class Storyline extends PureComponent {
               onClick={this._getRandomStory}
             ></SubmitButton>
           </div>
-          <div className="home-form-field">
-            {searchErrorMessage}
-          </div>
+          <div className="home-form-field">{searchErrorMessage}</div>
 
           <div className="home-form-field-storyline">
             <p>{opening}</p>

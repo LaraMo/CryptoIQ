@@ -8,7 +8,7 @@
 
 # SERVER:
 - [x] Fix db persistance on startup + add default storyline
-- [] Game generation
+- [ ] Game generation
     - [] 2 Games without page (EASY) 2GNP
     - [] 3 Games with page and lock (MEDIUM) 3GWPL
     - [] 3 Games without page (MEDIUM) 3GNP
@@ -25,9 +25,10 @@
 - [x] Fix CSS client side
 - [x] Fix Team size suggestion
 
-## CLIENT:
+- [ ] Fix deployment
 
-- [ ] Add client side localstorage of previous run
+## CLIENT:
+- [x] Add client side localstorage of previous run
 - [ ] Client:Add message feedback
 - [ ] Add client-side validation
     - [ ] Vocabulary: words all letter, page number all number
