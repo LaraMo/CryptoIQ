@@ -19,7 +19,7 @@ import {
   storylineKey,
 } from '../helpers/localStorageHelper';
 import {validateForm} from '../helpers/utility';
-
+import {validateOnSubmission, validateArrayOnSubmission} from "../helpers/clientValidation";
 const HomePage = () => {
   const [generalInfo, setGeneralInfo] = useState({
     numberOfStudents: '',
@@ -81,6 +81,7 @@ const HomePage = () => {
     }
   });
 
+  
   const createEscapeRoom = 'Give me an escape room!';
   const _onSubmit = () => {
     let payload = Object.assign(
@@ -92,7 +93,21 @@ const HomePage = () => {
     storeItem(generalInfoKey, generalInfo);
     storeItem(vocalbularyKEy, vocalbulary);
     storeItem(storylineKey, storyline);
-    submitGameGen(payload);
+    //before making a post request validate data
+    //get all input elements
+    //check if number of students is empty
+    const numberOfStudents =  document.getElementById("numberOfStudents");
+    //check if any vocabulary words are empty
+    const voc =  document.getElementsByClassName("home-form-vocContainer")[0];
+    //check if any fields in the story are empty
+
+
+    console.log(voc.children[0])
+    if(validateArrayOnSubmission(voc, "Couldn't Generate Game: All vocabulary fields must be filled") 
+    // && validateOnSubmission(numberOfStudents, "Couldn't Generate Game: Number of students is empty")){
+    ){
+      submitGameGen(payload);
+    }
   };
 
   return (

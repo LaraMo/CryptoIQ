@@ -17,7 +17,6 @@ const router = express.Router();
 
 router.post('/', async (req, res, next) => {
     try {
-        // validateRequest(req);
         const {vocalbulary} = req.body;
         validateVocabularyPayload(vocalbulary)
         const archive = archiver.create("zip");
@@ -26,7 +25,6 @@ router.post('/', async (req, res, next) => {
         });
         res.setHeader('Content-Type', 'application/zip');
         res.attachment(`cryptiq-${Date.now()}.zip`);    
-        // res.attachment(`cryptiq.zip`);    
         archive.pipe(res);        
         const archiveMaterials = await gameGenerate(archive, req.body);
         archiveMaterials.finalize();

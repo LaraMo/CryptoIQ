@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
 
 import cors from 'cors';
-// console.log(process.env)
 import express from 'express';
 import morgan from 'morgan';
 
@@ -25,14 +24,8 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.get('/test', (req, res) => {
-    res.json({
-        result: 'Hello, World!'
-    })
-});
-
 app.use('/game-generate', gamegenRouter);
-app.use('/storyline', storylineRouter); //todo
+app.use('/storyline', storylineRouter); 
 
 const PORT = process.env.PORT || 9000;
 

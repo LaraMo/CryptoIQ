@@ -46,8 +46,6 @@ export default class Storyline extends PureComponent {
 
   sync() {
     const {storyline}  = getLatestGameData()
-    console.log("LOL", storyline)
-
     this.setStoryline(storyline);
   }
 
@@ -280,6 +278,7 @@ export default class Storyline extends PureComponent {
     for (let i = 0; i < this.state.difficultyLevel; i++) {
       generateTextArea.push(
         <TextArea
+          rows = {15}
           storyline={true}
           index={i}
           key={i}

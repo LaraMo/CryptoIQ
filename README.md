@@ -27,9 +27,12 @@
 
 ## CLIENT:
 
-- [ ] Add client side localstorage of previous run
-- [ ] Client:Add message feedback
-- [ ] Add client-side validation
-    - [ ] Vocabulary: words all letter, page number all number
-    - [ ] General Info: N# of students < 50
+- [ ] Add client side localstorage of previous run : FIX BUG THAT WHEN REFRESHED, STORYLINE LOADS ALL ACTION TO THE FIRST TEXTAREA... | Staus:  | Duration:
+- [ ] Client:Add message feedback //on the button when trying to generate | Staus:  | Duration:
+
+- [ - ] Add client-side validation -- DONE -- 
+    - [ - ] Vocabulary: words all letter, page number all number | Status: DONE | Duration: 30m //had to fix a mini regex bug 
+    - [ - ] General Info: N# of students < 50 | Staus: DONE | Duration: 15m
+    - [ - ] ALL: Make sure the text fields are not empty on submission | Staus:  | Duration:
+
 
