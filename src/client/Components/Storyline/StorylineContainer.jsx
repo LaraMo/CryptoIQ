@@ -34,12 +34,16 @@ export default class Storyline extends PureComponent {
     this._onClickSave = this._onClickSave.bind(this);
     this._onClickDelete = this._onClickDelete.bind(this);
     this._onSearchChange = _.debounce(this._onSearchChange.bind(this),  200)
+    this._onResultClick = this._onResultClick.bind(this); 
   }
 
-  setStateExt(state) {
+  setStateExt(state, cb) {
     this.setState(state, () => {
       let storyline = this.getStorylineFromState();
       this.props.updateForm(storyline);
+      if(cb && cb instanceof Function) {
+        cb()
+      }
     });
   }
 
@@ -95,11 +99,12 @@ export default class Storyline extends PureComponent {
 
   async _saveStory() {}
 
-  async _onSearch(e) {
+  async _onSearch() {
     this.setState({
       searchError: '',
     });
     let search = {};
+    console.log(this.state.title)
     if (this.state.title) {
       search = await getData(
         `${EndPointMap.storyline}/${encodeURIComponent(this.state.title)}`,
@@ -127,6 +132,7 @@ export default class Storyline extends PureComponent {
     let storyline = (await getData(EndPointMap.storyline)) || {};
     storyline = storyline.result;
     if (storyline) {
+      console.log(storyline)
       this.setStoryline(storyline);
     } else {
       this.setState({
@@ -195,14 +201,27 @@ export default class Storyline extends PureComponent {
   }
 
   async _onSearchChange(e) {
-    // console.log(e.target.value)
+    this.setState({
+      title: ''
+    })
     const searchString = e.target.value;
-    this.setStateExt({title: searchString});
     const result = await getData(`${CONSTANT.STORYLINE_ENDPOINT}/search`, {
       "searchString": searchString
     })
-    this.setState({
-      searchResult: result.result
+    if(result.status === 'SUCCESS') {
+      this.setState({
+        searchResult: result.result
+      })
+    }
+  }
+
+  async _onResultClick(e) {
+    let result = e.target.innerHTML;
+    this.setStateExt({
+      title: result,
+      searchResult: []
+    }, () => {
+      this._onSearch()
     })
   }
 
@@ -278,7 +297,8 @@ export default class Storyline extends PureComponent {
             <SearchBox
               label={title}
               name="searchbox"
-              // onChange={(e) => this._onDebouncedSearch(e.target)}
+              title={this.state.title}
+              _onResultClick={this._onResultClick}
               onChange={e=> {
                 e.persist();
                 this._onSearchChange(e);

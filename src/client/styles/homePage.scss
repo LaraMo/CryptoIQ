@@ -1,6 +1,8 @@
 @import './base/variables.scss';
 @import './base/commun.scss';
 @import './base/animation.scss';
+@import './base/normalized';
+
 .home {
     padding-top: 40px;
     width: 100%;
@@ -183,9 +185,24 @@
     width: 50px;
 }
 
-// body {
-    //  padding-block-end: 72px;
-// }
+body {
+     padding-block-end: 72px;
+}
+
+.search-result {
+    ul {
+        background: none;
+    }
+    background: white;
+    border: 1px grey solid;
+    box-shadow: grey;
+    .result {
+        margin: 2px;
+        list-style-type: none
+    } 
+}
+
+
 
 form {
     display: flex;
