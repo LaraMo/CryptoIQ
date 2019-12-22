@@ -79,7 +79,7 @@ export default class VocabularyWordsContainer extends PureComponent {
             key={i}
             onChange={this._onWordChange}
             acceptPageNumber={this.props.acceptPageNumber}
-            savedDefinition={this.state.words[i]}
+            // savedDefinition={this.state.words[i]}
           />,
         );
       }

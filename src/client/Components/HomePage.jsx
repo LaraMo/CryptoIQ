@@ -31,7 +31,7 @@ const HomePage = () => {
   });
 
   const [vocalbulary, setVocabulary] = useState({
-    maxNumberOfWords: 1,
+    maxNumberOfWords: 8,
   });
 
   const [storyline, setStoryline] = useState({
@@ -92,9 +92,7 @@ const HomePage = () => {
       {vocalbulary: vocalbulary},
       {storyline: storyline},
     );
-    storeItem(generalInfoKey, generalInfo);
-    storeItem(vocalbularyKEy, vocalbulary);
-    storeItem(storylineKey, storyline);
+  
     //before making a post request validate data
     //get all input elements
     //check if number of students is empty
@@ -108,6 +106,9 @@ const HomePage = () => {
     // && validateOnSubmission(numberOfStudents, "Couldn't Generate Game: Number of students is empty")){
     ){
       submitGameGen(payload);
+      storeItem(generalInfoKey, generalInfo);
+      storeItem(vocalbularyKEy, vocalbulary);
+      storeItem(storylineKey, storyline);
     }
   };
 
