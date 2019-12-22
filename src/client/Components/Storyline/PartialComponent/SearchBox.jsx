@@ -16,7 +16,8 @@ const SearchBox = props => {
   const onBlur = (e) => {
     setTimeout(() => {
       setDisplayResult(false);
-    }, 500)
+    }, 200)
+    props.setTitle(e.target.value)
   };
 
   const onFocus = (e) => {
@@ -24,7 +25,6 @@ const SearchBox = props => {
   };
 
   const _onResultClick = (e) => {
-    console.log(e)
     props._onResultClick(e)
     setDisplayResult(false)
   };
@@ -34,6 +34,7 @@ const SearchBox = props => {
       <label htmlFor={props.name}>{props.label}</label>
       <div>
         <input
+          className="search-box"
           name={props.name}
           autoComplete="new-password"
           placeholder={props.placeholder}

@@ -35,6 +35,7 @@ export default class Storyline extends PureComponent {
     this._onClickDelete = this._onClickDelete.bind(this);
     this._onSearchChange = _.debounce(this._onSearchChange.bind(this),  200)
     this._onResultClick = this._onResultClick.bind(this); 
+    this.setTitle = this.setTitle.bind(this)
   }
 
   setStateExt(state, cb) {
@@ -104,7 +105,6 @@ export default class Storyline extends PureComponent {
       searchError: '',
     });
     let search = {};
-    console.log(this.state.title)
     if (this.state.title) {
       search = await getData(
         `${EndPointMap.storyline}/${encodeURIComponent(this.state.title)}`,
@@ -132,7 +132,6 @@ export default class Storyline extends PureComponent {
     let storyline = (await getData(EndPointMap.storyline)) || {};
     storyline = storyline.result;
     if (storyline) {
-      console.log(storyline)
       this.setStoryline(storyline);
     } else {
       this.setState({
@@ -216,12 +215,18 @@ export default class Storyline extends PureComponent {
   }
 
   async _onResultClick(e) {
-    let result = e.target.innerHTML;
+    let result = e.target.innerText;
     this.setStateExt({
       title: result,
       searchResult: []
     }, () => {
       this._onSearch()
+    })
+  }
+
+  async setTitle(title) {
+    this.setStateExt({
+      title
     })
   }
 
@@ -304,6 +309,7 @@ export default class Storyline extends PureComponent {
                 e.persist();
                 this._onSearchChange(e);
               }}
+              setTitle={this.setTitle}
               result={this.state.searchResult}
             />
             <SubmitButton text={'🔍'} onClick={this._onSearch}></SubmitButton>
@@ -311,6 +317,8 @@ export default class Storyline extends PureComponent {
               text={getRandomStory}
               onClick={this._getRandomStory}
             ></SubmitButton>
+          </div>
+          <div className="home-form-field">
             {searchErrorMessage}
           </div>
 

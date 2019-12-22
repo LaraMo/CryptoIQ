@@ -85,6 +85,7 @@
                 font-weight: bold;
                 padding: 8px;
                 border-radius: 5px;
+                margin-left: 5px;
             }
             //storyline
             &-storyline {
@@ -179,6 +180,9 @@
     }
 }
 
+.search-box {
+    width: 350px;
+}
 
 #pageNumber {
     width: 50px;
@@ -189,19 +193,28 @@ body {
 }
 
 .search-result {
-    ul {
-        background: none;
-    }
+    position: absolute;
+    width: 350px;
+    border-radius: 0 0 5px 5px;
     background: white;
     border: 1px grey solid;
-    box-shadow: grey;
+    box-shadow: 1px 2px #888888;
+    
     .result {
-        margin: 2px;
-        list-style-type: none
+        list-style-type: none;
+        width: 100%;
+        padding: 4px 0 4px 10%;
+    }
+
+    .result:hover{
+        background: dimgray;
     } 
 }
 
-
+ul {
+    padding-inline-start: 0;
+}
+ 
 
 form {
     display: flex;
