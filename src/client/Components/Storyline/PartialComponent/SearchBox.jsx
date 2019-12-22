@@ -12,7 +12,6 @@ const SearchBox = props => {
     if(props.title) {
       // setDisplayResult(false);
       setVal(props.title);
-
     }
   }, [props.title]);
 

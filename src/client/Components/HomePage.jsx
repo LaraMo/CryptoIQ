@@ -1,18 +1,24 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent, use} from 'react';
 import PageProgress from 'react-page-progress';
 import _ from 'lodash';
 import '../styles/homePage.scss';
 import GeneralInfoContainer from './GeneralInfo/GeneralInfoContainer';
 import Title from './PartialComponents/Title';
-import Footer from './Footer'
+import Footer from './Footer';
 import VocabularyWordsContainer from './Vocabulary/VocabularyWordsContainer';
 import StorylineContainer from './Storyline/StorylineContainer';
 import {difficultyEnum} from './Enums/difficulty';
 import SubmitButton from './PartialComponents/SubmitButton';
 import {submitGameGen} from '../helpers/apiHelper';
 import {useState, useEffect} from 'react';
-import { getLatestGameData, storeItem, generalInfoKey, vocalbularyKEy, storylineKey } from '../helpers/localStorageHelper';
-import { validateForm } from '../helpers/utility';
+import {
+  getLatestGameData,
+  storeItem,
+  generalInfoKey,
+  vocalbularyKEy,
+  storylineKey,
+} from '../helpers/localStorageHelper';
+import {validateForm} from '../helpers/utility';
 
 const HomePage = () => {
   const [generalInfo, setGeneralInfo] = useState({
@@ -21,7 +27,7 @@ const HomePage = () => {
     locks: false,
     textbook: false,
     rewardTicket: false,
-    ticketContent: 'Congrats! You won 1% bonus point for the next quiz'
+    ticketContent: 'Congrats! You won 1% bonus point for the next quiz',
   });
 
   const [vocalbulary, setVocabulary] = useState({
@@ -40,25 +46,25 @@ const HomePage = () => {
     ending: '',
   });
 
-  const [canSubmit, setCanSubmit] = useState(false)
+  const [canSubmit, setCanSubmit] = useState(false);
 
   useEffect(() => {
     const gameData = getLatestGameData();
-    if(gameData) {
+    if (gameData) {
       const {generalInfo, vocalbulary, storyline} = gameData;
-      if(generalInfo) {
+      if (generalInfo) {
         setGeneralInfo(gameData.generalInfo);
       }
 
-      if(vocalbulary) {
+      if (vocalbulary) {
         setVocabulary(vocalbulary);
       }
 
-      if(storyline) {
+      if (storyline) {
         setStoryline(storyline);
       }
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     try {
@@ -70,11 +76,10 @@ const HomePage = () => {
       );
       validateForm(payload);
       setCanSubmit(true);
-    } catch(error) {
-      // console.error(error);
+    } catch (error) {
       setCanSubmit(false);
     }
-  })
+  });
 
   const createEscapeRoom = 'Give me an escape room!';
   const _onSubmit = () => {
@@ -85,12 +90,10 @@ const HomePage = () => {
       {storyline: storyline},
     );
     storeItem(generalInfoKey, generalInfo);
-    storeItem(vocalbularyKEy, vocalbulary)
-    storeItem(storylineKey, storyline)
+    storeItem(vocalbularyKEy, vocalbulary);
+    storeItem(storylineKey, storyline);
     submitGameGen(payload);
   };
-
- 
 
   return (
     <div className="home">
@@ -98,15 +101,17 @@ const HomePage = () => {
       <div className="homeContainer">
         <Title />
         <form id="slide2" className="home-formContainer" onSubmit={_onSubmit}>
-          <GeneralInfoContainer updateForm={state => {setGeneralInfo(state)}} />
+          <GeneralInfoContainer
+            updateForm={state => {
+              setGeneralInfo(state);
+            }}
+          />
           <VocabularyWordsContainer
             updateForm={state => setVocabulary(state)}
             acceptPageNumber={generalInfo.textbook}
           />
-          <StorylineContainer
-            updateForm={state => setStoryline(state)}
-          />
-           <SubmitButton
+          <StorylineContainer updateForm={state => setStoryline(state)} />
+          <SubmitButton
             disabled={!canSubmit}
             text={createEscapeRoom}
             onClick={_onSubmit}

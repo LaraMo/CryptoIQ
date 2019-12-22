@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react';
 import _ from 'lodash';
 import VocabularyWord from './PartialComponents/VocabularyWord';
 import ErrorMessage from '../PartialComponents/ErrorMessage';
+import { getLatestGameData } from '../../helpers/localStorageHelper';
 
 export default class VocabularyWordsContainer extends PureComponent {
   constructor(props) {
@@ -29,6 +30,24 @@ export default class VocabularyWordsContainer extends PureComponent {
       }
     };
     this._onWordCountChange = this._onWordCountChange.bind(this);
+  }
+
+  componentDidMount() {
+    this.sync()
+  }
+
+  sync() {
+    const { vocalbulary }  = getLatestGameData()
+    console.log("LOL", vocalbulary)
+
+    this.setVocabulary(vocalbulary);
+  }
+
+  setVocabulary(vocabulary) {
+    this.setStateExt({
+      maxNumberOfWords: vocabulary.maxNumberOfWords,
+      words: vocabulary.words
+    })
   }
 
   setStateExt(state) {
@@ -60,6 +79,7 @@ export default class VocabularyWordsContainer extends PureComponent {
             key={i}
             onChange={this._onWordChange}
             acceptPageNumber={this.props.acceptPageNumber}
+            savedDefinition={this.state.words[i]}
           />,
         );
       }

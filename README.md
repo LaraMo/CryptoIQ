@@ -5,6 +5,8 @@
 - Nicholas Apanian
 
 # TODO: List on priority
+
+# SERVER:
 - [x] Fix db persistance on startup + add default storyline
 - [] Game generation
     - 2 Games without page (EASY) 2GNP
@@ -14,13 +16,22 @@
     - 4 Games without page (HARD) 4GNP
 - [x] Complete e2e flow
 
-- Finish ins pdf for all the puzzles: [LOCK, CIPHERWHEEL, WORDSEARCH, CROSSWORD] 
+- [ ] Finish ins pdf for all the puzzles: [LOCK, CIPHERWHEEL, WORDSEARCH, CROSSWORD] 
 
-- Finish game pdf for all the puzzles: [LOCK, CIPHERWHEEL, WORDSEARCH, CROSSWORD]
+- [ ] Finish game pdf for all the puzzles: [LOCK, CIPHERWHEEL, WORDSEARCH, CROSSWORD]
 
+- [ ] Client:Add message feedback
 
 - [x] Point Bonus
-- Add client side localstorage of previous run
-- Add search drop down to show what stories there are
+- [x] Add search drop down to show what stories there are
 - [x] Fix CSS client side
 - [x] Fix Team size suggestion
+
+## CLIENT:
+
+- [ ] Add client side localstorage of previous run
+- [ ] Client:Add message feedback
+- [ ] Add client-side validation
+    - [ ] Vocabulary: words all letter, page number all number
+    - [ ] General Info: N# of students < 50
+
