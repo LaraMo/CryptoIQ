@@ -4,10 +4,6 @@ const Checkbox = props => {
   const [isChecked, setIsChecked] = useState(props.default || false);
 
   useEffect(() => {
-    console.log(props.default)
-    // if(props.default !== isChecked) {
-    //   toggleCheckboxChange();
-    // }
     setIsChecked(props.default)
   }, [props.default])
   const changeCallback = props.onChange;

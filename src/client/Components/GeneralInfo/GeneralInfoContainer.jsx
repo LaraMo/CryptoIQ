@@ -25,18 +25,19 @@ export default class GeneralInfo extends PureComponent {
 
   sync() {
     const {generalInfo} = getLatestGameData();
-    console.log(generalInfo);
-    this.setStateExt({
-      general: {
-        numberOfStudents: generalInfo.numberOfStudents,
-        locks: generalInfo.locks,
-        textbook: generalInfo.textbook,
-        rewardTicket: generalInfo.rewardTicket,
-        ticketContent: generalInfo.ticketContent,
-      },
-    }, () => {
-      console.log(this.state);
-    });
+    if(!_.isEmpty(generalInfo)) {
+      this.setStateExt({
+        general: {
+          numberOfStudents: generalInfo.numberOfStudents,
+          locks: generalInfo.locks,
+          textbook: generalInfo.textbook,
+          rewardTicket: generalInfo.rewardTicket,
+          ticketContent: generalInfo.ticketContent,
+        },
+      }, () => {
+      });
+    }
+   
   }
 
   componentDidMount() {

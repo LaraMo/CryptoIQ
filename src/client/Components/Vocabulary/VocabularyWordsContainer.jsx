@@ -38,7 +38,9 @@ export default class VocabularyWordsContainer extends PureComponent {
 
   sync() {
     const { vocalbulary }  = getLatestGameData()
-    this.setVocabulary(vocalbulary);
+    if(!_.isEmpty(vocalbulary)) {
+      this.setVocabulary(vocalbulary);
+    }
   }
 
   setVocabulary(vocabulary) {
@@ -77,7 +79,7 @@ export default class VocabularyWordsContainer extends PureComponent {
             key={i}
             onChange={this._onWordChange}
             acceptPageNumber={this.props.acceptPageNumber}
-            savedDefinition={this.state.words[i]}
+            //savedDefinition={this.state.words[i]}
           />,
         );
       }
