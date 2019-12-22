@@ -17,6 +17,7 @@ export function extractActions(data) {
         .filter(key => re.test(key) && actionKeys.indexOf(key) !== -1);
     return actionTypes;
 }
+
 class Storyline {
     static withActions(resolve, reject, err, rows, withActions = true) {
         try {
@@ -79,23 +80,26 @@ class Storyline {
                     searchString.split(' ').reduce((prev, cur) => prev += cur + "%", "")
                 }
                 searchString = `%${searchString}%`
-                let query = `SELECT s.title FROM storyline s WHERE s LIKE ? ORDER BY s.id DESC`;
+                console.log(searchString)
+                let query = `SELECT DISTINCT s.title FROM storyline s WHERE s.title LIKE ? ORDER BY s.id DESC`;
                 let stmnt = db.prepare(query);
-                stmnt.run([searchString], function (err) {
+                stmnt.all([searchString], function (err, rows) {
                     if (err) {
                         reject(err)
                     } else {
-                        resolve(this);
+                        rows = rows.map(val => val.title)
+                        resolve(rows);
                     }
                 })
             } else {
-                let query = `SELECT UNIQUE s.title FROM storyline s ORDER BY s.id DESC`;
+                let query = `SELECT DISTINCT title FROM storyline ORDER BY id DESC`;
                 let stmnt = db.prepare(query);
-                stmnt.run([searchString], function (err) {
+                stmnt.all([], function (err, rows) {
                     if (err) {
                         reject(err)
                     } else {
-                        resolve(this);
+                        rows = rows.map(val => val.title)
+                        resolve(rows);
                     }
                 })
             }

@@ -21,5 +21,6 @@
 
 - [x] Point Bonus
 - Add client side localstorage of previous run
-- Fix CSS client side
+- Add search drop down to show what stories there are
+- [x] Fix CSS client side
 - [x] Fix Team size suggestion

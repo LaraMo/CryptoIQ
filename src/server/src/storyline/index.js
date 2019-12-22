@@ -24,15 +24,15 @@ router
       });
 
       res.status(500).json({
-        status: 'Failure',
+        status: 'FAILURE',
         result: err,
       });
     }
   })
   .post(async (req, res, next) => {
     try {
-      console.log("WTF")
       validateStorylinePayload(req.body);
+      console.log('YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
       let storyline = await Storyline.addToDb(req.body);
       res.status(200).json({
         status: 'SUCCESS',
@@ -45,11 +45,39 @@ router
       });
 
       res.status(500).json({
-        status: 'Failure',
+        status: 'FAILURE',
         result: err,
       });
     }
   });
+
+router.route('/search').get(async (req, res, next) => {
+  try {
+    console.log('WTF', req.query);
+    if ("searchString" in req.query) {
+      let titles = await Storyline.getTitles(
+        decodeURIComponent(req.query.searchString),
+      );
+      res.status(200).json({
+        status: 'SUCCESS',
+        result: titles,
+      });
+    } else {
+      throw 'Invalid request! No searchingString query string was provided';
+    }
+  } catch (err) {
+    // insertErrorLog({
+    //   createdAt: Date.now(),
+    //   message: err,
+    //   traceback: err.stack,
+    // });
+    console.error(err)
+    res.status(500).json({
+      status: 'FAILURE',
+      result: err,
+    });
+  }
+});
 
 router
   .route('/:title')
@@ -69,24 +97,11 @@ router
 
       console.error(err);
       res.status(500).json({
-        status: 'Failure',
+        status: 'FAILURE',
         result: err,
       });
     }
   })
-  // .put((req, res, next) => {
-  //     try {
-
-  //     } catch(err) {
-  //         res.status(500).json({
-  //             "status": "Failure",
-  //             "result": err
-  //         })
-  //     }
-  //     res.status(200).json({
-  //         "result": true,
-  //     })
-  // })
   .delete(async (req, res, next) => {
     try {
       let statement = await Storyline.delete(
@@ -104,39 +119,10 @@ router
       });
 
       res.status(500).json({
-        status: 'Failure',
+        status: 'FAILURE',
         result: err,
       });
     }
   });
-
-router.get('/search', async (req, res, next) => {
-  try {
-    console.log("WTF", req.query)
-    if(searchString in req.query) {
-      let titles = await Storyline.getTitles(
-        decodeURIComponent(req.query.searchString),
-      );
-      res.status(200).json({
-        status: 'SUCCESS',
-        result: titles,
-      });
-    } else {
-      throw 'Invalid request! No searchingString query string was provided'
-    }
-    
-  } catch (err) {
-    insertErrorLog({
-      createdAt: Date.now(),
-      message: err,
-      traceback: err.stack,
-    });
-
-    res.status(500).json({
-      status: 'Failure',
-      result: err,
-    });
-  }  
-});
 
 export default router;

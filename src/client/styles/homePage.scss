@@ -1,6 +1,8 @@
 @import './base/variables.scss';
 @import './base/commun.scss';
 @import './base/animation.scss';
+@import './base/normalized';
+
 .home {
     padding-top: 40px;
     width: 100%;
@@ -83,6 +85,7 @@
                 font-weight: bold;
                 padding: 8px;
                 border-radius: 5px;
+                margin-left: 5px;
             }
             //storyline
             &-storyline {
@@ -177,14 +180,41 @@
     }
 }
 
+.search-box {
+    width: 350px;
+}
 
 #pageNumber {
     width: 50px;
 }
 
-// body {
-    //  padding-block-end: 72px;
-// }
+body {
+     padding-block-end: 72px;
+}
+
+.search-result {
+    position: absolute;
+    width: 350px;
+    border-radius: 0 0 5px 5px;
+    background: white;
+    border: 1px grey solid;
+    box-shadow: 1px 2px #888888;
+    
+    .result {
+        list-style-type: none;
+        width: 100%;
+        padding: 4px 0 4px 10%;
+    }
+
+    .result:hover{
+        background: dimgray;
+    } 
+}
+
+ul {
+    padding-inline-start: 0;
+}
+ 
 
 form {
     display: flex;

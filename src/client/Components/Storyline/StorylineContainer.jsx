@@ -34,12 +34,18 @@ export default class Storyline extends PureComponent {
     this._onClickSave = this._onClickSave.bind(this);
     this._onClickDelete = this._onClickDelete.bind(this);
     this._onSearchChange = _.debounce(this._onSearchChange.bind(this),  200)
+    // this._onSearchChange = this._onSearchChange.bind(this)
+    this._onResultClick = this._onResultClick.bind(this); 
+    this.setTitle = this.setTitle.bind(this)
   }
 
-  setStateExt(state) {
+  setStateExt(state, cb) {
     this.setState(state, () => {
       let storyline = this.getStorylineFromState();
       this.props.updateForm(storyline);
+      if(cb && cb instanceof Function) {
+        cb()
+      }
     });
   }
 
@@ -95,7 +101,7 @@ export default class Storyline extends PureComponent {
 
   async _saveStory() {}
 
-  async _onSearch(e) {
+  async _onSearch() {
     this.setState({
       searchError: '',
     });
@@ -143,6 +149,12 @@ export default class Storyline extends PureComponent {
     let storyline = this.getStorylineFromState(true);
     if (storyline.title) {
       let result = await postData(EndPointMap.storyline, storyline);
+      console.log(result)
+      if (result.status === "SUCCESS") {
+        alert("Storyline Saved!")
+      } else if(result.status === "FAILURE") {
+        alert(result.result);
+      }
     } else {
       this.setState({
         generalError: 'Please insert a title',
@@ -195,14 +207,34 @@ export default class Storyline extends PureComponent {
   }
 
   async _onSearchChange(e) {
-    // console.log(e.target.value)
+    this.setState({
+      title: ''
+    })
     const searchString = e.target.value;
-    this.setStateExt({title: searchString});
     const result = await getData(`${CONSTANT.STORYLINE_ENDPOINT}/search`, {
       "searchString": searchString
     })
-    this.setState({
-      searchResult: result.result
+    if(result.status === 'SUCCESS') {
+      this.setState({
+        "title": searchString,
+        searchResult: result.result
+      })
+    }
+  }
+
+  async _onResultClick(e) {
+    let result = e.target.innerText;
+    this.setStateExt({
+      title: result,
+      searchResult: []
+    }, () => {
+      this._onSearch()
+    })
+  }
+
+  async setTitle(title) {
+    this.setStateExt({
+      title
     })
   }
 
@@ -279,11 +311,13 @@ export default class Storyline extends PureComponent {
             <SearchBox
               label={title}
               name="searchbox"
-              // onChange={(e) => this._onDebouncedSearch(e.target)}
+              title={this.state.title}
+              _onResultClick={this._onResultClick}
               onChange={e=> {
                 e.persist();
                 this._onSearchChange(e);
               }}
+              setTitle={this.setTitle}
               result={this.state.searchResult}
             />
             <SubmitButton text={'🔍'} onClick={this._onSearch}></SubmitButton>
@@ -291,6 +325,8 @@ export default class Storyline extends PureComponent {
               text={getRandomStory}
               onClick={this._getRandomStory}
             ></SubmitButton>
+          </div>
+          <div className="home-form-field">
             {searchErrorMessage}
           </div>
 

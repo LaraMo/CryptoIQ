@@ -90,7 +90,6 @@ export default class GeneralInfo extends PureComponent {
 
 
 
-{console.log(this.state.general.textbook)}
           <Checkbox
             className="home-form-field"
             label={textbook}
