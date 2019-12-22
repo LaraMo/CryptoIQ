@@ -24,7 +24,7 @@ router
       });
 
       res.status(500).json({
-        status: 'Failure',
+        status: 'FAILURE',
         result: err,
       });
     }
@@ -45,7 +45,7 @@ router
       });
 
       res.status(500).json({
-        status: 'Failure',
+        status: 'FAILURE',
         result: err,
       });
     }
@@ -97,7 +97,7 @@ router
 
       console.error(err);
       res.status(500).json({
-        status: 'Failure',
+        status: 'FAILURE',
         result: err,
       });
     }
@@ -119,7 +119,7 @@ router
       });
 
       res.status(500).json({
-        status: 'Failure',
+        status: 'FAILURE',
         result: err,
       });
     }

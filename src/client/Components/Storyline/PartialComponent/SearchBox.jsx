@@ -2,6 +2,7 @@ import React, {useState, useEffect, useRef} from 'react';
 
 const SearchBox = props => {
   const [displayResult, setDisplayResult] = useState(false);
+  const [val, setVal] = useState("");
 
   useEffect(() => {
     setDisplayResult(props.result.length > 0 ? true : false);
@@ -9,7 +10,9 @@ const SearchBox = props => {
 
   useEffect(() => {
     if(props.title) {
-      setDisplayResult(false);
+      // setDisplayResult(false);
+      setVal(props.title);
+
     }
   }, [props.title]);
 
@@ -26,6 +29,7 @@ const SearchBox = props => {
 
   const _onResultClick = (e) => {
     props._onResultClick(e)
+    setVal(e.target.value)
     setDisplayResult(false)
   };
 
@@ -38,8 +42,11 @@ const SearchBox = props => {
           name={props.name}
           autoComplete="new-password"
           placeholder={props.placeholder}
-          value={props.title || props.value}
-          onChange={props.onChange}
+          value={val}
+          onChange={(e) => {
+            setVal(e.target.value)
+            props.onChange(e);
+          }}
           onBlur={onBlur}
           onFocus={onFocus}
         />

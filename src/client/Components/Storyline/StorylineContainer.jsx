@@ -34,6 +34,7 @@ export default class Storyline extends PureComponent {
     this._onClickSave = this._onClickSave.bind(this);
     this._onClickDelete = this._onClickDelete.bind(this);
     this._onSearchChange = _.debounce(this._onSearchChange.bind(this),  200)
+    // this._onSearchChange = this._onSearchChange.bind(this)
     this._onResultClick = this._onResultClick.bind(this); 
     this.setTitle = this.setTitle.bind(this)
   }
@@ -148,6 +149,12 @@ export default class Storyline extends PureComponent {
     let storyline = this.getStorylineFromState(true);
     if (storyline.title) {
       let result = await postData(EndPointMap.storyline, storyline);
+      console.log(result)
+      if (result.status === "SUCCESS") {
+        alert("Storyline Saved!")
+      } else if(result.status === "FAILURE") {
+        alert(result.result);
+      }
     } else {
       this.setState({
         generalError: 'Please insert a title',
@@ -209,6 +216,7 @@ export default class Storyline extends PureComponent {
     })
     if(result.status === 'SUCCESS') {
       this.setState({
+        "title": searchString,
         searchResult: result.result
       })
     }
