@@ -100,6 +100,7 @@ const HomePage = () => {
     //check if any vocabulary words are empty
     const voc =  document.getElementsByClassName("home-form-vocContainer")[0];
     //check if any fields in the story are empty
+    const storyline = document.getElementsByClassName("")[0]
 
 
     console.log(voc.children[0])
