@@ -24,5 +24,5 @@ export function storeItem(key, item) {
 }
 
 export function getItem(key) {
-  return localStorage.getItem(key) || "";
+  return localStorage.getItem(key) || "{}";
 }

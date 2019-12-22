@@ -40,11 +40,14 @@ export default class Storyline extends PureComponent {
 
   sync() {
     const {storyline} = getLatestGameData();
-    this.setStateExt({
-      difficultyLevel: storyline.difficultyLevel,
-    });
-    this.setStoryline(storyline);
+    if(!_.isEmpty(storyline)) {
+      this.setStateExt({
+        difficultyLevel: storyline.difficultyLevel,
+      });
+      this.setStoryline(storyline);
+    }
   }
+   
 
   setStateExt(state, cb) {
     this.setState(state, () => {
@@ -158,7 +161,6 @@ export default class Storyline extends PureComponent {
     let storyline = this.getStorylineFromState(true);
     if (storyline.title) {
       let result = await postData(CONSTANT.STORYLINE_ENDPOINT, storyline);
-      console.log(result);
       if (result.status === 'SUCCESS') {
         alert('Storyline Saved!');
       } else if (result.status === 'FAILURE') {
