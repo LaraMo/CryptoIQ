@@ -52,8 +52,7 @@ const HomePage = () => {
     const gameData = getLatestGameData();
     if (gameData) {
       const {generalInfo, vocalbulary, storyline} = gameData;
-      console.log("YAYA", generalInfo, vocalbulary, storyline)
-      console.log(!_.isEmpty(generalInfo))
+
       if (!_.isEmpty(generalInfo)) {
         setGeneralInfo(gameData.generalInfo);
       }
@@ -92,6 +91,7 @@ const HomePage = () => {
       {vocalbulary: vocalbulary},
       {storyline: storyline},
     );
+    console.log("SUbmitting", payload)
   
     //before making a post request validate data
     //get all input elements
@@ -100,15 +100,16 @@ const HomePage = () => {
     //check if any vocabulary words are empty
     const voc =  document.getElementsByClassName("home-form-vocContainer")[0];
     //check if any fields in the story are empty
-    const storyline = document.getElementsByClassName("")[0]
+    const storylineEl = document.getElementsByClassName("")[0]
 
     if(validateArrayOnSubmission(voc, "Couldn't Generate Game: All vocabulary fields must be filled") 
     // && validateOnSubmission(numberOfStudents, "Couldn't Generate Game: Number of students is empty")){
     ){
-      submitGameGen(payload);
-      storeItem(generalInfoKey, generalInfo);
-      storeItem(vocalbularyKEy, vocalbulary);
-      storeItem(storylineKey, storyline);
+      submitGameGen(payload, () => {
+        storeItem(generalInfoKey, generalInfo);
+        storeItem(vocalbularyKEy, vocalbulary);
+        storeItem(storylineKey, storyline);
+      });
     }
   };
 
