@@ -24,9 +24,11 @@ export default class VocabularyWord extends PureComponent {
       pageNumberInput = 
       <div className="home-form-field-word">
       <p>{pageNumber}</p>
+
         <input
           id="pageNumber"
           value={pageNumberEntered}
+          pattern="[0-9]*"
           onChange={e => {
             this.props.onChange(e, this.props.index);
             this.setState(
