@@ -54,6 +54,7 @@ export default class VocabularyWordsContainer extends PureComponent {
     const generateInput = [];
     if (!this.state.error) {
       for (let i = 0; i < this.state.maxNumberOfWords; i++) {
+        console.log("Hello" + this.props.acceptPageNumber)
         generateInput.push(
           <VocabularyWord
             index={i}

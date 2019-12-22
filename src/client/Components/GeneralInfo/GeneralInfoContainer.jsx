@@ -10,8 +10,8 @@ export default class GeneralInfo extends PureComponent {
     this.state = {
       general: {
         numberOfStudents: '',
-        locks: true,
-        textbook: true,
+        locks: false,
+        textbook: false,
         rewardTicket: false,
         ticketContent: 'Congrats! You won 1% bonus point for the next quiz',
       },
@@ -88,6 +88,9 @@ export default class GeneralInfo extends PureComponent {
             }
           />
 
+
+
+{console.log(this.state.general.textbook)}
           <Checkbox
             className="home-form-field"
             label={textbook}

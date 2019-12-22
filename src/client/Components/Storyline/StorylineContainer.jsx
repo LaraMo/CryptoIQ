@@ -237,7 +237,7 @@ export default class Storyline extends PureComponent {
     const openingPlaceholder = 'Once upon a time...';
     const quest = 'Enter the main characthers quest:';
     const questPlaceholder =
-      'The left for the dangerous adventure in order to...';
+      'The king decided to go on the dangerous adventure in order to...';
     const ending = 'Enter ending:';
     const endingPlaceholder = '...and they lived happily ever after, the end!';
     let generateTextArea = [];
@@ -255,6 +255,7 @@ export default class Storyline extends PureComponent {
     for (let i = 0; i < this.state.difficultyLevel; i++) {
       generateTextArea.push(
         <TextArea
+          storyline={true}
           index={i}
           key={i}
           value={this.state.actions[i]}
