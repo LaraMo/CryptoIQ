@@ -15,17 +15,20 @@ export default class TwoGamesNoBookStrategy extends Strategy {
     generate() {
         debugger;
         let thirdlevel = randomWords(this.words, 1) 
+        let wordArrayForWordSearch = [];
         
         
         let firstLevel = this.words;
         firstLevel.forEach(word => {
             word.word = word.wordsEntered;
             word.clue = word.definitionsEntered;
+            wordArrayForWordSearch.push(word.wordsEntered);
         });
-        const crossword = new Crossword(firstLevel);
+        let crossword = new Crossword(firstLevel);
         
-        if (crossword.activeWordList.length === this.words.length) {
-            crossword = new CrossWord(diffWords(this.words, thirdlevel));
+        if (crossword.activeWordList.length == this.words.length) {
+            let words = diffWords(this.words, thirdlevel)
+            crossword = new Crossword(words);
         }
         else {
             let difference = [];
@@ -39,7 +42,7 @@ export default class TwoGamesNoBookStrategy extends Strategy {
         }
 
         //the second level is using the same words from the first level
-        const wordSearch = new WordSearch(crossword.activeWordList, true);
+        const wordSearch = new WordSearch(wordArrayForWordSearch, true);
 
         //Third level uses only one word
         let cipherWheel = new CipherWheel(thirdlevel[0].wordsEntered, "EASY", true, true);
