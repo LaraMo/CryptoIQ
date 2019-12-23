@@ -178,15 +178,13 @@ class Lock {
                     {
                         type: PdfObjectType.TEXT,
                         text: `
-  ➤ Enter your lock combination here:`,
-                    }
-                    :
+    ➤ Enter your lock combination using the lock provided by your professor:`,
+                    }:
                     {
                         type: PdfObjectType.TEXT,
                         text: `
-  ➤ Enter your lock combination using the lock provided by your professor:`,
+  ➤ Enter your lock combination here:`,
                     },
-                    ,
                 ...(() => {
                     if (!this._usePhysicalLock) {
                         return [ {
