@@ -303,6 +303,9 @@ class Lock {
                     }
                 },
                 {
+                    type: PdfObjectType.BR,
+                },
+                {
                     type: PdfObjectType.TEXT,
                     text: 'The Lock combination from left to right is:'
                 },
