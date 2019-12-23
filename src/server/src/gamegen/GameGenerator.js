@@ -29,6 +29,7 @@ import ThreeGamesWithLockAndPageNumberStrategy from './strategies/ThreeGamesWith
 import ThreeGamesWithBooks from './strategies/ThreeGamesWithBooks';
 import ThreeGamesNoBookStrategy from './strategies/ThreeGamesNoBookStrategy';
 import FourGamesWithLockAndBooks from './strategies/FourGamesWithLockAndBooks';
+import FourGamesWithBooks from './strategies/FourGamesWithBooks';
 
 class GameGenerator {
     storyline = {};
@@ -96,11 +97,16 @@ class GameGenerator {
             '4GLPN',
             this.vocabulary,
         );
+        const _4GPN = new FourGamesWithBooks(
+            '4GPN',
+            this.vocabulary,
+        );
 
         this.strategies['4GLPN'] = _4GLPN;
         this.strategies['3GLPN'] = _3GLPN;
         this.strategies['2GLPN'] = _2GLPN; 
 
+        this.strategies['4GPN'] = _4GPN;
         this.strategies['3GPN'] = _3GPN;
         this.strategies['2GPN'] = _2GPN;
 
@@ -135,6 +141,10 @@ class GameGenerator {
                 }
                 break;
             case Difficulty.ADVANCED.VALUE:
+                if(this.generalInfo.locks)
+                        generated = this.strategies['4GLPN'].generate();
+                    else 
+                        generated = this.strategies['4GPN'].generate();
                 break;
             default:
                 throw new Error('Invalid enum value for difficulty level');
