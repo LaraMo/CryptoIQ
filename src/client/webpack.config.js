@@ -5,13 +5,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     mode: 'development', 
     entry: ['babel-polyfill', './index.js'],
+    // entry: ['./index.js'],
     resolve: {
         extensions: ['.js', '.jsx']
     },
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
-        publicPath: '/'
+        // publicPath: '/'
     },
     devServer: {
         contentBase: path.resolve(__dirname, 'dist'),
@@ -45,8 +46,9 @@ module.exports = {
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
-            template: 'dist/index.html',
-            favicon: 'dist/favicon.ico',
+            title: 'CryptIQ: Development',
+            favicon: 'assets/favicon.ico',
+            template: 'assets/index.html',
             inject: false
         })
     ],
