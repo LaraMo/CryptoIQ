@@ -2,6 +2,7 @@ import PdfObjectType from '../../lib/enums/PdfObjectType';
 import {
     calculateCenterX
 } from '../../lib/pdf/pdfHelpers';
+import path from "path";
 import {
     removeDuplicates
 } from '../../lib/helperFunctions';
@@ -24,7 +25,7 @@ class Crossword {
         this.GRID_HEIGHT = this.rows;
         this.GRID_WIDTH = this.cols;
         this.FIT_ATTEMPTS = 5;
-        this.coordList = []
+        this.coordList = [];
         this.wordArray = wordArray;
         this.initBoard();
         this.generateBoard();

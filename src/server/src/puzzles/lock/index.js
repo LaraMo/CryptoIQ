@@ -172,9 +172,21 @@ class Lock {
   ➤ Find the proper defintion for the chosen words using the textbook.
   ➤ Write down the page number that you found the defintions at. 
   ➤ The words are in that order for a reason.
-  ➤ Pay attention to the page numbers, digit by digit.
-  ➤ Enter your lock combination here: `,
+  ➤ Pay attention to the page numbers, digit by digit.`,
                 },
+                this._usePhysicalLock ? 
+                    {
+                        type: PdfObjectType.TEXT,
+                        text: `
+  ➤ Enter your lock combination here:`,
+                    }
+                    :
+                    {
+                        type: PdfObjectType.TEXT,
+                        text: `
+  ➤ Enter your lock combination using the lock provided by your professor:`,
+                    },
+                    ,
                 ...(() => {
                     if (this._usePhysicalLock) {
                         return [ {
@@ -193,9 +205,16 @@ class Lock {
                         {
                             type: PdfObjectType.BR,
                             space: 3
+                        },
+                        {
+                            type: PdfObjectType.BR
                         }]
-                    }
-                    return [];
+                    } 
+                    return [
+                        {
+                            type: PdfObjectType.BR
+                        }
+                    ];
                 })(),
             ]
         }

@@ -21,18 +21,11 @@
         },
         {
             "type": "node",
-            "request": "attach",
+            "request": "launch",
             "name": "Debug",
-            // "runtimeArgs": [
-            //     "--inspect-brk=127.0.0.1:5858"
-            // ],
-            // "program": "${workspaceRoot}/src/server/src/index.js",
-            // "runtimeExecutable": "${workspaceFolder}/src/server/node_modules/.bin/babel-node",
-            // "port": 9000,
-            "cwd": "${workspaceRoot}/src/server",
-            "processId": "${command:PickProcess}",
-            "restart": true,
-            "protocol": "inspector",
+            "program": "${workspaceFolder}/src/server/src/index.js",
+            "runtimeExecutable": "${workspaceFolder}/src/server/node_modules/.bin/babel-node",
+            "runtimeArgs": ["--nolazy", "--ignore"]
         }
     ],
     

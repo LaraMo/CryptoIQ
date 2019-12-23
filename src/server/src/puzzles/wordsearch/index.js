@@ -3,6 +3,7 @@ import {
     drawGrid,
     styleDefault
 } from "../../lib/pdf/canvasHelpers"
+import path from "path";
 import PdfObjectType from '../../lib/enums/PdfObjectType';
 import {
     calculateCenterX
