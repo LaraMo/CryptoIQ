@@ -19,7 +19,7 @@ import {
   storylineKey,
 } from '../helpers/localStorageHelper';
 import {validateForm} from '../helpers/utility';
-import {validateOnSubmission, validateArrayOnSubmission} from "../helpers/clientValidation";
+import {validateOnSubmission, validateArrayOnSubmission, validateStoryline, validateBonusTicket} from "../helpers/clientValidation";
 const HomePage = () => {
   const [generalInfo, setGeneralInfo] = useState({
     numberOfStudents: '',
@@ -92,20 +92,24 @@ const HomePage = () => {
       {vocalbulary: vocalbulary},
       {storyline: storyline},
     );
-    //before making a post request validate data
-    //get all input elements
+    //before making a post request validate data , get all input elements and check if they are not empty
     //check if number of students is empty
     const numberOfStudents =  document.getElementById("numberOfStudents");
     //check if any vocabulary words are empty
     const voc =  document.getElementsByClassName("home-form-vocContainer")[0];
     //check if any fields in the story are empty
-    const storyline = document.getElementsByClassName("")[0]
-
+    const storylineContainer =  document.getElementsByClassName("storyline")[0];
+    //check if bonus ticket field is not empty, (the method will check if the checkbox is selected before making this validation)
+    const bonusTicketContainer = document.getElementById("bonusTicketContainer");
 
     if(
-    // validateArrayOnSubmission(voc, "Couldn't Generate Game: All vocabulary fields must be filled") 
-    //&& 
-    validateOnSubmission(numberOfStudents, "Couldn't Generate Game: Number of students is empty")
+    validateArrayOnSubmission(voc, "All vocabulary fields must be filled") 
+    && 
+    validateOnSubmission(numberOfStudents, "Number of students is empty")
+    &&
+    validateStoryline(storylineContainer, "All storyline inputs in this form must be filled")
+    &&
+    validateBonusTicket(bonusTicketContainer, "If bonus ticket checkbox is selected, the type of bonus she be provided")
     ){
       submitGameGen(payload);
       storeItem(generalInfoKey, generalInfo);

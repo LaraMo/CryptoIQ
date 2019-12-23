@@ -21,7 +21,7 @@ export default props => {
   }
   const label = 'Use bonus ticket as reward:';
   return (
-    <div>
+    <div id="bonusTicketContainer">
       <Checkbox label={label} onChange={onChecked} />
       {isEnabled && (
         <TextArea

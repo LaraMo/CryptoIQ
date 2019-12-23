@@ -1,3 +1,14 @@
+
+
+
+
+
+
+
+
+
+
+
 import React from "react";
 //Main Title and Description Section
 const projectTitle = "CryptIQ";
@@ -8,6 +19,8 @@ const descriptionPart4 = "platfrom to generate escape rooms for ";
 const descriptionPart5 = "educational purposes";
 const getStartedPart1 = "Get started ";
 const getStartedPart2 = "now";
+const instructionsPart1 = "✔️ Your previous game will be saved with us. No more retyping information!"
+const instructionsPart2 = "✔️ An answer sheet will be provided with the game for the teachers, easy correction!" 
 
 const Title = () => {
   return (
@@ -23,6 +36,10 @@ const Title = () => {
         {getStartedPart1}
         <span>{getStartedPart2}</span>!
       </h2>
+      <div>
+        <h3>{instructionsPart1}</h3>
+        <h3>{instructionsPart2}</h3>
+      </div>
     </div>
   );
 };

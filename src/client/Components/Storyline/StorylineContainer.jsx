@@ -299,7 +299,7 @@ export default class Storyline extends PureComponent {
     const deleteStroy = 'Delete story 🗑️';
     const getRandomStory = 'Get me a storyline 🤞';
     return (
-      <div id="slide2" className="home-formContainer">
+      <div id="slide2" className="home-formContainer storyline">
         <h3>{storyline} </h3>
         <div className="home-form">
           <p className="home-form-title">
