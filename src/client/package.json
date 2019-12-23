@@ -8,7 +8,7 @@
     "build": "webpack --config ./webpack.prod.js",
     "dev": "webpack-dev-server --open",
     "clean": "rm -rf ./dist/*",
-    "deploy": "npm run clean && npm run build && rm -rf /var/www/html/* && cp -r ./dist/ /var/www/html/"
+    "deploy": "npm run clean && npm run build && rm -rf /var/www/html/* && cp -r ./dist/. /var/www/html/"
   },
   "keywords": [
     "Escape",
