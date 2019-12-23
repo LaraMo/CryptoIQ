@@ -188,7 +188,7 @@ class Lock {
                     },
                     ,
                 ...(() => {
-                    if (this._usePhysicalLock) {
+                    if (!this._usePhysicalLock) {
                         return [ {
                             type: PdfObjectType.BR,
                         },
