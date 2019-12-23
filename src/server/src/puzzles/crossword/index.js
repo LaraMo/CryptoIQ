@@ -383,7 +383,7 @@ class Crossword {
             pdfIns = [...pdfIns, ...this.generateClueIns(this.acrossWords)]
         
             pdfIns.push({
-                "type": PdfObjectType.BR
+                "type": PdfObjectType.BR3
             });    
         }
         
