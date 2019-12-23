@@ -59,22 +59,15 @@ export function validateStorylinePayload(data) {
 }
 
 export async function gameGenerate(archive, data) {
-  const pdfFactory = new PdfFactory();
-
   try {
     const gameGenerator = new GameGenerator(data);
     await gameGenerator.generate();
     const gameBuilder = new PdfFactory();
     const insBuilder = new PdfFactory();
     await gameBuilder.append(gameGenerator.toGamePdf());
-    // await gameBuilder.append(await new Wordsearch(["hello", "quan", "this", "works"], false).toGamePdf());
-    // await gameBuilder.append(await new Crossword(data1).toGamePdf())
-
-    // await pdfFactory.append(gameGenerator.toInstructionPdf());
+   
     return new Promise(async (resolve, reject) => {
       try {
-        debugger;
-        //     pdfFactory.append(await new TicketGenerator("Congrats! You won 1% bonus point for the next quiz").toGamePdf());
         await gameBuilder.build(async pdf => {
           archive.append(pdf, {
             name: `game.pdf`,
@@ -92,6 +85,7 @@ export async function gameGenerate(archive, data) {
       }
     });
   } catch (e) {
+    console.error(e)
     throw new Error(e.message);
   }
 }
