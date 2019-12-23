@@ -4,7 +4,7 @@
   "description": "Backend for Cryptiq project",
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf dist && mkdir dist && babel src/index.js -d dist",
+    "build": "rm -rf dist && mkdir dist && babel src/ -d dist/",
     "test": "jest",
     "dev": "nodemon --exec babel-node src/index.js",
     "debug": "nodemon --exec babel-node --inspect src/index.js",

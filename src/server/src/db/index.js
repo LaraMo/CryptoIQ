@@ -17,7 +17,7 @@ if (location !== ":memory:" && fs.existsSync(location)) {
 
 const db = new sqlite3.Database(location,  (err) => {
     if (!err) {
-        console.log("Sqlite DB initialized!");
+        console.log("Sqlite DB initialized!", location);
     } else {
         console.error("Error initializing db", err)
     }
