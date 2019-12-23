@@ -22,7 +22,7 @@ export default class TwoGamesWithLockAndPageNumberStrategy extends Strategy {
         
         let secondLevel = diffWords(this.words, choosenWords);
         secondLevel = randomWords(secondLevel, 3)
-        const lockCombination = new Lock(choosenWords);
+        const lockCombination = new Lock(choosenWords, false, false, true);
         return [cipherwheels, lockCombination];
     }
 

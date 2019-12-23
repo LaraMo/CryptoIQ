@@ -43,6 +43,7 @@ class Wordsearch {
     }
 
     async toGamePdf() {
+        let imageBuffer;
         let pdfIns = [
             {
                 type: PdfObjectType.IMAGE,
@@ -56,7 +57,7 @@ class Wordsearch {
                 type: PdfObjectType.BR,
             },
         ];
-        this.imageBuffer = await this.generateImage(false);
+        imageBuffer = await this.generateImage(false);
         pdfIns = [...pdfIns,
             {
                 type: PdfObjectType.BR
@@ -64,7 +65,7 @@ class Wordsearch {
             {
                 type: PdfObjectType.VECTOR,
                 callback: async (doc) => {
-                    doc.image(this.imageBuffer,
+                    doc.image(imageBuffer,
                         calculateCenterX(doc, styleDefault.cellWidth * this._grid.length),
                     )
                 },
@@ -78,6 +79,8 @@ class Wordsearch {
     }
 
     async toInstructionPdf() {
+        let imageBuffer;
+
         let pdfIns = [
             {
                 type: PdfObjectType.IMAGE,
@@ -91,12 +94,12 @@ class Wordsearch {
                 type: PdfObjectType.BR,
             },
         ];
-        this.imageBuffer = await this.generateImage(true);
+        imageBuffer = await this.generateImage(true);
         pdfIns = [...pdfIns,
             {
                 type: PdfObjectType.VECTOR,
                 callback: async (doc) => {
-                    doc.image(this.imageBuffer,
+                    doc.image(imageBuffer,
                         calculateCenterX(doc, styleDefault.cellWidth * this._grid.length),
                     )
                 },

@@ -19,7 +19,12 @@ export default class ThreeGamesWithLockAndPageNumberStrategy extends Strategy {
 
     generate() {
         let firstLevel = randomWords(this.words, 3);
-        const cipherwheel = new CipherWheel(firstLevel[0].wordsEntered);
+
+        const cipherwheels = []
+
+        cipherwheels[0] = new CipherWheel(firstLevel[0].wordsEntered, "EASY", true, true);
+        cipherwheels[1] = new CipherWheel(firstLevel[1].wordsEntered, "EASY", true, false);
+        cipherwheels[2] = new CipherWheel(firstLevel[2].wordsEntered, "EASY", true, false);
 
         let secondLevel = diffWords(this.words, firstLevel);
         secondLevel = randomWords(secondLevel, 3)
@@ -35,7 +40,7 @@ export default class ThreeGamesWithLockAndPageNumberStrategy extends Strategy {
         
         const crossword = new Crossword(thirdLevel);
         
-        return [cipherwheel, lockCombination, crossword];
+        return [cipherwheels, lockCombination, crossword];
         
     }
 
