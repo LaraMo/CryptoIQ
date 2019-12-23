@@ -23,6 +23,13 @@ import {
 } from './core';
 import TicketGenerator from './TicketGenerator';
 import _ from 'lodash';
+import TwoGamesWithPageNumberStrategy from './strategies/TwoGamesWithPageNumberStrategy';
+import TwoGameNoBookStrategy from './strategies/TwoGameNoBookStrategy';
+import ThreeGamesWithLockAndPageNumberStrategy from './strategies/ThreeGamesWithLockAndBooks';
+import ThreeGamesWithBooks from './strategies/ThreeGamesWithBooks';
+import ThreeGamesNoBookStrategy from './strategies/ThreeGamesNoBookStrategy';
+import FourGamesWithLockAndBooks from './strategies/FourGamesWithLockAndBooks';
+import FourGamesWithBooks from './strategies/FourGamesWithBooks';
 
 class GameGenerator {
     storyline = {};
@@ -66,42 +73,87 @@ class GameGenerator {
             '2GLPN',
             this.vocabulary,
         );
-        // const _2GNB = new TwoGamesNoBook(
-        //     '2GNB',
-        //     this.vocabulary,
-        // );
-        // const _2GNL = new TwoGamesWithLockAndPageNumberStrategy(
-        //     '2GNL',
-        //     this.vocabulary,
-        // );
-        this.strategies['2GLPN'] = _2GLPN;
+        const _2GPN = new TwoGamesWithPageNumberStrategy(
+            '2GPN',
+            this.vocabulary,
+        );
+        const _2G = new TwoGameNoBookStrategy(
+            '2G',
+            this.vocabulary,
+        );
+        const _3GLPN = new ThreeGamesWithLockAndPageNumberStrategy(
+            '3GLPN',
+            this.vocabulary,
+        );
+        const _3GPN = new ThreeGamesWithBooks(
+            '3GPN',
+            this.vocabulary,
+        );
+        const _3G = new ThreeGamesNoBookStrategy(
+            '3G',
+            this.vocabulary,
+        );
+        const _4GLPN = new FourGamesWithLockAndBooks(
+            '4GLPN',
+            this.vocabulary,
+        );
+        const _4GPN = new FourGamesWithBooks(
+            '4GPN',
+            this.vocabulary,
+        );
+
+        this.strategies['4GLPN'] = _4GLPN;
+        this.strategies['3GLPN'] = _3GLPN;
+        this.strategies['2GLPN'] = _2GLPN; 
+
+        this.strategies['4GPN'] = _4GPN;
+        this.strategies['3GPN'] = _3GPN;
+        this.strategies['2GPN'] = _2GPN;
+
+        this.strategies['3G'] = _3G;
+        this.strategies['2G'] = _2G;
     }
 
     async generate() {
         this.pushHeader();
+        let generated;
         switch (this.storyline.difficultyLevel) {
             case Difficulty.EASY.VALUE:
-                if (this.generalInfo.locks && this.generalInfo.textbook) {
-                    let generated = this.strategies['2GLPN'].generate();
-                    for (let i = 0; i < generated.length; i++) {
-                        await this.pushStage(generated[i], Storyline[`ACTION${i + 1}`]);
-                    }
+                if (this.generalInfo.textbook) {
+                    if(this.generalInfo.locks)
+                        generated = this.strategies['2GLPN'].generate();
+                    else
+                        generated = this.strategies['2GPN'].generate();
+                } 
+                else {
+                    generated = this.strategies['2G'].generate();
                 }
                 break;
             case Difficulty.MEDIUM.VALUE:
-                if (this.generalInfo.locks) {
-                    let allowedPuzzles = [
-                        Puzzle.CIPHER_WHEEL,
-                        Puzzle.LOCK_COMBINATION,
-                        Puzzle.CROSS_WORD,
-                    ];
+                if ( this.generalInfo.textbook) {
+                    if(this.generalInfo.locks)
+                        generated = this.strategies['3GLPN'].generate();
+                    else 
+                        generated = this.strategies['3GPN'].generate();
+                }
+                else {
+                    generated = this.strategies['3G'].generate();
                 }
                 break;
             case Difficulty.ADVANCED.VALUE:
+                if(this.generalInfo.locks)
+                        generated = this.strategies['4GLPN'].generate();
+                    else 
+                        generated = this.strategies['4GPN'].generate();
                 break;
             default:
                 throw new Error('Invalid enum value for difficulty level');
         }
+
+        for (let i = 0; i < generated.length; i++) {
+            await this.pushStage(generated[i], Storyline[`ACTION${i + 1}`]);
+        }
+
         this.pushStoryLine(Storyline.ENDING, this.gamePdf);
         this.pushStoryLine(Storyline.ENDING, this.insPdf);
         if (this.generateTicket && this.ticketMessage) {

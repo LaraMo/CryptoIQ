@@ -50,16 +50,21 @@ export function deleteData(url = API_URL, data = {}) {
     }).then(response => response.json()).catch(console.error); // parses JSON response into native JavaScript objects 
 }
 
-export function submitGameGen(data) {
+export function submitGameGen(data, cb) {
     let payload = postPayload(data);
     fetch(CONSTANT.GAME_GEN_ENDPOINT, payload)
         .then((response) => {            
-            console.log(response)
             if(response.headers.get('Content-Type') === 'application/zip') {
+                console.log(response)
+                for (let  header of response.headers) {
+                    console.log(header)
+                }
+
                 return response.blob().then(blob => blob);
             }
         }).then(file => {
             if(file) {
+                cb();
                 let fileUrl = URL.createObjectURL(file);
                 window.location = fileUrl;
                 return fileUrl;

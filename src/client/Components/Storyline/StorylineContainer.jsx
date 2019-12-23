@@ -52,6 +52,7 @@ export default class Storyline extends PureComponent {
   setStateExt(state, cb) {
     this.setState(state, () => {
       let storyline = this.getStorylineFromState();
+      console.log(storyline)
       this.props.updateForm(storyline);
       if (cb && cb instanceof Function) {
         cb();
@@ -61,17 +62,20 @@ export default class Storyline extends PureComponent {
 
   setStoryline(storyline) {
     if (storyline) {
-      const actionArray = [];
+      let actionArray = [];
       Object.keys(storyline)
         .filter(keys => keys.indexOf('action') !== -1)
         .sort()
         .forEach(key => actionArray.push(storyline[key]));
+      if(actionArray && _.isArray(actionArray) && _.isArray(actionArray[0])) {
+        actionArray = actionArray[0];
+      }
       this.setStateExt({
         title: storyline.title,
         opening: storyline.opening,
         quest: storyline.quest,
         ending: storyline.ending,
-        actions: actionArray[0],
+        actions: actionArray,
       });
     }
   }

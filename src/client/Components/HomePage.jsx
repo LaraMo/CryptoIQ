@@ -52,8 +52,7 @@ const HomePage = () => {
     const gameData = getLatestGameData();
     if (gameData) {
       const {generalInfo, vocalbulary, storyline} = gameData;
-      console.log("YAYA", generalInfo, vocalbulary, storyline)
-      console.log(!_.isEmpty(generalInfo))
+
       if (!_.isEmpty(generalInfo)) {
         setGeneralInfo(gameData.generalInfo);
       }
@@ -93,6 +92,10 @@ const HomePage = () => {
       {storyline: storyline},
     );
     //before making a post request validate data , get all input elements and check if they are not empty
+    console.log("SUbmitting", payload)
+  
+    //before making a post request validate data
+    //get all input elements
     //check if number of students is empty
     const numberOfStudents =  document.getElementById("numberOfStudents");
     //check if any vocabulary words are empty
@@ -101,6 +104,7 @@ const HomePage = () => {
     const storylineContainer =  document.getElementsByClassName("storyline")[0];
     //check if bonus ticket field is not empty, (the method will check if the checkbox is selected before making this validation)
     const bonusTicketContainer = document.getElementById("bonusTicketContainer");
+    const storylineEl = document.getElementsByClassName("")[0]
 
     if(
     validateArrayOnSubmission(voc, "All vocabulary fields must be filled") 
@@ -111,10 +115,11 @@ const HomePage = () => {
     &&
     validateBonusTicket(bonusTicketContainer, "If bonus ticket checkbox is selected, the type of bonus she be provided")
     ){
-      submitGameGen(payload);
-      storeItem(generalInfoKey, generalInfo);
-      storeItem(vocalbularyKEy, vocalbulary);
-      storeItem(storylineKey, storyline);
+      submitGameGen(payload, () => {
+        storeItem(generalInfoKey, generalInfo);
+        storeItem(vocalbularyKEy, vocalbulary);
+        storeItem(storylineKey, storyline);
+      });
     }
   };
 

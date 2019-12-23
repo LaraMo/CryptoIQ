@@ -75,6 +75,7 @@ export async function gameGenerate(archive, data) {
     // await pdfFactory.append(gameGenerator.toInstructionPdf());
     return new Promise(async (resolve, reject) => {
       try {
+        debugger;
         //     pdfFactory.append(await new TicketGenerator("Congrats! You won 1% bonus point for the next quiz").toGamePdf());
         await gameBuilder.build(async pdf => {
           archive.append(pdf, {

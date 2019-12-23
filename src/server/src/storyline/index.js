@@ -32,7 +32,6 @@ router
   .post(async (req, res, next) => {
     try {
       validateStorylinePayload(req.body);
-      console.log('YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
       let storyline = await Storyline.addToDb(req.body);
       res.status(200).json({
         status: 'SUCCESS',
@@ -53,7 +52,6 @@ router
 
 router.route('/search').get(async (req, res, next) => {
   try {
-    console.log('WTF', req.query);
     if ("searchString" in req.query) {
       let titles = await Storyline.getTitles(
         decodeURIComponent(req.query.searchString),

@@ -38,8 +38,8 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: 'Production',
-            template: 'dist/index.html',
+	title: "CryptIQ: Educational Escape Room",
+            // template: 'dist/index.html',
             favicon: 'dist/favicon.ico',
             inject: false
         })

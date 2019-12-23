@@ -8,12 +8,15 @@
 
 # SERVER:
 - [x] Fix db persistance on startup + add default storyline
-- [ ] Game generation
-    - [] 2 Games without page (EASY) 2GNP
-    - [] 3 Games with page and lock (MEDIUM) 3GWPL
-    - [] 3 Games without page (MEDIUM) 3GNP
-    - [] 4 Games with page and lock (HARD) 4GPL
-    - [] 4 Games without page (HARD) 4GNP
+- [X] Game generation
+    - [X] 2 Games with page and lock (EASY) 2GLPN
+    - [X] 2 Games with page and no lock (EASY) 2GPN
+    - [X] 2 Games without page (EASY) 2G
+    - [X] 3 Games with page and lock (MEDIUM) 3GLPN
+    - [X] 3 Games with page and no lock (MEDIUM) 3GPN
+    - [X] 3 Games without page (MEDIUM) 3G
+    - [X] 4 Games with page and lock (HARD) 4GLPN
+    - [X] 4 Games with page and no lock (HARD) 4GPN
 - [x] Complete e2e flow
 
 - [ ] Finish ins pdf for all the puzzles: [LOCK, CIPHERWHEEL, WORDSEARCH, CROSSWORD] 

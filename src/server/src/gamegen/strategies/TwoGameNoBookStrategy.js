@@ -1,24 +1,32 @@
 import Puzzle from '../../lib/enums/Puzzle';
-import CipherWheel from '../../puzzles/cipherwheel';
-import Lock from '../../puzzles/lock';
+import WordSearch from '../../puzzles/wordsearch';
+import Crossword from '../../puzzles/crossword';
 import { randomWords, diffWords } from '../../lib/helperFunctions'
 import Strategy from './Strategy';
 
-export default class TwoGamesNoBookStratey extends Strategy {
+export default class TwoGamesNoBookStrategy extends Strategy {
     constructor(name, words) {
         super(name);
         this.words = words;
     }
-    puzzles = [Puzzle.CIPHER_WHEEL, Puzzle.LOCK_COMBINATION];
+    puzzles = [Puzzle.CROSS_WORD, Puzzle.WORD_SEARCH];
     
-    //TODO: 
     generate() {
-        // let firstLevel = randomWords(this.words);
-        // const cipherwheel = new CipherWheel(firstLevel[0].wordsEntered);
-        // let secondLevel = diffWords(this.words, firstLevel);
-        // secondLevel = randomWords(secondLevel, 3)
-        // const lockCombination = new Lock(secondLevel);
-        // return [cipherwheel, lockCombination];
+        debugger;
+        let wordArray = [];
+        let firstLevel = this.words;
+        firstLevel.forEach(word => {
+            word.word = word.wordsEntered;
+            word.clue = word.definitionsEntered;
+            wordArray.push(word.wordsEntered);
+        });
+        const crossword = new Crossword(firstLevel);
+
+        
+        //the second level is using the same workds from the first level
+        const wordSearch = new WordSearch(wordArray, true);
+
+        return [crossword, wordSearch];
     }
 
     toString() {

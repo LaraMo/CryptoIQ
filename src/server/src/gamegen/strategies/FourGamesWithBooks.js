@@ -9,7 +9,7 @@ import {
 } from '../../lib/helperFunctions'
 import Strategy from './Strategy';
 
-export default class FourGamesWithLockAndPageNumberStrategy extends Strategy {
+export default class FourGamesWithBooks extends Strategy {
     constructor(name, words) {
         super(name);
         this.words = words;
@@ -23,7 +23,7 @@ export default class FourGamesWithLockAndPageNumberStrategy extends Strategy {
 
         let secondLevel = diffWords(this.words, firstLevel);
         secondLevel = randomWords(secondLevel, 3)
-        const lockCombination = new Lock(secondLevel, false, false, true);
+        const lockCombination = new Lock(secondLevel);
 
         let wordsInFirstAndSecondLevel = firstLevel.concat(secondLevel)
         let thirdLevel = diffWords(this.words, wordsInFirstAndSecondLevel);
@@ -40,6 +40,7 @@ export default class FourGamesWithLockAndPageNumberStrategy extends Strategy {
         const wordSearch = new WordSearch(wordArrayForWordSearch, true);
         
         return [cipherwheel, lockCombination, crossword, wordSearch];
+        
     }
 
     toString() {
