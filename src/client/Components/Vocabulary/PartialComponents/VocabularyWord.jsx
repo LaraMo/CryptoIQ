@@ -68,7 +68,7 @@ export default class VocabularyWord extends PureComponent {
       <p>{pageNumber}</p>
 
         <input
-          id="pageNumber"
+          className="pageNumber"
           value={pageNumberEntered}
           onChange={e => {
             this.props.onChange(e, this.props.index);

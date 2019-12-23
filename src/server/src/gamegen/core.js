@@ -52,8 +52,6 @@ export function validateStorylinePayload(data) {
     throw `Missing info: difficultyLevel`;
   }
   let actionTypes = extractActions(data);
-  console.log('Received: ', data);
-  console.log('Actions: ', actionTypes);
   let minActionCount = 2;
   if (actionTypes.length < minActionCount) {
     throw `Missing actions. Need at least ${minActionCount} actions`;

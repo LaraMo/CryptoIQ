@@ -86,11 +86,79 @@ export function validateStoryline(storylineContainer, message){
  */
 export function validateBonusTicket(element, message){
     //the checkbox
-    const checkbox = element.children[0].children[0].children[0];
-    if(checkbox.checked){
+    if(isCheckboxChecked("bonusTicket")){
         //validate the bonus ticket field
         return validateOnSubmission(element.children[1].children[1], message);
     }
     //if the checkbox is not checked, the the field could be empty
     return true;
+}
+
+/**
+ * Validate all page numbers. Make sure there are at least 3 unique combo's
+ */
+export function validatePageNumbers(elements,id, message){
+    ;
+    if(isCheckboxChecked(id)){
+        const inputs =[];
+        for(let i = 0 ; i <elements.length; i++){
+            inputs.push(elements[i].value);
+        }
+    
+        if(new Set(inputs).size >= 3){
+            return true;
+        }
+        else {
+            alert("Couldn't Generate Game: " + message);
+            return false;
+        }
+    }
+    else {
+        //since the checkbox wasn't checked, there is no possiblity to enter the page numbers. Hence, can't test for uniqueness
+        return true;
+    }
+
+
+}
+
+/** */
+/**
+ * function finds the checkbox and returns true or false depending on if it's true or false
+ * @param {string} id 
+ */
+export function isCheckboxChecked(id) {
+    return document.getElementById(id).checked;
+}
+
+
+/**
+ * Validate if there is a unique number of words
+ * TODO
+ */
+export function areUniqueWord(elements){
+    const inputs =[];
+    for(let i = 0 ; i <elements.length; i++){
+        inputs.push(elements[i].children[1].value);
+    }
+    console.log(inputs)
+  //set generates unique elements. Therefore, if the length is not equal, there is at least one word that is duplicated!
+    return new Set(inputs).size !== elements.length;
+}
+
+/**
+ * Validate if diff. level is 4, then checkbox of locks should be also selected so that all 4 games could be generated
+ */
+export function isSelectedCheckbox(diffLevel, id ,message){
+    //to finish
+    if(diffLevel === 4){
+        if(document.getElementById(id).checked){
+            return true;
+        }
+        else {
+            alert("Couldn't Generate Game: " + message)
+        }
+    }
+    else {
+        return true;
+    }
 }

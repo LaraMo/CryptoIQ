@@ -14,7 +14,7 @@ const Checkbox = props => {
     }
   }
 
-  const {label} = props;
+  const {label, id} = props;
 
   return (
     <div className="home-form-field checkbox">
@@ -22,6 +22,7 @@ const Checkbox = props => {
         {label}
         <input
           type="checkbox"
+          id={id}
           className="home-form-checkbox"
           checked={isChecked}
           onChange={toggleCheckboxChange}

@@ -58,29 +58,5 @@ describe('Test game generation class', () => {
         console.log(teams)
         expect(teams[0]["teamSize"]).toBe(5);
         expect(teams[0]["teamNumber"]).toBe(5);
-
-        // mockDataInput["generalInfo"] = {
-        //     numberOfStudents: 24
-        // }
-        // game = new GameGenerator(mockDataInput);
-        // teams = game.calculateTeamSize();
-        // console.log(teams)
-        // expect(teams[0]["teamSize"]).toBe(4);
-        // expect(teams[0]["teamNumber"]).toBe(6);
-
-        // mockDataInput["generalInfo"] = {
-        //     numberOfStudents: 22
-        // }
-        // game = new GameGenerator(mockDataInput);
-        // teams = game.calculateTeamSize();
-        // console.log(teams)
-        // expect(teams[0]["teamSize"]).toBe(4);
-        // expect(teams[0]["teamNumber"]).toBe(6);
     })
-
-    // test("Game generate test", () => {
-    //     const game = new Game(mockDataInput);
-    //     game.generate();
-    //     console.log(game);
-    // })
 })

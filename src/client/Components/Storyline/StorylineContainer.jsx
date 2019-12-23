@@ -32,6 +32,7 @@ export default class Storyline extends PureComponent {
     this._onSearchChange = _.debounce(this._onSearchChange.bind(this), 200);
     this._onResultClick = this._onResultClick.bind(this);
     this.setTitle = this.setTitle.bind(this);
+    this._handleDropdownChange = this._handleDropdownChange.bind(this);
   }
 
   componentDidMount() {
@@ -52,7 +53,6 @@ export default class Storyline extends PureComponent {
   setStateExt(state, cb) {
     this.setState(state, () => {
       let storyline = this.getStorylineFromState();
-      console.log(storyline)
       this.props.updateForm(storyline);
       if (cb && cb instanceof Function) {
         cb();
@@ -79,6 +79,14 @@ export default class Storyline extends PureComponent {
       });
     }
   }
+
+  _handleDropdownChange(e) {
+   this.setStateExt({difficultyLevel: e.target.value})
+   //if current level of difficulty is 4, check the locks checkbox
+   if(e.target.value === 4) {
+     document.getElementById("locks").checked = true;
+   }
+}
 
   getStorylineFromState(seperateAction = false) {
     if (seperateAction) {
@@ -299,7 +307,6 @@ export default class Storyline extends PureComponent {
     }
 
     const saveStory = 'Save story 💾';
-    const editStory = 'Edit story ✍🏻';
     const deleteStroy = 'Delete story 🗑️';
     const getRandomStory = 'Get me a storyline 🤞';
     return (
@@ -315,7 +322,7 @@ export default class Storyline extends PureComponent {
             <select
               className="home-form-selectMenu"
               onChange={e =>
-                this.setStateExt({difficultyLevel: e.target.value})
+                this._handleDropdownChange(e)
               }
             >
               {_.map(difficultyEnum, option => (
@@ -339,6 +346,7 @@ export default class Storyline extends PureComponent {
               label={title}
               name="searchbox"
               title={this.state.title}
+              placeholder={titlePlaceholder}
               _onResultClick={this._onResultClick}
               onChange={e => {
                 e.persist();

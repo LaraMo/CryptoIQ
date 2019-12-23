@@ -55,11 +55,6 @@ export function submitGameGen(data, cb) {
     fetch(CONSTANT.GAME_GEN_ENDPOINT, payload)
         .then((response) => {            
             if(response.headers.get('Content-Type') === 'application/zip') {
-                console.log(response)
-                for (let  header of response.headers) {
-                    console.log(header)
-                }
-
                 return response.blob().then(blob => blob);
             }
         }).then(file => {
