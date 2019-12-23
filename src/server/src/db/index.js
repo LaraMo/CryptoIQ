@@ -1,6 +1,5 @@
 import dotenv from 'dotenv';
 dotenv.config();
-// console.log(process.env)
 import sqlite3 from 'sqlite3';
 import path from 'path';
 import fs from 'fs';
@@ -11,8 +10,6 @@ const location = process.env.PERSIST_DB === 'true' ?
         process.env.DB_PATH :
         path.join(__dirname, process.env.DB_PATH)) :
     ":memory:";
-console.log("PERSITING DB: ", process.env.PERSIST_DB)
-console.log("DB Location: ", location)
 let mode = sqlite3.OPEN_URI;
 if (location !== ":memory:" && fs.existsSync(location)) {
     mode = sqlite3.OPEN_READWRITE

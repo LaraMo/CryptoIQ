@@ -74,7 +74,6 @@ export default class GeneralInfo extends PureComponent {
     //Form
     const numberOfStudents = 'Number of students:';
     const numberOfStudentsPlaceholder = 'Numbers only';
-    const duration = 'Duration of activity:';
     const locks = 'Include physical locks:';
     const textbook = 'Use of textbook/slide:';
     const {general} = this.state;
@@ -111,6 +110,7 @@ export default class GeneralInfo extends PureComponent {
           <Checkbox
             className="home-form-field"
             label={textbook}
+            id="locks"
             default={this.state.general.textbook}
             onChange={value =>
               this.setStateExt({

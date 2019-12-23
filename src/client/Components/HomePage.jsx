@@ -19,7 +19,7 @@ import {
   storylineKey,
 } from '../helpers/localStorageHelper';
 import {validateForm} from '../helpers/utility';
-import {validateOnSubmission, validateArrayOnSubmission, validateStoryline, validateBonusTicket} from "../helpers/clientValidation";
+import {validateOnSubmission, validateArrayOnSubmission, validateStoryline, validateBonusTicket, validatePageNumbers, areUniqueWord} from "../helpers/clientValidation";
 const HomePage = () => {
   const [generalInfo, setGeneralInfo] = useState({
     numberOfStudents: '',
@@ -91,21 +91,22 @@ const HomePage = () => {
       {vocalbulary: vocalbulary},
       {storyline: storyline},
     );
-    //before making a post request validate data , get all input elements and check if they are not empty
-    console.log("SUbmitting", payload)
-  
-    //before making a post request validate data
-    //get all input elements
-    //check if number of students is empty
+    //before making a post request validate data , get all input elements and check if they are not empty  
+    //GENERAL FORM: check if number of students is empty
     const numberOfStudents =  document.getElementById("numberOfStudents");
-    //check if any vocabulary words are empty
-    const voc =  document.getElementsByClassName("home-form-vocContainer")[0];
-    //check if any fields in the story are empty
-    const storylineContainer =  document.getElementsByClassName("storyline")[0];
-    //check if bonus ticket field is not empty, (the method will check if the checkbox is selected before making this validation)
+    //GENERAL FORM: check if bonus ticket field is not empty, (the method will check if the checkbox is selected before making this validation)
     const bonusTicketContainer = document.getElementById("bonusTicketContainer");
-    const storylineEl = document.getElementsByClassName("")[0]
-
+    //VOCBULARY FORM: check if any vocabulary words are empty
+    const voc =  document.getElementsByClassName("home-form-vocContainer")[0];
+    //VOCABULURY FORM: check if there is at least 3 unique combinations of page numbers for the lock game to work.
+    const pageNumbers = document.getElementsByClassName("pageNumber");
+    const isValidPageNumber = validatePageNumbers(pageNumbers, "locks", "There should be at least 3 unique combinations of page numbers for the lock game to work");
+    //VOCUBULARY FORM: check if there are no duplicates in the array of words
+    const words = document.getElementsByClassName("home-form-field-word");
+    const isValidArrayOfWords = areUniqueWord(words);
+    //STORY FORM: check if any fields in the story are empty
+    const storylineContainer =  document.getElementsByClassName("storyline")[0];
+    //STORY FORM: check if level of diff. is 4. If yes, make sure that the locks checkbox is selected TODO
     if(
     validateArrayOnSubmission(voc, "All vocabulary fields must be filled") 
     && 
@@ -114,6 +115,8 @@ const HomePage = () => {
     validateStoryline(storylineContainer, "All storyline inputs in this form must be filled")
     &&
     validateBonusTicket(bonusTicketContainer, "If bonus ticket checkbox is selected, the type of bonus she be provided")
+    && isValidPageNumber
+    // && isValidArrayOfWords TODO
     ){
       submitGameGen(payload, () => {
         storeItem(generalInfoKey, generalInfo);
