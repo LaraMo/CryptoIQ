@@ -19,7 +19,7 @@ import {
   storylineKey,
 } from '../helpers/localStorageHelper';
 import {validateForm} from '../helpers/utility';
-
+import {validateOnSubmission, validateArrayOnSubmission} from "../helpers/clientValidation";
 const HomePage = () => {
   const [generalInfo, setGeneralInfo] = useState({
     numberOfStudents: '',
@@ -31,7 +31,7 @@ const HomePage = () => {
   });
 
   const [vocalbulary, setVocabulary] = useState({
-    maxNumberOfWords: 1,
+    maxNumberOfWords: 8,
   });
 
   const [storyline, setStoryline] = useState({
@@ -52,15 +52,16 @@ const HomePage = () => {
     const gameData = getLatestGameData();
     if (gameData) {
       const {generalInfo, vocalbulary, storyline} = gameData;
-      if (generalInfo) {
+
+      if (!_.isEmpty(generalInfo)) {
         setGeneralInfo(gameData.generalInfo);
       }
 
-      if (vocalbulary) {
+      if (!_.isEmpty(vocalbulary)) {
         setVocabulary(vocalbulary);
       }
 
-      if (storyline) {
+      if (!_.isEmpty(storyline)) {
         setStoryline(storyline);
       }
     }
@@ -81,6 +82,7 @@ const HomePage = () => {
     }
   });
 
+  
   const createEscapeRoom = 'Give me an escape room!';
   const _onSubmit = () => {
     let payload = Object.assign(
@@ -89,10 +91,26 @@ const HomePage = () => {
       {vocalbulary: vocalbulary},
       {storyline: storyline},
     );
-    storeItem(generalInfoKey, generalInfo);
-    storeItem(vocalbularyKEy, vocalbulary);
-    storeItem(storylineKey, storyline);
-    submitGameGen(payload);
+    console.log("SUbmitting", payload)
+  
+    //before making a post request validate data
+    //get all input elements
+    //check if number of students is empty
+    const numberOfStudents =  document.getElementById("numberOfStudents");
+    //check if any vocabulary words are empty
+    const voc =  document.getElementsByClassName("home-form-vocContainer")[0];
+    //check if any fields in the story are empty
+    const storylineEl = document.getElementsByClassName("")[0]
+
+    if(validateArrayOnSubmission(voc, "Couldn't Generate Game: All vocabulary fields must be filled") 
+    // && validateOnSubmission(numberOfStudents, "Couldn't Generate Game: Number of students is empty")){
+    ){
+      submitGameGen(payload, () => {
+        storeItem(generalInfoKey, generalInfo);
+        storeItem(vocalbularyKEy, vocalbulary);
+        storeItem(storylineKey, storyline);
+      });
+    }
   };
 
   return (

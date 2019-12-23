@@ -1,8 +1,8 @@
 import React, {PureComponent} from 'react';
-import DropdownOption from '../../Public/DropdownOption';
 import {ErrorMessage, Checkbox} from '../PartialComponents/';
 import {TicketDataInput} from './PartialComponents/';
-import {durationEnum} from '../Enums/duration';
+import {validator}  from '../../helpers/clientValidation';
+import {getLatestGameData} from '../../helpers/localStorageHelper';
 
 export default class GeneralInfo extends PureComponent {
   constructor(props) {
@@ -23,27 +23,46 @@ export default class GeneralInfo extends PureComponent {
     this._onCheckBoxChanged = this._onCheckBoxChanged.bind(this);
   }
 
-  setStateExt(state) {
+  sync() {
+    const {generalInfo} = getLatestGameData();
+    if(!_.isEmpty(generalInfo)) {
+      this.setStateExt({
+        general: {
+          numberOfStudents: generalInfo.numberOfStudents,
+          locks: generalInfo.locks,
+          textbook: generalInfo.textbook,
+          rewardTicket: generalInfo.rewardTicket,
+          ticketContent: generalInfo.ticketContent,
+        },
+      }, () => {
+      });
+    }
+   
+  }
+
+  componentDidMount() {
+    this.sync();
+  }
+
+  setStateExt(state, cb) {
     this.setState(state, () => {
       this.props.updateForm(this.state.general);
+      if(cb && _.isFunction(cb)) {
+        cb()
+      }
     });
   }
 
   validateInputField(e) {
-    //check if empty --> ask?
     const {general} = this.state;
-    //set to state only if valid
+    //(valid= numeric under 50)
     this.setStateExt({
       general: {...general, numberOfStudents: e.target.value},
     });
-    // const errorNumberOfStudents = this.nonNumericError.current;
-
-    if (e.target.value.match(/([1-9]|[1-4][0-9]|50)/)) {
+    if (validator(e.target.value, /^(?:[1-9]|[1-4][0-9]|50)$/, 3)) { 
       this.setStateExt({error: ''});
-      // errorContainer.classList.add('hideError');
     } else {
       this.setStateExt({error: 'Please enter a number from 1-50'});
-      // errorContainer.classList.remove('hideError');
     }
   }
 
@@ -69,6 +88,7 @@ export default class GeneralInfo extends PureComponent {
           <div className="home-form-field">
             <p>{numberOfStudents}</p>
             <input
+              id="numberOfStudents"
               className="home-form-inputText"
               name="numberOfStudents"
               value={general.numberOfStudents}
@@ -87,8 +107,6 @@ export default class GeneralInfo extends PureComponent {
               })
             }
           />
-
-
 
           <Checkbox
             className="home-form-field"

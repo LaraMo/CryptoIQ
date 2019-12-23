@@ -1,5 +1,6 @@
 import React, {PureComponent} from 'react';
 import _ from 'lodash';
+import {validator}  from '../../../helpers/clientValidation';
 
 export default class VocabularyWord extends PureComponent {
   constructor(props) {
@@ -13,7 +14,6 @@ export default class VocabularyWord extends PureComponent {
   }
 
   componentDidMount() {
-    console.log(this.props.savedDefinition)
     if (this.props.savedDefinition) {
       const {
         wordsEntered,
@@ -29,8 +29,24 @@ export default class VocabularyWord extends PureComponent {
     }
   }
 
-  componentDidUpdate(prev) {
-
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      this.props.savedDefinition &&
+      !prevState.wordsEntered &&
+      !prevState.defintionsEntered &&
+      !prevState.pageNumberEntered
+    ) {
+      const {
+        wordsEntered,
+        defintionsEntered,
+        pageNumberEntered,
+      } = this.props.savedDefinition;
+      this.setState({
+        wordsEntered,
+        defintionsEntered,
+        pageNumberEntered,
+      });
+    }
   }
 
   render() {
@@ -46,25 +62,28 @@ export default class VocabularyWord extends PureComponent {
     } = this.state;
 
     let pageNumberInput = null;
-    if (this.props.acceptPageNumber) {
-      pageNumberInput = (
-        <div className="home-form-field-word">
-          <p>{pageNumber}</p>
-          <input
-            id="pageNumber"
-            value={pageNumberEntered}
-            onChange={e => {
-              this.props.onChange(e, this.props.index);
+    if(this.props.acceptPageNumber) {
+      pageNumberInput = 
+      <div className="home-form-field-word">
+      <p>{pageNumber}</p>
+
+        <input
+          id="pageNumber"
+          value={pageNumberEntered}
+          onChange={e => {
+            this.props.onChange(e, this.props.index);
+            //set to state only if valid (valid= numeric)
+            if (validator(e.target.value, /^[0-9]*$/, 4)) { 
               this.setState(
                 {
                   pageNumberEntered: e.target.value,
                 },
                 () => this.props.onChange(this.props.index, this.state),
-              );
-            }}
-          ></input>
-        </div>
-      );
+              ); 
+            }
+          }}
+        ></input>
+      </div>
     }
     return (
       <div className="home-form-field">
@@ -73,12 +92,15 @@ export default class VocabularyWord extends PureComponent {
           <input
             value={wordsEntered}
             onChange={e => {
+             //set to state only if valid (valid= letters less then 100)
+             if (validator(e.target.value, /^[a-zA-Z\säöüßÄÖÜéÉï]*$/, 100)) { 
               this.setState(
                 {
                   wordsEntered: e.target.value,
                 },
                 () => this.props.onChange(this.props.index, this.state),
               );
+             }
             }}
           />
         </div>
@@ -90,12 +112,15 @@ export default class VocabularyWord extends PureComponent {
             value={defintionsEntered}
             onChange={e => {
               this.props.onChange(e, this.props.index);
+               //set to state only if valid (valid= letters less then 400)
+             if (validator(e.target.value, /^[a-zA-Z\säöüßÄÖÜéÉï]*$/, 400)) { 
               this.setState(
                 {
                   defintionsEntered: e.target.value,
                 },
                 () => this.props.onChange(this.props.index, this.state),
               );
+             }
             }}
           ></input>
         </div>
