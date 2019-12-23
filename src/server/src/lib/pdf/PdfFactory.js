@@ -7,9 +7,6 @@ import {
     sortObjectKeyByOrder,
     isObject
 } from "../helperFunctions";
-import {
-    sendPdf
-} from "../../gamegen/core";
 
 class PdfFactory {
     writeStream = null;
@@ -43,7 +40,6 @@ class PdfFactory {
                 return this.doc.image(path, x, y, options)
             },
             'text': (text, options) => {
-                // console.log(text)
                 return this.doc.text(text, options);
             },
             "vectorPath": (pathString) => {
@@ -51,7 +47,7 @@ class PdfFactory {
             },
             "callback": async (func) => {
                 if(this.doc.y > this.doc.page.height - this.doc.page.margins.bottom) {
-                    this.doc.addPage()
+                    await this.doc.addPage()
                 }
                 await func(this.doc);
             }
@@ -62,10 +58,7 @@ class PdfFactory {
             for(let i = 0; i < this.cbQueue.length; i++) {
                 await this.cbQueue[i](this.pdfBuffer);
             }
-            // sendPdf(this.response, this.pdfBuffer);
         })
-
-        // this.response = response
 
         this.applyDefaultSettings();
     }
@@ -80,7 +73,7 @@ class PdfFactory {
         const keys = sortObjectKeyByOrder(ins, this.propsOrder);
         for (const key of keys) {
             if (key in this.propsMap && this.propsMap[key] instanceof Function) {
-                const res = await this.propsMap[key](ins[key], ins.options)
+                await this.propsMap[key](ins[key], ins.options)
             }
         }
     }
@@ -108,7 +101,7 @@ class PdfFactory {
 
     async append(buildSteps) {
         if (Array.isArray(buildSteps)) {
-            buildSteps.forEach((step) => this.parseStep(step))
+            buildSteps.forEach(async (step) => await this.parseStep(step))
         } else if (isObject(buildSteps)) {
             this.parseStep(buildSteps)
         }

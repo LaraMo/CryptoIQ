@@ -65,14 +65,14 @@ export async function gameGenerate(archive, data) {
     const gameBuilder = new PdfFactory();
     const insBuilder = new PdfFactory();
     await gameBuilder.append(gameGenerator.toGamePdf());
-   
+    await insBuilder.append(gameGenerator.toInstructionPdf());
+
     return new Promise(async (resolve, reject) => {
       try {
         await gameBuilder.build(async pdf => {
           archive.append(pdf, {
             name: `game.pdf`,
           });
-          await insBuilder.append(gameGenerator.toInstructionPdf());
           await insBuilder.build(pdf => {
             archive.append(pdf, {
               name: `instruction.pdf`,
