@@ -41,7 +41,6 @@ export default class ThreeGamesWithLockAndPageNumberStrategy extends Strategy {
         const crossword = new Crossword(thirdLevel);
         
         return [cipherwheels, lockCombination, crossword];
-        
     }
 
     toString() {

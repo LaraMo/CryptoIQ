@@ -374,18 +374,29 @@ class Crossword {
     }
 
     generateGuideIns() {
-        let pdfIns = [{
-            type: PdfObjectType.TEXT,
-            text: "Across"
-        }];
-        pdfIns = [...pdfIns, ...this.generateClueIns(this.acrossWords)]
-        pdfIns.push({
-            "type": PdfObjectType.BR
-        })
-        pdfIns = [...pdfIns, {
-            type: PdfObjectType.TEXT,
-            text: "Down"
-        }, ...this.generateClueIns(this.downWords)]
+        let pdfIns = [];
+        if(this.acrossWords && this.acrossWords.length > 0) {
+            pdfIns.push({
+                type: PdfObjectType.TEXT,
+                text: "Across"
+            });
+            pdfIns = [...pdfIns, ...this.generateClueIns(this.acrossWords)]
+        
+            pdfIns.push({
+                "type": PdfObjectType.BR3
+            });    
+        }
+        
+        if(this.downWords && this.downWords.length > 0)  {
+            pdfIns = [...pdfIns, {
+                type: PdfObjectType.TEXT,
+                text: "Down"
+            }, ...this.generateClueIns(this.downWords)]
+
+            pdfIns.push( {
+                type: PdfObjectType.BR
+            })
+        }
         return pdfIns;
     }
 

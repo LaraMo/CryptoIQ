@@ -114,6 +114,9 @@ class Lock {
                         valign: 'center'
                     }
                 },
+                {
+                    type: PdfObjectType.BR,
+                },
             ]
         } else if (!this.validatePageNumbers()) {
             return [{
@@ -130,8 +133,7 @@ class Lock {
                     }
                 },
                 {
-                    type: PdfObjectType.TEXT,
-                    text: "____________________________________________________________________",
+                    type: PdfObjectType.BR,
                 },
             ]
         } else {
@@ -219,7 +221,7 @@ class Lock {
     }
 
 
-    toInstructionPdf() {
+    async toInstructionPdf() {
         if (!this.words || this.words.length < 3) {
             return [{
                     type: PdfObjectType.TEXT,
@@ -233,6 +235,9 @@ class Lock {
                         align: 'center',
                         valign: 'center'
                     }
+                },
+                {
+                    type: PdfObjectType.BR,
                 },
             ]
         } else if (!this.validatePageNumbers()) {
@@ -250,11 +255,11 @@ class Lock {
                     }
                 },
                 {
-                    type: PdfObjectType.TEXT,
-                    text: "____________________________________________________________________",
+                    type: PdfObjectType.BR,
                 },
             ]
         } else {
+            let buffer = await drawGrid([this.lockCombo], true, true, true)
             this.generateLockCombo();
             return [{
                     type: PdfObjectType.IMAGE,
@@ -303,6 +308,9 @@ class Lock {
                     }
                 },
                 {
+                    type: PdfObjectType.BR,
+                },
+                {
                     type: PdfObjectType.TEXT,
                     text: 'The Lock combination from left to right is:'
                 },
@@ -312,8 +320,7 @@ class Lock {
                 {
                     type: PdfObjectType.VECTOR,
                     callback: async (doc) => {
-                        let buffer = await drawGrid([this.lockCombo], true, true, true)
-                        doc.image(buffer, calculateCenterX(doc, styleDefault.cellWidth * 3))
+                        await doc.image(buffer, calculateCenterX(doc, styleDefault.cellWidth * 3))
                     }
                 },
                 {

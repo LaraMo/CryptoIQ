@@ -19,7 +19,11 @@ import {
   storylineKey,
 } from '../helpers/localStorageHelper';
 import {validateForm} from '../helpers/utility';
+<<<<<<< HEAD
 import {validateOnSubmission, validateArrayOnSubmission, validateStoryline, validateBonusTicket, validatePageNumbers, areUniqueWord, isSelectedCheckbox} from "../helpers/clientValidation";
+=======
+import {validateOnSubmission, validateArrayOnSubmission, validateStoryline, validateBonusTicket, validatePageNumbers, areUniqueWord} from "../helpers/clientValidation";
+>>>>>>> 867b1cf950ab033eed2be8dc96418a63b698c165
 const HomePage = () => {
   const [generalInfo, setGeneralInfo] = useState({
     numberOfStudents: '',
@@ -117,7 +121,10 @@ const HomePage = () => {
     &&
     validateBonusTicket(bonusTicketContainer, "If bonus ticket checkbox is selected, the type of bonus she be provided")
     && isValidPageNumber
+<<<<<<< HEAD
     && isSelectedCheckbox
+=======
+>>>>>>> 867b1cf950ab033eed2be8dc96418a63b698c165
     // && isValidArrayOfWords TODO
     ){
       submitGameGen(payload, () => {
