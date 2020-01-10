@@ -53,7 +53,7 @@ export default class VocabularyWord extends PureComponent {
     //Form
     const word = 'Word';
     const defintion = 'Defintion';
-    const pageNumber = 'Page';
+    const pageNumber = 'Page/Slide';
     const {
       wordsEntered,
       defintionsEntered,
@@ -64,7 +64,7 @@ export default class VocabularyWord extends PureComponent {
     let pageNumberInput = null;
     if(this.props.acceptPageNumber) {
       pageNumberInput = 
-      <div className="home-form-field-word">
+      <div className="home-form-field-pageOrSlide">
       <p>{pageNumber}</p>
 
         <input
@@ -93,7 +93,6 @@ export default class VocabularyWord extends PureComponent {
             value={wordsEntered}
             onChange={e => {
              //set to state only if valid (valid= letters less then 100)
-             if (validator(e.target.value, /^[a-zA-Z\säöüßÄÖÜéÉï]*$/, 100)) { 
               this.setState(
                 {
                   wordsEntered: e.target.value,
@@ -101,7 +100,7 @@ export default class VocabularyWord extends PureComponent {
                 () => this.props.onChange(this.props.index, this.state),
               );
              }
-            }}
+            }
           />
         </div>
 
@@ -113,14 +112,12 @@ export default class VocabularyWord extends PureComponent {
             onChange={e => {
               this.props.onChange(e, this.props.index);
                //set to state only if valid (valid= letters less then 400)
-             if (validator(e.target.value, /^[a-zA-Z\säöüßÄÖÜéÉï]*$/, 400)) { 
               this.setState(
                 {
                   defintionsEntered: e.target.value,
                 },
                 () => this.props.onChange(this.props.index, this.state),
               );
-             }
             }}
           ></input>
         </div>

@@ -171,7 +171,7 @@ class Lock {
                 {
                     type: PdfObjectType.TEXT,
                     text: `
-  ➤ Find the proper defintion for the chosen words using the textbook.
+  ➤ Find the proper defintion for the chosen words using the textbook/slides.
   ➤ Write down the page number that you found the defintions at. 
   ➤ The words are in that order for a reason.
   ➤ Pay attention to the page numbers, digit by digit.`,
