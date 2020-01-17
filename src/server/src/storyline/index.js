@@ -1,8 +1,7 @@
 import express from 'express';
-import StorylineComponents from '../lib/enums/StorylineComponents';
+import { insertErrorLog, storylineExist } from '../db/helpers';
+import { validateStorylinePayload } from '../gamegen/core';
 import Storyline from './Storyline';
-import {validateStorylinePayload} from '../gamegen/core';
-import {insertErrorLog} from '../db/helpers';
 
 const router = express.Router();
 
@@ -32,11 +31,18 @@ router
   .post(async (req, res, next) => {
     try {
       validateStorylinePayload(req.body);
-      let storyline = await Storyline.addToDb(req.body);
+      console.log(await storylineExist(req.body.title))
+      if(await storylineExist(req.body.title)) {
+        console.log(req.body)
+        Storyline.update(req.body)
+      } else {
+        await Storyline.addToDb(req.body);
+      }
       res.status(200).json({
         status: 'SUCCESS',
       });
     } catch (err) {
+      console.error(err)
       insertErrorLog({
         createdAt: Date.now(),
         message: err,
@@ -64,11 +70,11 @@ router.route('/search').get(async (req, res, next) => {
       throw 'Invalid request! No searchingString query string was provided';
     }
   } catch (err) {
-    // insertErrorLog({
-    //   createdAt: Date.now(),
-    //   message: err,
-    //   traceback: err.stack,
-    // });
+    insertErrorLog({
+      createdAt: Date.now(),
+      message: err,
+      traceback: err.stack,
+    });
     console.error(err)
     res.status(500).json({
       status: 'FAILURE',

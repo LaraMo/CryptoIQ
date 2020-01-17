@@ -1,13 +1,8 @@
 // import enum from '../lib/enums/DefaultStoryline';
-import StorylineEnum from '../lib/enums/Storyline';
 import db from "../db/";
-import {
-    insertAction,
-    insertStoryline
-} from "../db/helpers";
-import {
-    reflect
-} from '../lib/helperFunctions';
+import { insertAction, insertStoryline, updateAction, updateStoryline } from "../db/helpers";
+import StorylineEnum from '../lib/enums/Storyline';
+import { reflect } from '../lib/helperFunctions';
 
 export function extractActions(data) {
     let re = /^action.*$/;
@@ -149,18 +144,49 @@ class Storyline {
         })
     }
 
-    // update(title, data) {
-    //     return new Promise((resolve, reject) => {
-    //         try {
-    //             var sql = `UPDATE storyline SET WHERE title = '${title}'`;
-    //             resolve(await Promise.all(result.map(reflect)))
-    //         } catch (err) {
-    //             reject(err)
-    //         }
+    static update(data = {
+        title,
+        opening,
+        quest,
+        ending,
+        action1,
+        action2,
+        action3,
+        action4
+    }) {
+        return new Promise((resolve, reject) => {
+            try {
+                const {
+                    title,
+                    opening,
+                    quest,
+                    ending
+                } = data;
+                let actionTypes = extractActions(data);
+                db.serialize(async function () {
+                    const {
+                        lastID
+                    } = await updateStoryline({
+                        title,
+                        opening,
+                        quest,
+                        ending
+                    });
+                    let result = actionTypes.map(async (type) => {
+                        return await updateAction({
+                            storyline_id: lastID,
+                            action: data[type],
+                            type
+                        })
+                    })
+                    resolve(await Promise.all(result.map(reflect)))
+                })
+            } catch (err) {
+                reject(err)
+            }
 
-    //     })
-
-    // }
+        })
+    }
 
     static delete(title = "") {
         return new Promise((resolve, reject) => {

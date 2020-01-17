@@ -1,14 +1,14 @@
 import dotenv from 'dotenv';
-dotenv.config();
-import sqlite3 from 'sqlite3';
-import path from 'path';
 import fs from 'fs';
+import path from 'path';
+import sqlite3 from 'sqlite3';
+dotenv.config();
 sqlite3.verbose();
 
 const location = process.env.PERSIST_DB === 'true' ?
     (path.isAbsolute(process.env.DB_PATH) ?
         process.env.DB_PATH :
-        path.join(__dirname, process.env.DB_PATH)) :
+        path.join(process.cwd(), process.env.DB_PATH)) :
     ":memory:";
 let mode = sqlite3.OPEN_URI;
 if (location !== ":memory:" && fs.existsSync(location)) {
