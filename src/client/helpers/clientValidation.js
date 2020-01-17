@@ -144,3 +144,21 @@ export function areUniqueWord(elements){
   //set generates unique elements. Therefore, if the length is not equal, there is at least one word that is duplicated!
     return new Set(inputs).size !== elements.length;
 }
+
+/**
+ * Validate if diff. level is 4, then checkbox of locks should be also selected so that all 4 games could be generated
+ */
+export function isSelectedCheckbox(diffLevel, id ,message){
+    //to finish
+    if(diffLevel === 4){
+        if(document.getElementById(id).checked){
+            return true;
+        }
+        else {
+            alert("Couldn't Generate Game: " + message)
+        }
+    }
+    else {
+        return true;
+    }
+}
