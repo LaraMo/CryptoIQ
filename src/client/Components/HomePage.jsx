@@ -19,7 +19,7 @@ import {
   storylineKey,
 } from '../helpers/localStorageHelper';
 import {validateForm} from '../helpers/utility';
-import {validateOnSubmission, validateArrayOnSubmission, validateStoryline, validateBonusTicket, validatePageNumbers, areUniqueWord} from "../helpers/clientValidation";
+import {validateOnSubmission, validateArrayOnSubmission, validateStoryline, validateBonusTicket, validatePageNumbers, areUniqueWord, isSelectedCheckbox} from "../helpers/clientValidation";
 const HomePage = () => {
   const [generalInfo, setGeneralInfo] = useState({
     numberOfStudents: '',
@@ -106,7 +106,8 @@ const HomePage = () => {
     const isValidArrayOfWords = areUniqueWord(words);
     //STORY FORM: check if any fields in the story are empty
     const storylineContainer =  document.getElementsByClassName("storyline")[0];
-    //STORY FORM: check if level of diff. is 4. If yes, make sure that the locks checkbox is selected TODO
+    //STORY FORM: check if level of diff. is 4. If yes, make sure that the locks checkbox is selected 
+    const isSelectedCheckbox =  isSelectedCheckbox(storyline.difficultyLevel, "locks", "Please add page numbers");
     if(
     validateArrayOnSubmission(voc, "All vocabulary fields must be filled") 
     && 
@@ -116,6 +117,7 @@ const HomePage = () => {
     &&
     validateBonusTicket(bonusTicketContainer, "If bonus ticket checkbox is selected, the type of bonus she be provided")
     && isValidPageNumber
+    && isSelectedCheckbox
     // && isValidArrayOfWords TODO
     ){
       submitGameGen(payload, () => {

@@ -1,5 +1,5 @@
 export default [
-    { TITLE: "The king's ringsss" },
+    { TITLE: "The king's rings" },
     { OPENING: "Once upon a time there was a kingdom situated far far away. It was ruled by the glorious king Marcus and his beautiful wife Bianca. Their 20 years old daugther, Fiona was devine and very loved by everyone." },
     { QUEST: "One day she disapeared... Thats when the king proposed to give the famous 'king'\s ring' to marry his daughter to the person who finds her" },
     {

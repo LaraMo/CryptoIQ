@@ -15,12 +15,12 @@ const projectTitle = "CryptIQ";
 const descriptionPart1 = "Simple ";
 const descriptionPart2 = "and ";
 const descriptionPart3 = "reusable ";
-const descriptionPart4 = "platfrom to generate escape rooms for ";
+const descriptionPart4 = "platform to generate escape rooms for ";
 const descriptionPart5 = "educational purposes";
 const getStartedPart1 = "Get started ";
 const getStartedPart2 = "now";
 const instructionsPart1 = "✔️ Your previous game will be saved with us. No more retyping information!"
-const instructionsPart2 = "✔️ An answer sheet will be provided with the game for the teachers, easy correction!" 
+const instructionsPart2 = "✔️ An answer sheet will be provided for the teachers for easy correction!" 
 
 const Title = () => {
   return (
