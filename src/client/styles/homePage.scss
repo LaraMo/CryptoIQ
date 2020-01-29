@@ -256,9 +256,13 @@ form {
 }
 
 footer {
-    position: relative;
-    margin-top: 5vh;
-    margin-bottom: 0;
+    padding-top: 30px;
+    align-items: center;
     color: grey;
     font-size: smaller;
+    display: flex;
+    flex-direction: column;
+    > * {
+        padding: 5px;
+    }
 }

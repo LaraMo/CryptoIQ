@@ -149,6 +149,7 @@ const HomePage = () => {
             text={createEscapeRoom}
             onClick={_onSubmit}
           ></SubmitButton>
+          <Footer/>
         </form>
       </div>
     </div>
