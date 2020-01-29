@@ -140,7 +140,6 @@ export function areUniqueWord(elements){
     for(let i = 0 ; i <elements.length; i++){
         inputs.push(elements[i].children[1].value);
     }
-    console.log(inputs)
   //set generates unique elements. Therefore, if the length is not equal, there is at least one word that is duplicated!
     return new Set(inputs).size !== elements.length;
 }

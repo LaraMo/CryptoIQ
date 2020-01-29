@@ -5,7 +5,6 @@ const DropdownOption = props => {
     <option
       value={props.value}
       label={props.label}
-      selected={props.selected}
       {...props}
     />
   );

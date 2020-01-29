@@ -276,7 +276,7 @@ export default class Storyline extends PureComponent {
     const titlePlaceholder = "The king's ring";
     const opening = 'Enter opening:';
     const openingPlaceholder = 'Once upon a time...';
-    const quest = 'Enter the main characthers quest:';
+    const quest = 'Enter the main characters quest:';
     const questPlaceholder =
       'The king decided to go on the dangerous adventure in order to...';
     const ending = 'Enter ending:';
