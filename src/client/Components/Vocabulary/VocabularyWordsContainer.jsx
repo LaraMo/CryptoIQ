@@ -65,10 +65,7 @@ export default class VocabularyWordsContainer extends PureComponent {
     //Headers
     const vocabularyWords = 'Vocabulary Words';
     //Form
-    const instructionsPart1 = 'Enter any';
-    const instructionsPart2 = ' and/or ';
-    const instructionsPart3 = 'vocabulary and defintions';
-    const instructionsPart4 = 'events and dates';
+    const instructionsPart1 = 'Enter any vocabulary words and defintions';
     const maxNumberOfWords = 'How many words would you like to add?';
     const generateInput = [];
     if (!this.state.error) {
@@ -95,9 +92,7 @@ export default class VocabularyWordsContainer extends PureComponent {
         <h3>{vocabularyWords} </h3>
         <div className="home-form">
           <p className="home-form-title">
-            {instructionsPart1} <span>{instructionsPart3}</span>
-            {instructionsPart2}
-            <span>{instructionsPart4}</span>
+            {instructionsPart1}
           </p>
           {errorMessage}
           <div className="home-form-field">
