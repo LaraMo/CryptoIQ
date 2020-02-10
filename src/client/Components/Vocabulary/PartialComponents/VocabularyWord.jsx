@@ -8,7 +8,7 @@ export default class VocabularyWord extends PureComponent {
     this.state = {
       index: this.props.index,
       wordsEntered: '',
-      defintionsEntered: '',
+      definitionsEntered: '',
       pageNumberEntered: '',
     };
   }
@@ -17,13 +17,13 @@ export default class VocabularyWord extends PureComponent {
     if (this.props.savedDefinition) {
       const {
         wordsEntered,
-        defintionsEntered,
+        definitionsEntered,
         pageNumberEntered,
         index,
       } = this.props.savedDefinition;
       this.setState({
         wordsEntered,
-        defintionsEntered,
+        definitionsEntered,
         pageNumberEntereda,
       });
     }
@@ -33,17 +33,17 @@ export default class VocabularyWord extends PureComponent {
     if (
       this.props.savedDefinition &&
       !prevState.wordsEntered &&
-      !prevState.defintionsEntered &&
+      !prevState.definitionsEntered &&
       !prevState.pageNumberEntered
     ) {
       const {
         wordsEntered,
-        defintionsEntered,
+        definitionsEntered,
         pageNumberEntered,
       } = this.props.savedDefinition;
       this.setState({
         wordsEntered,
-        defintionsEntered,
+        definitionsEntered,
         pageNumberEntered,
       });
     }
@@ -52,11 +52,11 @@ export default class VocabularyWord extends PureComponent {
   render() {
     //Form
     const word = 'Word';
-    const defintion = 'Defintion';
+    const definition = 'Definition';
     const pageNumber = 'Page/Slide';
     const {
       wordsEntered,
-      defintionsEntered,
+      definitionsEntered,
       pageNumberEntered,
       index,
     } = this.state;
@@ -105,16 +105,16 @@ export default class VocabularyWord extends PureComponent {
         </div>
 
         <div className="home-form-field-definition">
-          <p>{defintion}</p>
+          <p>{definition}</p>
           <input
-            id="defintion"
-            value={defintionsEntered}
+            id="definition"
+            value={definitionsEntered}
             onChange={e => {
               this.props.onChange(e, this.props.index);
                //set to state only if valid (valid= letters less then 400)
               this.setState(
                 {
-                  defintionsEntered: e.target.value,
+                  definitionsEntered: e.target.value,
                 },
                 () => this.props.onChange(this.props.index, this.state),
               );
