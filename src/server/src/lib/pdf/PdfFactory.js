@@ -107,9 +107,9 @@ class PdfFactory {
         }
     }
 
-    async build(cb) {       
+    async build(cb) {   
+        this.cbQueue.push(cb);    
         this.doc.end();
-        this.cbQueue.push(cb);
         return this.pdfBuffer;
     }
 
