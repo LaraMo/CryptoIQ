@@ -30,6 +30,8 @@ class CipherWheel {
     message = '';
     difficulty = Difficulty.EASY;
     imageBuffer = "";
+    gamePdf = []
+    insPdf = []
 
     constructor(message, difficulty, showStartingCode = false, showBanner = true) {
         this.alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
@@ -40,6 +42,54 @@ class CipherWheel {
         this.difficulty = difficulty || this.difficulty;
         this._showStartingCode = showStartingCode;
         this._showBanner = showBanner;
+    }
+
+    async generate() {
+        this.gamePdf = [
+            ...this.getBanner(),
+            {
+                type: PdfObjectType.BR,
+            }
+        ];
+        if (this._showStartingCode) {
+            this.gamePdf.push(this.getWordGridIns([this.startCode]));
+        }
+        this.gamePdf = [...this.gamePdf, 
+            {
+                type: PdfObjectType.BR,
+            },
+            ...await this.getCipherWheelIns(),
+            {
+                type: PdfObjectType.BR,
+            },
+        ]
+
+        this.gamePdf = [...this.gamePdf, {
+                type: PdfObjectType.BR,
+            },
+            this.getWordGridIns([this.encodedMessage.split('')]),
+            {
+                type: PdfObjectType.BR,
+            },
+        ]
+        // Generate instruction PDF
+        this.insPdf = [
+            ...this.getBanner(),
+            {
+                type: PdfObjectType.BR,
+            },
+            {
+                type: PdfObjectType.TEXT,
+                text: `Word to solve for: ${this.message}`,
+            },
+            {
+                type: PdfObjectType.TEXT,
+                text: `Starting Code: ${this.startCode}`
+            }
+        ];
+
+        this.insPdf = [...this.insPdf, ...await this.getCipherWheelIns()]
+        this.insPdf.push(this.getWordGridIns([this.encodedMessage.split('')]))
     }
 
     getRandomEncoder() {
@@ -117,14 +167,14 @@ class CipherWheel {
         return canvas.toBuffer();
     }
 
-    getWordGridIns() {
+    getWordGridIns(words) {
         return {
             type: PdfObjectType.VECTOR,
             callback: (doc) => {
-                const wordGrid = [this.encodedMessage.split('')]
-                let imageBuffer = drawGrid(wordGrid, true, true, true);
+                // const wordGrid = [this.encodedMessage.split('')]
+                let imageBuffer = drawGrid(words, true, true, true);
                 doc.image(imageBuffer,
-                    calculateCenterX(doc, styleDefault.cellWidth * wordGrid[0].length), doc.y, {
+                    calculateCenterX(doc, styleDefault.cellWidth * words[0].length), doc.y, {
                         align: 'left'
                     }
                 )
@@ -139,19 +189,22 @@ class CipherWheel {
         this.imageBuffer = null;
         if (this.difficulty === Difficulty.EASY) {
             this.imageBuffer = await this.renderRotatedWheelImage();
-            pdfIns = [...pdfIns, {
+            pdfIns = [...pdfIns, 
+                {
                 type: PdfObjectType.VECTOR,
                 callback: async (doc) => {
-                    if(doc.y + this.preferedHeight > doc.page.height - doc.page.margins.bottom) {
+                    if(doc.y + doc.page.bottom + doc.page.top + this.preferedHeight > doc.page.maxY()) {
                         doc.addPage()
+                    // } 
                     }
+                        doc.image(this.imageBuffer,
+                            calculateCenterX(doc, this.preferedWidth), doc.y, {
+                                fit: [this.preferedWidth, this.preferedHeight]
+                            }
+                        )
+                    // }
 
-                    doc.image(this.imageBuffer,
-                        calculateCenterX(doc, this.preferedWidth), doc.y, {
-                            fit: [this.preferedWidth, this.preferedHeight]
-                        }
-                    )
-
+                    console.log("CIPHER WHEEL IMAGE", doc.x, doc.y, calculateCenterX(doc, this.preferedWidth), this.preferedHeight, this.preferedHeight)
                 }
             }]
         } else {
@@ -170,74 +223,25 @@ class CipherWheel {
 
     getBanner() {
         if (this._showBanner) {
-            return {
+            return [{
                 type: PdfObjectType.IMAGE,
                 imagePath: path.resolve("assets/", "cipherwheel-banner.png"),
                 options: {
                     fit: [250, 250],
                     isCentered: true
                 }
-            }
+            }]
+        } else {
+            return [];
         }
     }
-    async toGamePdf() {
-        let pdfIns = [
-            this.getBanner(),
-            {
-                type: PdfObjectType.BR,
-            }
-        ];
-        if (this._showStartingCode) {
-            pdfIns.push({
-                type: PdfObjectType.VECTOR,
-                callback: async (doc) => {
-                    let buffer = drawGrid([this.startCode], true, true, true, false)
-                    doc.image(buffer,
-                        calculateCenterX(doc, styleDefault.cellWidth * this.startCode.length), doc.y, {
-                            align: 'left'
-                        },
-                        
-                    )
-                }
-            });
-        }
-        pdfIns = [...pdfIns, {
-                type: PdfObjectType.BR,
-            },
-            ...await this.getCipherWheelIns()
-        ]
 
-        pdfIns = [...pdfIns, {
-                type: PdfObjectType.BR,
-            },
-            this.getWordGridIns(),
-            {
-                type: PdfObjectType.BR,
-            },
-        ]
-
-        return pdfIns;
+    toGamePdf() {
+        return this.gamePdf;
     }
 
-    async toInstructionPdf() {
-        let pdfIns = [
-            this.getBanner(),
-            {
-                type: PdfObjectType.BR,
-            },
-            {
-                type: PdfObjectType.TEXT,
-                text: `Word to solve for: ${this.message}`,
-            },
-            {
-                type: PdfObjectType.TEXT,
-                text: `Starting Code: ${this.startCode}`
-            }
-        ];
-
-        pdfIns = [...pdfIns, ...await this.getCipherWheelIns()]
-        pdfIns.push(this.getWordGridIns())
-        return pdfIns;
+    toInstructionPdf() {
+        return this.insPdf;
     }
 
     toString() {

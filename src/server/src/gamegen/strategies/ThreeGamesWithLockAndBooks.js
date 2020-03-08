@@ -17,7 +17,7 @@ export default class ThreeGamesWithLockAndPageNumberStrategy extends Strategy {
     }
     puzzles = [Puzzle.CIPHER_WHEEL, Puzzle.LOCK_COMBINATION, Puzzle.CROSS_WORD];
 
-    generate() {
+    async generate() {
         let firstLevel = randomWords(this.words, 3);
 
         const cipherwheels = []
@@ -25,6 +25,10 @@ export default class ThreeGamesWithLockAndPageNumberStrategy extends Strategy {
         cipherwheels[0] = new CipherWheel(firstLevel[0].wordsEntered, "EASY", true, true);
         cipherwheels[1] = new CipherWheel(firstLevel[1].wordsEntered, "EASY", true, false);
         cipherwheels[2] = new CipherWheel(firstLevel[2].wordsEntered, "EASY", true, false);
+
+        await cipherwheels[0].generate();
+        await cipherwheels[1].generate();
+        await cipherwheels[2].generate();
 
         let secondLevel = diffWords(this.words, firstLevel);
         secondLevel = randomWords(secondLevel, 3)

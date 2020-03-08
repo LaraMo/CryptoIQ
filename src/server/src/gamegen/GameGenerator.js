@@ -121,30 +121,30 @@ class GameGenerator {
             case Difficulty.EASY.VALUE:
                 if (this.generalInfo.textbook) {
                     if(this.generalInfo.locks)
-                        generated = this.strategies['2GLPN'].generate();
+                        generated = await this.strategies['2GLPN'].generate();
                     else
-                        generated = this.strategies['2GPN'].generate();
+                        generated = await this.strategies['2GPN'].generate();
                 } 
                 else {
-                    generated = this.strategies['2G'].generate();
+                    generated = await this.strategies['2G'].generate();
                 }
                 break;
             case Difficulty.MEDIUM.VALUE:
                 if ( this.generalInfo.textbook) {
                     if(this.generalInfo.locks)
-                        generated = this.strategies['3GLPN'].generate();
+                        generated = await this.strategies['3GLPN'].generate();
                     else 
-                        generated = this.strategies['3GPN'].generate();
+                        generated = await this.strategies['3GPN'].generate();
                 }
                 else {
-                    generated = this.strategies['3G'].generate();
+                    generated = await this.strategies['3G'].generate();
                 }
                 break;
             case Difficulty.ADVANCED.VALUE:
                 if(this.generalInfo.locks)
-                        generated = this.strategies['4GLPN'].generate();
+                        generated = await this.strategies['4GLPN'].generate();
                     else 
-                        generated = this.strategies['4GPN'].generate();
+                        generated = await this.strategies['4GPN'].generate();
                 break;
             default:
                 throw new Error('Invalid enum value for difficulty level');
