@@ -63,7 +63,8 @@ class PdfFactory {
       },
       callback: async func => {
         if (this.doc.y > this.doc.page.maxY()) {
-          await this.doc.addPage();
+          this.doc.addPage();
+          this.doc.y = this.doc.page.margins.top
         }
         await func(this.doc);
       },
