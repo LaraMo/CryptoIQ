@@ -199,7 +199,7 @@ class CipherWheel {
                 {
                 type: PdfObjectType.VECTOR,
                 callback: async (doc) => {
-                    if(doc.y + doc.page.margins.bottom + doc.page.margins.top + this.preferedHeight > doc.page.maxY()) {
+                    if(doc.y + this.preferedHeight > doc.page.maxY()) {
                         doc.addPage()
                     // } 
                     }

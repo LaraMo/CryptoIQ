@@ -4,6 +4,9 @@ import PdfObjectType from '../enums/PdfObjectType';
 import {sortObjectKeyByOrder, isObject} from '../helperFunctions';
 import probe from 'probe-image-size';
 import fs from 'fs';
+import {
+  styleDefault
+} from '../../lib/pdf/canvasHelpers'
 
 class PdfFactory {
   writeStream = null;
@@ -56,6 +59,7 @@ class PdfFactory {
         return this.doc.image(path, x, y, options);
       },
       text: (text, options) => {
+        options = Object.assign({}, styleDefault, options)
         return this.doc.text(text, options);
       },
       vectorPath: pathString => {
@@ -82,7 +86,7 @@ class PdfFactory {
 
   applyDefaultSettings() {
     this.doc.font('Helvetica');
-    this.doc.fontSize(12);
+    this.doc.fontSize(14);
   }
 
   async buildStep(ins) {

@@ -146,9 +146,6 @@ class Lock {
                         isCentered: true
                     }
                 },
-                {
-                    type: PdfObjectType.BR,
-                },
                 ...(() => {
                     if (this._displayWords) {
                         return [{
@@ -156,36 +153,45 @@ class Lock {
                             text: 'Here are your chosen words:',
                         }, {
                             type: PdfObjectType.TEXT,
-                            text: `
-                            •  ${ this.randomWords[0] }
-                            •  ${ this.randomWords[1] }
-                            •  ${ this.randomWords[2] }`,
+                            text: ` -  ${ this.randomWords[0] }`
+                        }, {
+                            type: PdfObjectType.TEXT,
+                            text: ` -  ${ this.randomWords[1] }`
+                        },  {
+                            type: PdfObjectType.TEXT,
+                            text: ` -  ${ this.randomWords[2] }`
                         }]
                     }
                     return [];
                 })(),
                 {
                     type: PdfObjectType.BR,
-                    space: 3
+                    space: 1
                 },
                 {
                     type: PdfObjectType.TEXT,
-                    text: `
-  - Find the proper defintion for the chosen words using the textbook/slides.
-  - Write down the page number that you found the defintions at. 
-  - The words are in that order for a reason.
-  - Pay attention to the page numbers, digit by digit.`,
+                    text: `1. Find the proper defintion for the chosen words using the textbook/slides.`
+                },
+                {
+                    type: PdfObjectType.TEXT,
+                    text: `2. Write down the page number that you found the defintions at.`
+                },
+                {
+                    type: PdfObjectType.TEXT,
+                    text: `3. The words are in that order for a reason.`
+                },
+                {
+                    type: PdfObjectType.TEXT,
+                    text: `4. Pay attention to the page numbers, digit by digit.`,
                 },
                 this._usePhysicalLock ? 
                     {
                         type: PdfObjectType.TEXT,
-                        text: `
-    - Enter your lock combination using the lock provided by your professor:`,
+                        text: `Finally, enter your lock combination using the lock provided by your professor:`,
                     }:
                     {
                         type: PdfObjectType.TEXT,
-                        text: `
-  - Enter your lock combination here:`,
+                        text: `Finally, enter your lock combination here:`,
                     },
                 ...(() => {
                     if (!this._usePhysicalLock) {
@@ -203,10 +209,6 @@ class Lock {
                             }
                         },
                         {
-                            type: PdfObjectType.BR,
-                            space: 3
-                        },
-                        {
                             type: PdfObjectType.BR
                         }]
                     } 
@@ -216,6 +218,13 @@ class Lock {
                         }
                     ];
                 })(),
+                {
+                    type: PdfObjectType.TEXT,
+                    text: 'o',
+                    options: {
+                        'align': 'center'
+                    }
+                }
             ]
         }
     }
@@ -272,27 +281,37 @@ class Lock {
                 {
                     type: PdfObjectType.BR,
                 },
-                    {
-                        type: PdfObjectType.TEXT,
-                        text: 'Here are the chosen words:',
-                    }, {
-                        type: PdfObjectType.TEXT,
-                        text: `
-                            •  ${ this.randomWords[0] }
-                            •  ${ this.randomWords[1] }
-                            •  ${ this.randomWords[2] }`,
-                    },
+                {
+                    type: PdfObjectType.TEXT,
+                    text: 'Here are your chosen words:',
+                }, {
+                    type: PdfObjectType.TEXT,
+                    text: ` -  ${ this.randomWords[0] }`
+                }, {
+                    type: PdfObjectType.TEXT,
+                    text: ` -  ${ this.randomWords[1] }`
+                },  {
+                    type: PdfObjectType.TEXT,
+                    text: ` -  ${ this.randomWords[2] }`
+                },
                 {
                     type: PdfObjectType.BR,
-                    space: 3
                 },
                 {
                     type: PdfObjectType.TEXT,
-                    text: `
-  - Find the proper defintion for the chosen words using the textbook.
-  - Write down the page number that you found the defintions at. 
-  - The words are in that order for a reason.
-  - Pay attention to the page numbers, digit by digit. `
+                    text: `1. Find the proper defintion for the chosen words using the textbook.`,
+                },
+                {
+                    type: PdfObjectType.TEXT,
+                    text: `2. Write down the page number that you found the defintions at. `,
+                },
+                {
+                    type: PdfObjectType.TEXT,
+                    text: `3. The words are in that order for a reason.`,
+                },
+                {
+                    type: PdfObjectType.TEXT,
+                    text: `4. Pay attention to the page numbers, digit by digit.`,
                 },
                 {
                     type: PdfObjectType.BR,
@@ -325,7 +344,7 @@ class Lock {
                 },
                 {
                     type: PdfObjectType.BR,
-                    space: 3
+                    space: 1
                 },
             ]
         }
