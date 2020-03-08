@@ -2,18 +2,20 @@ import {
     createCanvas,
     loadImage
 } from 'canvas';
+import path from 'path'
 import {
     styleDefault,
     wrapText
 } from '../lib/pdf/canvasHelpers'
 import PdfObjectType from '../lib/enums/PdfObjectType';
-import path from 'path'
 
 export default class TicketGenerator {
     constructor(message, generateNumber = true) {
         this.message = message;
         this.generateNumber = generateNumber;
         this.assetPath = path.resolve("assets/", "ticket_stub.png");
+        this.preferedHeight = 142
+        this.preferedWidth = 300
     }
 
     generateRandonNumber(length = 6) {
@@ -24,16 +26,16 @@ export default class TicketGenerator {
         if (this.generateNumber) {
             var number = this.generateRandonNumber();
         }
-        let width = 300;
-        let height = 142;
-        let padding = styleDefault.padding
+        const width = this.preferedWidth;
+        const height = this.preferedHeight;
+        const {padding} = styleDefault
         const canvas = createCanvas(width, height);
         const ctx = canvas.getContext('2d');
         ctx.textAlign = 'center';
         ctx.fillStyle = "red";
 
 
-        let img = await loadImage(this.assetPath);
+        const img = await loadImage(this.assetPath);
         ctx.drawImage(img, styleDefault.padding / 2.0, styleDefault.padding / 2.0, width - padding / 2.0, height - padding / 2.0);
         if (number) {
             var top = height / 3.5;
@@ -49,11 +51,18 @@ export default class TicketGenerator {
     }
 
     async toInstructionPdf() {
-        let imageBuffer = await this.generateTicket();
+        const imageBuffer = await this.generateTicket();
         return [{
             type: PdfObjectType.VECTOR,
             callback: (doc) => {
-                doc.image(imageBuffer);
+                console.log("POTENTIAL HEIGHT", doc.y + this.preferedHeight)
+                console.log("MAXY", doc.page.maxY())
+                if(doc.y + this.preferedHeight > doc.page.maxY()) {
+                    doc.addPage();
+                    doc.y = doc.page.margins.top
+                }
+                console.log("POSITION", doc.y)
+                doc.image(imageBuffer, doc.x, doc.y);
             }
         }]
     }

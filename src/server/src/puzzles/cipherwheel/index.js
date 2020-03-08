@@ -85,10 +85,15 @@ class CipherWheel {
             {
                 type: PdfObjectType.TEXT,
                 text: `Starting Code: ${this.startCode}`
+            },
+            {
+                type: PdfObjectType.BR,
             }
         ];
 
-        this.insPdf = [...this.insPdf, ...await this.getCipherWheelIns()]
+        this.insPdf = [...this.insPdf, ...await this.getCipherWheelIns(),  {
+            type: PdfObjectType.BR,
+        }]
         this.insPdf.push(this.getWordGridIns([this.encodedMessage.split('')]))
     }
 
@@ -178,6 +183,7 @@ class CipherWheel {
                         align: 'left'
                     }
                 )
+                console.log("WORD GRID", doc.x, doc.y, calculateCenterX(doc, styleDefault.cellWidth * words[0].length), this.preferedHeight, this.preferedHeight)
             }
         }
     }
@@ -193,7 +199,7 @@ class CipherWheel {
                 {
                 type: PdfObjectType.VECTOR,
                 callback: async (doc) => {
-                    if(doc.y + doc.page.bottom + doc.page.top + this.preferedHeight > doc.page.maxY()) {
+                    if(doc.y + doc.page.margins.bottom + doc.page.margins.top + this.preferedHeight > doc.page.maxY()) {
                         doc.addPage()
                     // } 
                     }
