@@ -55,13 +55,10 @@ export default class TicketGenerator {
         return [{
             type: PdfObjectType.VECTOR,
             callback: (doc) => {
-                console.log("POTENTIAL HEIGHT", doc.y + this.preferedHeight)
-                console.log("MAXY", doc.page.maxY())
                 if(doc.y + this.preferedHeight > doc.page.maxY()) {
                     doc.addPage();
                     doc.y = doc.page.margins.top
                 }
-                console.log("POSITION", doc.y)
                 doc.image(imageBuffer, doc.x, doc.y);
             }
         }]
