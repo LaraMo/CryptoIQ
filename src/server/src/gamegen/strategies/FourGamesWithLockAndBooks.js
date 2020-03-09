@@ -45,7 +45,7 @@ export default class FourGamesWithLockAndBooks extends Strategy {
         const crossword = new Crossword(thirdLevel);
 
         //the fourth level is using the same words from the third level
-        const wordSearch = new WordSearch(wordArrayForWordSearch, true);
+        const wordSearch = new WordSearch(wordArrayForWordSearch, true, false);
         
         return [cipherwheels, lockCombination, crossword, wordSearch];
     }

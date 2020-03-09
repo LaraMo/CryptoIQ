@@ -301,7 +301,7 @@ class Crossword {
         }
         if (this.activeWordList.length < this.wordArray.length / 2) { //regenerate board if if less than half the words were placed
             seed++;
-            generateBoard(seed);
+            this.generateBoard(seed);
         }
     }
 
@@ -357,7 +357,11 @@ class Crossword {
             // })
             pdfIns.push({
                 "type": PdfObjectType.TEXT,
-                "text": `${number}. ${question}`
+                "text": `${number}. ${question}`,
+                options: {
+                    'align': 'justify',
+                    indent: 30,
+                }
             })
 
             if (withAnswer) {
@@ -366,7 +370,11 @@ class Crossword {
                 })
                 pdfIns.push({
                     "type": PdfObjectType.TEXT,
-                    "text": `Answer: ${answer}`
+                    "text": `Answer: ${answer}`,
+                    options: {
+                        'align': 'justify',
+                        indent: 30,
+                    }
                 })
             }
         }
@@ -378,19 +386,27 @@ class Crossword {
         if(this.acrossWords && this.acrossWords.length > 0) {
             pdfIns.push({
                 type: PdfObjectType.TEXT,
-                text: "Across"
+                text: "Across:",
+                options: {
+                    'align': 'justify',
+                    indent: 30,
+                }
             });
             pdfIns = [...pdfIns, ...this.generateClueIns(this.acrossWords)]
         
             pdfIns.push({
-                "type": PdfObjectType.BR3
+                "type": PdfObjectType.BR
             });    
         }
         
         if(this.downWords && this.downWords.length > 0)  {
             pdfIns = [...pdfIns, {
                 type: PdfObjectType.TEXT,
-                text: "Down"
+                text: "Down:",
+                options: {
+                    'align': 'justify',
+                    indent: 30,
+                }
             }, ...this.generateClueIns(this.downWords)]
 
             pdfIns.push( {
@@ -415,10 +431,12 @@ class Crossword {
             {
                 type: PdfObjectType.VECTOR,
                 callback: async (doc) => {
-                    console.log("In cb")
                     const imageData = drawGrid(this.board, true, true, true, this.activeWordList);
                     doc.image(imageData, calculateCenterX(doc, styleDefault.cellWidth * this.GRID_WIDTH));
                 }
+            },
+            {
+                type: PdfObjectType.BR,
             },
             ...this.generateGuideIns()
         ];
@@ -443,6 +461,9 @@ class Crossword {
                     const imageData = drawGrid(this.board, false, true, true, this.activeWordList);
                     doc.image(imageData, calculateCenterX(doc, styleDefault.cellWidth * this.GRID_WIDTH));
                 }
+            },
+            {
+                type: PdfObjectType.BR,
             },
             ...this.generateGuideIns()
         ];

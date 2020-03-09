@@ -42,7 +42,7 @@ export default class TwoGamesNoBookStrategy extends Strategy {
         }
 
         //the second level is using the same words from the first level
-        const wordSearch = new WordSearch(wordArrayForWordSearch, true);
+        const wordSearch = new WordSearch(wordArrayForWordSearch, true, false);
 
         //Third level uses only one word
         let cipherWheel = new CipherWheel(thirdlevel[0].wordsEntered, "EASY", true, true);

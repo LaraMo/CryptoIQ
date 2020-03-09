@@ -59,7 +59,7 @@ class GameGenerator {
         }
         this.generateTicket = general.rewardTicket;
         if (general.rewardTicket) {
-            this.ticketMessage = data.ticketContent || "Congrats! You won!"
+            this.ticketMessage = general.ticketContent || "Congrats! You won!"
         }
 
         this.vocabulary = vocalbulary.words;
