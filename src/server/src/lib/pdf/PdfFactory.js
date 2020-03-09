@@ -4,9 +4,7 @@ import PdfObjectType from '../enums/PdfObjectType';
 import {sortObjectKeyByOrder, isObject} from '../helperFunctions';
 import probe from 'probe-image-size';
 import fs from 'fs';
-import {
-  styleDefault
-} from '../../lib/pdf/canvasHelpers'
+import {styleDefault} from '../../lib/pdf/canvasHelpers';
 
 class PdfFactory {
   writeStream = null;
@@ -37,9 +35,10 @@ class PdfFactory {
         return this.doc.fillColor(color);
       },
       imagePath: (path, options) => {
-        const data = fs.readFileSync(path)
+        const data = fs.readFileSync(path);
         const metadata = probe.sync(data);
-        let imgHeight = metadata.height;
+        let preferedHeight = Number(options.preferedHeight)
+        let imgHeight = preferedHeight ? preferedHeight: metadata.height;
         let {x, y, isCentered, fit} = options;
         if (isCentered && fit) {
           x = calculateCenterX(this.doc, fit[0]);
@@ -47,19 +46,15 @@ class PdfFactory {
           x = x || this.doc.x;
         }
         y = y || this.doc.y;
-        if (
-          imgHeight +
-            this.doc.y >
-            this.doc.page.maxY()
-        ) {
-            this.doc.addPage();
-            y = this.doc.page.margins.top
+        if (imgHeight + this.doc.y > this.doc.page.maxY()) {
+          this.doc.addPage();
+          y = this.doc.page.margins.top;
         }
 
         return this.doc.image(path, x, y, options);
       },
       text: (text, options) => {
-        options = Object.assign({}, styleDefault, options)
+        options = Object.assign({align: 'justify', fontSize: 14}, options);
         return this.doc.text(text, options);
       },
       vectorPath: pathString => {
@@ -68,7 +63,7 @@ class PdfFactory {
       callback: async func => {
         if (this.doc.y > this.doc.page.maxY()) {
           this.doc.addPage();
-          this.doc.y = this.doc.page.margins.top
+          this.doc.y = this.doc.page.margins.top;
         }
         await func(this.doc);
       },

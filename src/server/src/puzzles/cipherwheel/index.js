@@ -75,26 +75,62 @@ class CipherWheel {
         // Generate instruction PDF
         this.insPdf = [
             ...this.getBanner(),
-            {
+            ...(() => {
+                if(this._showBanner) {
+                    return [
+                        {
+                            type: PdfObjectType.BR
+                        },
+                        {
+                            type: PdfObjectType.TEXT,
+                            text: `To solve this puzzle, the student would have to:`,
+                        },
+                        {
+                            type: PdfObjectType.TEXT,
+                            text: `1. Track the starting code on the cipherwheel, first letter for the inner ring, the other for the outer ring`,
+                        },
+                        {
+                            type: PdfObjectType.TEXT,
+                            text: `2. Follow the clue on the inner ring and write down the outer letters`,
+                        },
+                        {
+                            type: PdfObjectType.TEXT,
+                            text: `3. Combine the letters to find the hidden word`,
+                        },
+                        {
+                            type: PdfObjectType.BR
+                        }
+                    ]
+                } else {
+                    return []
+                }
+            })(),
+            ...await this.getCipherWheelIns(),{
                 type: PdfObjectType.BR,
             },
-            {
-                type: PdfObjectType.TEXT,
-                text: `Word to solve for: ${this.message}`,
-            },
-            {
-                type: PdfObjectType.TEXT,
-                text: `Starting Code: ${this.startCode}`
-            },
-            {
-                type: PdfObjectType.BR,
-            }
+            this.getWordGridIns([this.encodedMessage.split('')])
         ];
 
-        this.insPdf = [...this.insPdf, ...await this.getCipherWheelIns(),  {
+        this.insPdf = [...this.insPdf, {
+            type: PdfObjectType.BR,
+        },
+        {
+            type: PdfObjectType.TEXT,
+            text: `Word to solve for: ${this.message}`,
+            options: {
+                "align": "center",
+            }
+        },
+        {
+            type: PdfObjectType.TEXT,
+            text: `Starting Code: ${this.startCode}`,
+            options: {
+                "align": "center",
+            }
+        },
+        {
             type: PdfObjectType.BR,
         }]
-        this.insPdf.push(this.getWordGridIns([this.encodedMessage.split('')]))
     }
 
     getRandomEncoder() {

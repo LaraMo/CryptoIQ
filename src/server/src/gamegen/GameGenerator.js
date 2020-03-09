@@ -157,6 +157,18 @@ class GameGenerator {
         this.pushStoryLine(Storyline.ENDING, this.gamePdf);
         this.pushStoryLine(Storyline.ENDING, this.insPdf);
         if (this.generateTicket && this.ticketMessage) {
+            this.insPdf.push([
+                {
+                    type: PdfObjectType.BR
+                },
+                {
+                    type: PdfObjectType.TEXT,
+                    text: `After the students have completed the escape game, the teacher can hand out these congratulatory coupons to the winning team!`
+                },
+                {
+                    type: PdfObjectType.BR
+                }
+            ])
             let noTicket = Math.max.apply(Math, this.teams[1])
             var tickets = [];
             for (let i = 0; i < noTicket; i++) {
@@ -201,12 +213,17 @@ class GameGenerator {
         let teamSizeRecommendedText = 
             `${this.teams[0]} teams - ${Object.keys(teamSize)
                 .map(val => `${teamSize[val]} of ${val > 1 ? val + " people": val + " person"}`).join(', ')}`;
+
+        
         let meta = [{
             type: PdfObjectType.TEXT,
             text: `Recommended team size: ${teamSizeRecommendedText}`,
-        }, ];
-
+        }, {
+            type: PdfObjectType.BR
+        }];
         this.insPdf.push(meta);
+        this.pushStoryLine(Storyline.OPENING, this.insPdf);
+        this.pushStoryLine(Storyline.QUEST, this.insPdf);
     }
 
     async pushStage(puzzle, storylineEnum) {

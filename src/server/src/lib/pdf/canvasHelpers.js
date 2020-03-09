@@ -13,7 +13,6 @@ export const styleDefault = {
     padding: 5,
     titleSize: 24,
     paragraphIndent: 16,
-    align: 'justify',
 }
 
 // x,y is the location on the canvas that the image will rotate around

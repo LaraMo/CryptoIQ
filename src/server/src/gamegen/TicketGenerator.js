@@ -59,7 +59,11 @@ export default class TicketGenerator {
                     doc.addPage();
                     doc.y = doc.page.margins.top
                 }
-                doc.image(imageBuffer, doc.x, doc.y);
+                doc.image(imageBuffer, doc.x, doc.y, {
+                    align: 'center',
+                    valign: 'center',
+                    isCentered: true,
+                  });
             }
         }]
     }
