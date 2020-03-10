@@ -11,8 +11,7 @@ export default class TwoGamesNoBookStrategy extends Strategy {
     }
     puzzles = [Puzzle.CROSS_WORD, Puzzle.WORD_SEARCH];
     
-    generate() {
-        debugger;
+    async generate() {
         let wordArray = [];
         let firstLevel = this.words;
         firstLevel.forEach(word => {
@@ -24,7 +23,7 @@ export default class TwoGamesNoBookStrategy extends Strategy {
 
         
         //the second level is using the same workds from the first level
-        const wordSearch = new WordSearch(wordArray, true);
+        const wordSearch = new WordSearch(wordArray, true, false);
 
         return [crossword, wordSearch];
     }

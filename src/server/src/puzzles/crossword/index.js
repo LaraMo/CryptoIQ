@@ -27,6 +27,7 @@ class Crossword {
         this.FIT_ATTEMPTS = 5;
         this.coordList = [];
         this.wordArray = wordArray;
+        this.wordArray.sort((a, b) => b.word.length - a.word.length)
         this.initBoard();
         this.generateBoard();
         this.shrink();
@@ -262,15 +263,26 @@ class Crossword {
 
     //for each word in the source array we test where it can fit on the board and then test those locations for validity against other already placed words
     generateBoard(seed = 0) {
-
+        console.log(this.activeWordList)
+        console.log(seed, this.wordArray)
         var bestScoreIndex = 0;
-        var top = 0;
+        // var top = 0;
         var fitScore = 0;
-        var startTime;
+        // var startTime;
 
         //manually place the longest word horizontally at 0,0, try others if the generated board is too weak
-        this.placeWord(this.wordArray[seed].word, this.wordArray[seed].clue, 0, 0, false);
-
+        try {
+            this.activeWordList = []
+            this.acrossCount = 0;
+            this.downCount = 0;
+            this.coordList = [];
+            this.initBoard();
+            this.placeWord(this.wordArray[seed].word, this.wordArray[seed].clue, 0, 0, false);
+        } catch(e) {
+            console.error(`Can't generate the puzzle restarting`)
+            throw e
+        }
+       
         //attempt to fill the rest of the board 
         for (var iy = 0; iy < this.FIT_ATTEMPTS; iy++) { //usually 2 times is enough for max fill potential
             for (var ix = 1; ix < this.wordArray.length; ix++) {
@@ -301,7 +313,7 @@ class Crossword {
         }
         if (this.activeWordList.length < this.wordArray.length / 2) { //regenerate board if if less than half the words were placed
             seed++;
-            generateBoard(seed);
+            this.generateBoard(seed);
         }
     }
 
@@ -357,7 +369,11 @@ class Crossword {
             // })
             pdfIns.push({
                 "type": PdfObjectType.TEXT,
-                "text": `${number}. ${question}`
+                "text": `${number}. ${question}`,
+                options: {
+                    'align': 'justify',
+                    indent: 30,
+                }
             })
 
             if (withAnswer) {
@@ -366,7 +382,11 @@ class Crossword {
                 })
                 pdfIns.push({
                     "type": PdfObjectType.TEXT,
-                    "text": `Answer: ${answer}`
+                    "text": `Answer: ${answer}`,
+                    options: {
+                        'align': 'justify',
+                        indent: 30,
+                    }
                 })
             }
         }
@@ -378,19 +398,27 @@ class Crossword {
         if(this.acrossWords && this.acrossWords.length > 0) {
             pdfIns.push({
                 type: PdfObjectType.TEXT,
-                text: "Across"
+                text: "Across:",
+                options: {
+                    'align': 'justify',
+                    indent: 30,
+                }
             });
             pdfIns = [...pdfIns, ...this.generateClueIns(this.acrossWords)]
         
             pdfIns.push({
-                "type": PdfObjectType.BR3
+                "type": PdfObjectType.BR
             });    
         }
         
         if(this.downWords && this.downWords.length > 0)  {
             pdfIns = [...pdfIns, {
                 type: PdfObjectType.TEXT,
-                text: "Down"
+                text: "Down:",
+                options: {
+                    'align': 'justify',
+                    indent: 30,
+                }
             }, ...this.generateClueIns(this.downWords)]
 
             pdfIns.push( {
@@ -415,10 +443,12 @@ class Crossword {
             {
                 type: PdfObjectType.VECTOR,
                 callback: async (doc) => {
-                    console.log("In cb")
                     const imageData = drawGrid(this.board, true, true, true, this.activeWordList);
                     doc.image(imageData, calculateCenterX(doc, styleDefault.cellWidth * this.GRID_WIDTH));
                 }
+            },
+            {
+                type: PdfObjectType.BR,
             },
             ...this.generateGuideIns()
         ];
@@ -443,6 +473,9 @@ class Crossword {
                     const imageData = drawGrid(this.board, false, true, true, this.activeWordList);
                     doc.image(imageData, calculateCenterX(doc, styleDefault.cellWidth * this.GRID_WIDTH));
                 }
+            },
+            {
+                type: PdfObjectType.BR,
             },
             ...this.generateGuideIns()
         ];

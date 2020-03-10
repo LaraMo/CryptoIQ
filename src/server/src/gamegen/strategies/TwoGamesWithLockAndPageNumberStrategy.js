@@ -11,7 +11,7 @@ export default class TwoGamesWithLockAndPageNumberStrategy extends Strategy {
     }
     puzzles = [Puzzle.CIPHER_WHEEL, Puzzle.LOCK_COMBINATION];
     
-    generate() {
+    async generate() {
         let choosenWords = randomWords(this.words, 3);
         const cipherwheels = []
 
@@ -19,7 +19,10 @@ export default class TwoGamesWithLockAndPageNumberStrategy extends Strategy {
         cipherwheels[1] = new CipherWheel(choosenWords[1].wordsEntered, "EASY", true, false);
         cipherwheels[2] = new CipherWheel(choosenWords[2].wordsEntered, "EASY", true, false);
         
-        
+        await cipherwheels[0].generate();
+        await cipherwheels[1].generate();
+        await cipherwheels[2].generate();
+
         let secondLevel = diffWords(this.words, choosenWords);
         secondLevel = randomWords(secondLevel, 3)
         const lockCombination = new Lock(choosenWords, false, false, true);

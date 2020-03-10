@@ -16,7 +16,7 @@ export default class FourGamesWithBooks extends Strategy {
     }
     puzzles = [Puzzle.CIPHER_WHEEL, Puzzle.LOCK_COMBINATION, Puzzle.CROSS_WORD, Puzzle.WORD_SEARCH];
 
-    generate() {
+    async generate() {
         let firstLevel = randomWords(this.words, 3);
         let wordArrayForWordSearch = [];
         const cipherwheels = []
@@ -24,6 +24,10 @@ export default class FourGamesWithBooks extends Strategy {
         cipherwheels[0] = new CipherWheel(firstLevel[0].wordsEntered, "EASY", true, true);
         cipherwheels[1] = new CipherWheel(firstLevel[1].wordsEntered, "EASY", true, false);
         cipherwheels[2] = new CipherWheel(firstLevel[2].wordsEntered, "EASY", true, false);
+
+        await cipherwheels[0].generate();
+        await cipherwheels[1].generate();
+        await cipherwheels[2].generate();
 
         let secondLevel = diffWords(this.words, firstLevel);
         secondLevel = randomWords(secondLevel, 3)
@@ -41,7 +45,7 @@ export default class FourGamesWithBooks extends Strategy {
         const crossword = new Crossword(thirdLevel);
 
         //the fourth level is using the same words from the third level
-        const wordSearch = new WordSearch(wordArrayForWordSearch, true);
+        const wordSearch = new WordSearch(wordArrayForWordSearch, true, false);
         
         return [cipherwheels, lockCombination, crossword, wordSearch];
         

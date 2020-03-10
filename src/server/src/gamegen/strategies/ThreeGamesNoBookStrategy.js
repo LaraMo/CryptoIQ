@@ -12,7 +12,7 @@ export default class TwoGamesNoBookStrategy extends Strategy {
     }
     puzzles = [Puzzle.CROSS_WORD, Puzzle.WORD_SEARCH, Puzzle.CIPHER_WHEEL];
     
-    generate() {
+    async generate() {
         debugger;
         let thirdlevel = randomWords(this.words, 1) 
         let wordArrayForWordSearch = [];
@@ -42,11 +42,12 @@ export default class TwoGamesNoBookStrategy extends Strategy {
         }
 
         //the second level is using the same words from the first level
-        const wordSearch = new WordSearch(wordArrayForWordSearch, true);
+        const wordSearch = new WordSearch(wordArrayForWordSearch, true, false);
 
         //Third level uses only one word
         let cipherWheel = new CipherWheel(thirdlevel[0].wordsEntered, "EASY", true, true);
-
+        await cipherwheel.generate();
+        
         return [crossword, wordSearch, cipherWheel];
     }
 

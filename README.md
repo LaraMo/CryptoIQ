@@ -19,9 +19,17 @@
     - [X] 4 Games with page and no lock (HARD) 4GPN
 - [x] Complete e2e flow
 
-- [ ] Finish ins pdf for all the puzzles: [LOCK, CIPHERWHEEL, WORDSEARCH, CROSSWORD] 
+- [ ] Finish ins pdf for all the puzzles: 
+    - [X] LOCK
+    - [X] CIPHERWHEEL
+    - [ ] WORDSEARCH
+    - [ ] CROSSWORD 
 
 - [ ] Finish game pdf for all the puzzles: [LOCK, CIPHERWHEEL, WORDSEARCH, CROSSWORD]
+    - [X] LOCK
+    - [X] CIPHERWHEEL
+    - [ ] WORDSEARCH
+    - [ ] CROSSWORD 
 
 - [x] Point Bonus
 - [x] Add search drop down to show what stories there are

@@ -59,11 +59,18 @@ export function validateStorylinePayload(data) {
 }
 
 export async function gameGenerate(archive, data) {
-  try {
-    const gameGenerator = new GameGenerator(data);
+  const gameGenerator = new GameGenerator(data);
+  try { 
     await gameGenerator.generate();
-    const gameBuilder = new PdfFactory();
-    const insBuilder = new PdfFactory();
+  } catch(e) {
+    throw e
+  }
+
+  const gameBuilder = new PdfFactory();
+  const insBuilder = new PdfFactory();
+
+  const {generate} = data;
+  if (!generate || generate === 'zip') {
     await gameBuilder.append(gameGenerator.toGamePdf());
     await insBuilder.append(gameGenerator.toInstructionPdf());
 
@@ -73,7 +80,7 @@ export async function gameGenerate(archive, data) {
           archive.append(pdf, {
             name: `game.pdf`,
           });
-          await insBuilder.build(pdf => {
+          await insBuilder.build(async pdf => {
             archive.append(pdf, {
               name: `instruction.pdf`,
             });
@@ -84,9 +91,30 @@ export async function gameGenerate(archive, data) {
         reject(err);
       }
     });
-  } catch (e) {
-    console.error(e)
-    throw new Error(e.message);
+  }
+  if (!!generate && generate === 'gamePdf') {
+    await gameBuilder.append(gameGenerator.toGamePdf());
+    return new Promise(async (resolve, reject) => {
+      try {
+        await gameBuilder.build(async pdf => {
+          resolve(pdf);
+        });
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+  if (!!generate && generate === 'insPdf') {
+    await insBuilder.append(gameGenerator.toInstructionPdf());
+    return new Promise(async (resolve, reject) => {
+      try {
+        await insBuilder.build(async pdf => {
+          resolve(pdf);
+        });
+      } catch (err) {
+        reject(err);
+      }
+    });
   }
 }
 

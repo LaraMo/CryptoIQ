@@ -9,10 +9,10 @@ import {
 export const styleDefault = {
     cellWidth: 20,
     cellHeight: 20,
-    fontSize: 12,
+    fontSize: 14,
     padding: 5,
     titleSize: 24,
-    paragraphIndent: 16
+    paragraphIndent: 16,
 }
 
 // x,y is the location on the canvas that the image will rotate around
@@ -101,7 +101,6 @@ export function drawGrid(board, showLetter = true, upperCase = true, inBetweenWa
                     let index = wordIndex.filter((val) => val.x === y && val.y === x);
                     if (index.length > 0 && index[0]) {
                         index = index[0]
-                        console.log(index)
                         ctx.font = `normal ${6}px sans-serif`;
                         ctx.textAlign = 'left';
                         ctx.textBaseline = 'top';
