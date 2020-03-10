@@ -219,7 +219,6 @@ class CipherWheel {
                         align: 'left'
                     }
                 )
-                console.log("WORD GRID", doc.x, doc.y, calculateCenterX(doc, styleDefault.cellWidth * words[0].length), this.preferedHeight, this.preferedHeight)
             }
         }
     }
@@ -246,7 +245,6 @@ class CipherWheel {
                         )
                     // }
 
-                    console.log("CIPHER WHEEL IMAGE", doc.x, doc.y, calculateCenterX(doc, this.preferedWidth), this.preferedHeight, this.preferedHeight)
                 }
             }]
         } else {

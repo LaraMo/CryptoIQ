@@ -101,7 +101,6 @@ export function drawGrid(board, showLetter = true, upperCase = true, inBetweenWa
                     let index = wordIndex.filter((val) => val.x === y && val.y === x);
                     if (index.length > 0 && index[0]) {
                         index = index[0]
-                        console.log(index)
                         ctx.font = `normal ${6}px sans-serif`;
                         ctx.textAlign = 'left';
                         ctx.textBaseline = 'top';

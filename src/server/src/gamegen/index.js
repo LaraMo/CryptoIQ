@@ -40,7 +40,7 @@ router.post('/', async (req, res, next) => {
     validateVocabularyPayload(vocalbulary);
     const {generate} = req.body;
 
-    if (!generate && generate === 'zip') {
+    if (!generate || generate === 'zip') {
       await zipGenerate(req, res);
     } else if (!!generate && generate === 'gamePdf') {
       await gameGenerateRes(req, res);
@@ -48,6 +48,10 @@ router.post('/', async (req, res, next) => {
       await insGenerate(req, res);
     }
   } catch (e) {
+    let message = 'There was an error! Please refresh and try again!'
+    if(e instanceof Object) {
+      message = e.message;
+    }
     console.log(e);
     insertErrorLog({
       createdAt: Date.now(),
@@ -55,7 +59,7 @@ router.post('/', async (req, res, next) => {
       traceback: e.stack,
     });
     res.status(500).json({
-      result: 'There was an error',
+      result: message,
     });
   }
 });

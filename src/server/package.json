@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "rm -rf dist && mkdir dist && babel src/ -d dist/",
-    "test": "jest",
+    "test": "jest --config=jest.config.json",
     "dev": "nodemon --exec babel-node src/index.js",
     "debug": "nodemon --exec babel-node --inspect src/index.js",
     "start": "node dist/index.js"

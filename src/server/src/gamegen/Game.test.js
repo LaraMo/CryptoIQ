@@ -55,7 +55,6 @@ describe('Test game generation class', () => {
         }
         let game = new GameGenerator(mockDataInput);
         let teams = game.calculateTeamSize(25, [3,4]);
-        console.log(teams)
         expect(teams[0]["teamSize"]).toBe(5);
         expect(teams[0]["teamNumber"]).toBe(5);
     })

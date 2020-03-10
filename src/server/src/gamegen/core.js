@@ -60,13 +60,17 @@ export function validateStorylinePayload(data) {
 
 export async function gameGenerate(archive, data) {
   const gameGenerator = new GameGenerator(data);
-  await gameGenerator.generate();
+  try { 
+    await gameGenerator.generate();
+  } catch(e) {
+    throw e
+  }
 
   const gameBuilder = new PdfFactory();
   const insBuilder = new PdfFactory();
 
   const {generate} = data;
-  if (!generate && generate === 'zip') {
+  if (!generate || generate === 'zip') {
     await gameBuilder.append(gameGenerator.toGamePdf());
     await insBuilder.append(gameGenerator.toInstructionPdf());
 
@@ -76,7 +80,7 @@ export async function gameGenerate(archive, data) {
           archive.append(pdf, {
             name: `game.pdf`,
           });
-          await insBuilder.build(pdf => {
+          await insBuilder.build(async pdf => {
             archive.append(pdf, {
               name: `instruction.pdf`,
             });

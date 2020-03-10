@@ -27,6 +27,7 @@ class Crossword {
         this.FIT_ATTEMPTS = 5;
         this.coordList = [];
         this.wordArray = wordArray;
+        this.wordArray.sort((a, b) => b.word.length - a.word.length)
         this.initBoard();
         this.generateBoard();
         this.shrink();
@@ -262,15 +263,26 @@ class Crossword {
 
     //for each word in the source array we test where it can fit on the board and then test those locations for validity against other already placed words
     generateBoard(seed = 0) {
-
+        console.log(this.activeWordList)
+        console.log(seed, this.wordArray)
         var bestScoreIndex = 0;
-        var top = 0;
+        // var top = 0;
         var fitScore = 0;
-        var startTime;
+        // var startTime;
 
         //manually place the longest word horizontally at 0,0, try others if the generated board is too weak
-        this.placeWord(this.wordArray[seed].word, this.wordArray[seed].clue, 0, 0, false);
-
+        try {
+            this.activeWordList = []
+            this.acrossCount = 0;
+            this.downCount = 0;
+            this.coordList = [];
+            this.initBoard();
+            this.placeWord(this.wordArray[seed].word, this.wordArray[seed].clue, 0, 0, false);
+        } catch(e) {
+            console.error(`Can't generate the puzzle restarting`)
+            throw e
+        }
+       
         //attempt to fill the rest of the board 
         for (var iy = 0; iy < this.FIT_ATTEMPTS; iy++) { //usually 2 times is enough for max fill potential
             for (var ix = 1; ix < this.wordArray.length; ix++) {
