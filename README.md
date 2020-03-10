@@ -22,14 +22,14 @@
 - [ ] Finish ins pdf for all the puzzles: 
     - [X] LOCK
     - [X] CIPHERWHEEL
-    - [ ] WORDSEARCH
-    - [ ] CROSSWORD 
+    - [X] WORDSEARCH
+    - [X] CROSSWORD 
 
 - [ ] Finish game pdf for all the puzzles: [LOCK, CIPHERWHEEL, WORDSEARCH, CROSSWORD]
     - [X] LOCK
     - [X] CIPHERWHEEL
-    - [ ] WORDSEARCH
-    - [ ] CROSSWORD 
+    - [X] WORDSEARCH
+    - [X] CROSSWORD 
 
 - [x] Point Bonus
 - [x] Add search drop down to show what stories there are

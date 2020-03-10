@@ -287,6 +287,10 @@ class GameGenerator {
     return [
       {
         type: PdfObjectType.BR,
+      },        
+      {
+        type: PdfObjectType.TEXT,
+        fontSize: styleDefault.titleSize,
       },
       {
         type: PdfObjectType.TEXT,
@@ -294,7 +298,6 @@ class GameGenerator {
         options: {
           align: 'center',
         },
-        fontSize: styleDefault.titleSize,
       },
       {
         type: PdfObjectType.TEXT,
