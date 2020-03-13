@@ -63,9 +63,11 @@ export default class VocabularyWordsContainer extends PureComponent {
 
   render() {
     //Headers
-    const vocabularyWords = 'Vocabulary Words';
+    const vocabularyWords = 'Enter 8-25 vocabulary words';
     //Form
-    const instructionsPart1 = 'Enter any vocabulary words and defintions';
+    const instructionsPart1 = 'Enter any vocabulary words and definitions';  
+    const questionToolTipVoc = 'Enter unique words on unique pages';
+
     const maxNumberOfWords = 'How many words would you like to add?';
     const generateInput = [];
     if (!this.state.error) {
@@ -89,10 +91,16 @@ export default class VocabularyWordsContainer extends PureComponent {
 
     return (
       <div id="slide2" className="home-formContainer">
-        <h3>{vocabularyWords} </h3>
+        <h3><span>{vocabularyWords}</span></h3>
         <div className="home-form">
           <p className="home-form-title">
             {instructionsPart1}
+            <div className="questionContainer">
+              <span className="question">?</span>
+              <div className="question-toolTip">
+               <span className="">{questionToolTipVoc}</span>
+              </div>
+            </div>
           </p>
           {errorMessage}
           <div className="home-form-field">

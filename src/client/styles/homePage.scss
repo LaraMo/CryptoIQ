@@ -1,15 +1,6 @@
 
-
-
-
-
-
-
-
-
 @import './base/variables.scss';
 @import './base/commun.scss';
-@import './base/animation.scss';
 @import './base/normalized';
 
 .home {
@@ -26,7 +17,6 @@
         align-items: center;
         display: flex;
         flex-direction: column;;
-        width: 600px;
         >h1 {
             background: -webkit-gradient(linear, left top, left bottom, from($home_primary_background), to($home_secondary_background));
             font-size: 48px;
@@ -47,27 +37,21 @@
         }
         > div {
             background-color: $home_form_primary_background;
-            border: 1px solid $home_form_primary_border;
             border-radius: 6px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            font-size: 12px;
-            letter-spacing: 1px;
-            padding: 10px;
+            font-size: 14px;
+            padding: 15px;
             margin-bottom: 50px;
             >h3 {
-                color: $home_primary_fontColor;
                 font-weight: 500;
             }
         }
     }
     //Form general
     &-form {
-        background: $home_form_primary_background;
+       // background: $home_form_primary_background;
         border-left: 7px solid $home_primary_background;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
-        border-radius: 10px;
+        border-radius: 5px;
         display: flexbox;
         flex-direction: column;
         margin: 5px 0 30px 0;
@@ -87,6 +71,10 @@
             align-items: center;
             display: flex;
             margin-top: 5px;
+            >label {
+                display: flex;
+                align-items: center;
+            }
             &-submission {
                 display: flex;
                 justify-content: space-around;
@@ -152,7 +140,7 @@
             cursor: pointer;
             vertical-align: middle;
             height: 30px;
-            margin-left: 25px;
+            margin-left: 10px;
             &:checked {
                 animation: wave .4s ease;
             }
@@ -183,34 +171,21 @@
     // visibility: hidden;
     display: none;
 }
-
-/////Animations
-//Slides first
-#slide1 {
-    margin-left: -2500px;
-    animation: slide 2s forwards;
-    -webkit-animation: slide 2s forwards;
-}
-
-//Slides second
-#slide2 {
-    margin-right: -2500px;
-    animation: slide 2s forwards;
-    -webkit-animation: slide 2s forwards;
-}
-
 .submitButton {
-    background: -webkit-gradient(linear, left top, left bottom, from($button_primary_background), to($button_secondary_background));
-    border: 2.4px solid transparent;
-    border-radius: 5px;
     font-size: 15px;
-    letter-spacing: .2px;
-    max-width: 300px;
     margin: auto;
-    padding: 8px;
+    padding: 5px;
+    text-decoration: none;
+    background: $button_primary_background;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.4s ease 0s;
     &:hover {
-        border: 2.4px solid;
-        cursor: pointer;
+        text-shadow: 0px 0px 6px rgba(255, 255, 255, 1);
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        transition: all 0.4s ease 0s;
+      cursor: pointer;
     }
 }
 
@@ -256,13 +231,67 @@ form {
 }
 
 footer {
-    padding-top: 30px;
     align-items: center;
-    color: grey;
-    font-size: smaller;
+    background-color: $home_form_primary_background;
+    border-radius: 5px;
+    padding: 15px;
     display: flex;
+    justify-content: center;
     flex-direction: column;
-    > * {
-        padding: 5px;
+    font-size: 14px;
+    margin-top: 40px;
+}
+   
+
+.question {
+    &-arrowLeft {
+        width: 0; 
+        height: 0; 
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-bottom: 5px solid lightblue;
+        bottom: 20px;
+        position: absolute;
     }
+    &Container {
+      
+        display: inline;
+        &:hover 
+            {
+                > * {
+                    visibility: visible !important;
+                }
+            }
+        }
+    background: $home_primary_background;
+    color: white;
+    border-radius: 5px;
+    border-radius: 50%;
+    padding: 1px 5px;
+    margin-left: 5px;
+    font-size: 13px;
+    position: relative;
+    &:hover {
+        cursor: pointer;
+    }
+    &-toolTip{
+        background: -webkit-gradient(linear, left top, left bottom, from(white), to($home_primary_background));
+        font-size: 13px;
+        margin-left: 5px;
+        padding: 3px;
+        position: absolute;
+        visibility: hidden;
+        width: 300px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+        -moz-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+        -webkit-box-shadow:  0px 0px 15px rgba(0, 0, 0, 0.22);
+        z-index: 10;
+    }
+}
+#flex {
+    display: flex;
+}
+
+#dawson {
+    height: 60px;
 }

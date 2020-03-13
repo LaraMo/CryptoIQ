@@ -14,12 +14,17 @@ const Checkbox = props => {
     }
   }
 
-  const {label, id} = props;
-
+  const {label, id, question, questionToolTip} = props;
   return (
     <div className="home-form-field checkbox">
       <label>
         {label}
+        {question ?
+          <p className="questionContainer">
+            <span className="question">?</span>
+            <span className="question-toolTip">{questionToolTip}</span>
+          </p> 
+        : ""}
         <input
           type="checkbox"
           id={id}

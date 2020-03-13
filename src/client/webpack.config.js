@@ -29,6 +29,20 @@ module.exports = {
                 }]
             },
             {
+                test: /\.(jpg|png|svg)$/,
+                loader: 'url-loader',
+                options: {
+                  limit: 25000,
+                },
+            },
+            {
+                test: /\.(jpg|png|svg)$/,
+                loader: 'file-loader',
+                options: {
+                  name: '[path][name].[hash].[ext]',
+                },
+            },
+            {
                 test: /\.scss$/,
                 use: [{
                         loader: 'style-loader',
@@ -47,7 +61,7 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
             title: 'CryptIQ: Development',
-            favicon: 'assets/favicon.ico',
+            favicon: 'assets/dawson.png',
             template: 'assets/index.html',
             inject: false
         })

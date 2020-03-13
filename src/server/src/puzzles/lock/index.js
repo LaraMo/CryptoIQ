@@ -184,7 +184,7 @@ class Lock {
         },
         {
           type: PdfObjectType.TEXT,
-          text: `2. Write down the page number that you found the defintions at.`,
+          text: `2. Write down the page number that you found the definitions at.`,
         },
         {
           type: PdfObjectType.TEXT,

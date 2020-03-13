@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import {difficultyEnum} from '../Enums/difficulty';
-import {getData, postData, deleteData} from '../../helpers/apiHelper';
+import {getData, postData} from '../../helpers/apiHelper';
 import DropdownOption from '../../Public/DropdownOption';
 import SubmitButton from '../PartialComponents/SubmitButton';
 import {ErrorMessage, TextArea} from '../PartialComponents/';
@@ -28,7 +28,6 @@ export default class Storyline extends PureComponent {
     this._getRandomStory = this._getRandomStory.bind(this);
     this._onSearch = this._onSearch.bind(this);
     this._onClickSave = this._onClickSave.bind(this);
-    this._onClickDelete = this._onClickDelete.bind(this);
     this._onSearchChange = _.debounce(this._onSearchChange.bind(this), 200);
     this._onResultClick = this._onResultClick.bind(this);
     this.setTitle = this.setTitle.bind(this);
@@ -191,46 +190,6 @@ export default class Storyline extends PureComponent {
     }, 3000);
   }
 
-  async _onClickDelete() {
-    this.setState({
-      generalError: '',
-    });
-    let storyline = this.getStorylineFromState(false);
-
-    if (storyline.title) {
-      if (defaultStoryline.indexOf(storyline.title) === -1) {
-        let result = await deleteData(
-          `${CONSTANT.STORYLINE_ENDPOINT}/${encodeURIComponent(
-            this.state.title,
-          )}`,
-          storyline,
-        );
-        if (result.status) {
-          this.setStoryline({
-            title: '',
-            opening: '',
-            quest: '',
-            ending: '',
-            actions: ['', '', '', ''],
-          });
-        }
-      } else {
-        this.setState({
-          generalError: "Can't delete a default storyline!",
-        });
-      }
-    } else {
-      this.setState({
-        generalError: 'Please insert a title',
-      });
-    }
-    setTimeout(() => {
-      this.setState({
-        generalError: '',
-      });
-    }, 3000);
-  }
-
   async _onSearchChange(e) {
     this.setState({
       title: '',
@@ -268,10 +227,14 @@ export default class Storyline extends PureComponent {
 
   render() {
     //Headers
-    const storyline = 'Storyline';
+    const storyline = 'Chose a storyline';
     const chooseLevelOfDifficulty = 'Choose the level of difficulty:';
     const enterStorylinePart1 = 'Enter a storyline in the following';
     const enterStorylinePart2 = 'format';
+    const questionToolTipFormat = "You may chose an existing story by cliking the search icon. Or enter your own in the following format \n:" + 
+    "Intro - short opening to your story \n Quest- The goal of your main character " + 
+    "\n Actions - What the character does to accomplish their goal " +
+    "\n Ending - How the story ended."
     const title = 'Enter title:';
     const titlePlaceholder = "The king's ring";
     const opening = 'Enter opening:';
@@ -306,15 +269,20 @@ export default class Storyline extends PureComponent {
       );
     }
 
-    const saveStory = 'Save story 💾';
-    const deleteStroy = 'Delete story 🗑️';
+    const saveStory = 'Save story 💾 ';
     const getRandomStory = 'Get me a storyline 🤞';
     return (
-      <div id="slide2" className="home-formContainer storyline">
-        <h3>{storyline} </h3>
+      <div className="home-formContainer storyline">
+        <h3><span>{storyline}</span></h3>
         <div className="home-form">
           <p className="home-form-title">
-            {enterStorylinePart1} <a>{enterStorylinePart2}</a>
+            {enterStorylinePart1} {enterStorylinePart2}  
+            <div className="questionContainer">
+              <span className="question">?</span>
+              <div className="question-toolTip">
+               <span className="">{questionToolTipFormat}</span>
+              </div>
+            </div>  
           </p>
           {generalErrorMessage}
           <div className="home-form-field">
@@ -401,11 +369,6 @@ export default class Storyline extends PureComponent {
             <SubmitButton
               text={saveStory}
               onClick={this._onClickSave}
-            ></SubmitButton>
-
-            <SubmitButton
-              text={deleteStroy}
-              onClick={this._onClickDelete}
             ></SubmitButton>
           </div>
         </div>

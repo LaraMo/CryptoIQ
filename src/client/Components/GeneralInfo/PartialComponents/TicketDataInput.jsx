@@ -3,7 +3,7 @@ import {Checkbox, TextArea, } from '../../PartialComponents';
 export default props => {
   const [isEnabled, setEnabled] = useState(false);
   const [ticketContent, setContent] = useState('You won 1% bonus');
-
+  const questionToolTip ="Allow students an extra boost in their exam, assignment, or participation grade if they complete the acitivty succesfuly!";
   let onChecked = setEnabled;
   if(props.onChecked) {
     onChecked = (e) => {
@@ -19,10 +19,10 @@ export default props => {
       props.onContentChange(e);
     }
   }
-  const label = 'Use bonus ticket as reward:';
+  const label = 'Use bonus ticket as reward: ';
   return (
     <div id="bonusTicketContainer">
-      <Checkbox id="bonusTicket" label={label} onChange={onChecked} />
+      <Checkbox  question questionToolTip={questionToolTip} id="bonusTicket" label={label} onChange={onChecked} />
       {isEnabled && (
         <TextArea
           storyline = {false}

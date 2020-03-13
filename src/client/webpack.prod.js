@@ -43,7 +43,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'CryptIQ: Educational Escape Room',
-      favicon: 'assets/favicon.ico',
+      favicon: 'assets/dawson.png',
       template: 'assets/index.html',
       inject: false
     }),

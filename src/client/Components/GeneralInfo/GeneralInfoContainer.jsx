@@ -70,22 +70,33 @@ export default class GeneralInfo extends PureComponent {
 
   render() {
     //Headers
-    const generalInfo = 'General Info';
+    const generalInfo = 'Enter general information about your class';
     //Form
     const numberOfStudents = 'Number of students:';
     const numberOfStudentsPlaceholder = 'Numbers only';
-    const locks = 'Include physical locks:';
-    const textbook = 'Use of textbook/slide:';
+    const locks = 'Include physical locks: ';
+    const textbook = 'Use of textbook/slides:  ';
     const {general} = this.state;
+    const questionToolTipNumberStudents = "Enter the amount of students in your class ";
+    const questionToolTipUseTextBook = "To unlock the lock game (pun intended), you must check this box. With the use of textbooks, students get to explore new definitions while also discovering the lock game";
+    const questionToolTipUseLock = "Allowing phsycial locks with custom codes to inhence the experience of students"
 
     return (
       <div id="slide2" className="home-formContainer">
-        <h3>{generalInfo}</h3>
+        <h3><span>{generalInfo}</span></h3>
 
         <div className="home-form">
           <ErrorMessage error={this.state.error} />
           <div className="home-form-field">
-            <p>{numberOfStudents}</p>
+            <p id="flex">{numberOfStudents}
+            <div className="questionContainer">
+              <span className="question">?</span>
+              <div className="question-toolTip">
+               <div className="question-arrowLeft"></div>
+               <span className="">{questionToolTipNumberStudents}</span>
+              </div>
+            </div>
+            </p>
             <input
               id="numberOfStudents"
               className="home-form-inputText"
@@ -99,6 +110,8 @@ export default class GeneralInfo extends PureComponent {
           <Checkbox
             className="home-form-field"
             label={locks}
+            question
+            questionToolTip={questionToolTipUseLock}
             default={this.state.general.locks}
             onChange={value =>
               this.setStateExt({
@@ -110,6 +123,8 @@ export default class GeneralInfo extends PureComponent {
           <Checkbox
             className="home-form-field"
             label={textbook}
+            question
+            questionToolTip={questionToolTipUseTextBook}
             id="locks"
             default={this.state.general.textbook}
             onChange={value =>
