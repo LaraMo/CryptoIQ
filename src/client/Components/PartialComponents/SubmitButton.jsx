@@ -10,8 +10,6 @@ const SubmitButton = props => {
       type="button"
       className="submitButton"
       onClick={_onSubmit}
-      //disabled={props.disabled ? true: ""}
-      // disabled={props.disabled ? '' : false}
     >
       {props.text}
     </button>

@@ -77,8 +77,19 @@
             }
             &-submission {
                 display: flex;
+                flex-direction: column;
                 justify-content: space-around;
                 margin-top: 20px;
+                > p {
+                    text-align: center;
+                    font-size: 10px;
+                    >span{
+                        color: red;
+                    }
+                    > em {
+                        padding-top: 1%;
+                    }
+                }
             }
             //general
             >* {
@@ -240,6 +251,9 @@ footer {
     flex-direction: column;
     font-size: 14px;
     margin-top: 40px;
+    > div {
+        text-align: center;
+    }
 }
    
 

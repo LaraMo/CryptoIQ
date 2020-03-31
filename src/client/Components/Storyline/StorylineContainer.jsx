@@ -231,10 +231,12 @@ export default class Storyline extends PureComponent {
     const chooseLevelOfDifficulty = 'Choose the level of difficulty:';
     const enterStorylinePart1 = 'Enter a storyline in the following';
     const enterStorylinePart2 = 'format';
-    const questionToolTipFormat = "You may chose an existing story by cliking the search icon. Or enter your own in the following format \n:" + 
-    "Intro - short opening to your story \n Quest- The goal of your main character " + 
-    "\n Actions - What the character does to accomplish their goal " +
-    "\n Ending - How the story ended."
+    const questionToolTipFormat1 = "You may chose an existing story by cliking the search icon, or enter your own in the following format:";
+    const questionToolTipFormat2 = "Intro - short opening to your story";
+    const questionToolTipFormat3 = "Quest- The goal of your main character";
+    const questionToolTipFormat4 = "Actions - What the character does to accomplish their goal";
+    const questionToolTipFormat5 = "Ending - How the story ended";
+
     const title = 'Enter title:';
     const titlePlaceholder = "The king's ring";
     const opening = 'Enter opening:';
@@ -269,7 +271,7 @@ export default class Storyline extends PureComponent {
       );
     }
 
-    const saveStory = 'Save story 💾 ';
+    const saveStory = 'Save story to community database 💾 ';
     const getRandomStory = 'Get me a storyline 🤞';
     return (
       <div className="home-formContainer storyline">
@@ -280,7 +282,7 @@ export default class Storyline extends PureComponent {
             <div className="questionContainer">
               <span className="question">?</span>
               <div className="question-toolTip">
-               <span className="">{questionToolTipFormat}</span>
+               <span className="">{questionToolTipFormat1}<br/>{questionToolTipFormat2}<br/>{questionToolTipFormat3}<br/>{questionToolTipFormat4}<br/>{questionToolTipFormat5}</span>
               </div>
             </div>  
           </p>
@@ -370,6 +372,7 @@ export default class Storyline extends PureComponent {
               text={saveStory}
               onClick={this._onClickSave}
             ></SubmitButton>
+            <p><span>Note: </span><em>Saving your story into the community database makes it accessible by any teacher to view/use</em></p>
           </div>
         </div>
       </div>

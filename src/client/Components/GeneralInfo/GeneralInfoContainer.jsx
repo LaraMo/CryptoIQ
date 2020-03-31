@@ -78,13 +78,12 @@ export default class GeneralInfo extends PureComponent {
     const textbook = 'Use of textbook/slides:  ';
     const {general} = this.state;
     const questionToolTipNumberStudents = "Enter the amount of students in your class ";
-    const questionToolTipUseTextBook = "To unlock the lock game (pun intended), you must check this box. With the use of textbooks, students get to explore new definitions while also discovering the lock game";
-    const questionToolTipUseLock = "Allowing phsycial locks with custom codes to inhence the experience of students"
+    const questionToolTipUseTextBook = "Check this box if you are using a textbook or lecture slides and want to incorporate the numbers into your game";
+    const questionToolTipUseLock = "Check this box if you will be using custom bike locks and want a combination generated"
 
     return (
       <div id="slide2" className="home-formContainer">
         <h3><span>{generalInfo}</span></h3>
-
         <div className="home-form">
           <ErrorMessage error={this.state.error} />
           <div className="home-form-field">

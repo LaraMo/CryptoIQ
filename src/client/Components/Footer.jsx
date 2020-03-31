@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import dawson from '../assets/dawson.png'
+import {dawson} from '../assets/dawson.png'
 const Footer = () => {
     const [year] = useState(new Date().getFullYear());
     return (

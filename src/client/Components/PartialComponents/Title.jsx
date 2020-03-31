@@ -2,7 +2,7 @@ import React from "react";
 // import dawson from "../../assets/dawson.png";
 //Main Title and Description Section
 const projectTitle = "CryptIQ";
-const instructionsPart1 = "✔️ Simple and reusable platform to generate escape rooms for educational purposes"
+const instructionsPart1 = "✔️ Simple and reusable platform to generate educational escape rooms for active learning"
 const instructionsPart2 = "✔️ Your previous game will be saved with us. No more retyping information"
 const instructionsPart3 = "✔️ When generating a game, an answer sheet will be provided for the teachers for easy correction, all in one zip file" 
 const Title = () => {
