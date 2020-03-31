@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {dawson} from '../assets/dawson.png'
 const Footer = () => {
     const [year] = useState(new Date().getFullYear());
     return (
@@ -9,7 +8,7 @@ const Footer = () => {
              <p>Developers: Quan Nguyen, Nicholas Apanian & Liora Mezirovsky</p>
              <p>Creators: Jessica Chambers & Shelagh Robinson</p>
             </div>
-             <img src ={dawson} id="dawson"></img>
+             <img src ="https://www.dawsoncollege.qc.ca/communications-office/wp-content/uploads/sites/132/Dawson-D-Logo-Large.png" id="dawson"></img>
             <span> ©️ All rights reserved, {year}</span>
         </footer>
     )
