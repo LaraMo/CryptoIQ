@@ -5,7 +5,7 @@ function postPayload(data) {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, cors, *same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        //   credentials: 'same-origin', // include, *same-origin, omit
+        credentials: 'same-origin', // include, *same-origin, omit
         headers: {
             'Content-Type': 'application/json',
         },
@@ -24,6 +24,7 @@ export function getData(url = API_URL, args = {}) {
         method: 'GET',
         mode: 'cors',
         cache: 'no-cache',
+        credentials: 'same-origin', // include, *same-origin, omit
         headers: {
             'Content-Type': 'application/json',
         },
@@ -42,6 +43,7 @@ export function deleteData(url = API_URL, data = {}) {
         method: 'DELETE',
         mode: 'cors',
         cache: 'no-cache',
+        credentials: 'same-origin', // include, *same-origin, omit
         headers: {
             'Content-Type': 'application/json',
         },
