@@ -4,7 +4,7 @@ const API_URL =
   env === 'dev'
     ? 'http://localhost:9000'
     : env === 'prod'
-    ? 'https://cryptiq.dawsoncollege.qc.ca/'
+    ? 'https://cryptiq.dawsoncollege.qc.ca'
     : '';
 
 const CONSTANT = {
