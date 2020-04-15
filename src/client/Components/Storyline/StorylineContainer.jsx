@@ -227,11 +227,11 @@ export default class Storyline extends PureComponent {
 
   render() {
     //Headers
-    const storyline = 'Chose a storyline';
+    const storyline = 'choose a storyline';
     const chooseLevelOfDifficulty = 'Choose the level of difficulty:';
     const enterStorylinePart1 = 'Enter a storyline in the following';
     const enterStorylinePart2 = 'format';
-    const questionToolTipFormat1 = "You may chose an existing story by cliking the search icon, or enter your own in the following format:";
+    const questionToolTipFormat1 = "You may choose an existing story by clicking the search icon, or enter your own in the following format:";
     const questionToolTipFormat2 = "Intro - short opening to your story";
     const questionToolTipFormat3 = "Quest- The goal of your main character";
     const questionToolTipFormat4 = "Actions - What the character does to accomplish their goal";
