@@ -32,7 +32,7 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "file-loader": "^5.1.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "node-sass": "^4.13.1",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
